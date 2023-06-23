@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.hfncheckins.hfnTheme.HFNTheme
 import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanner
@@ -31,7 +32,7 @@ class MainActivity : ComponentActivity() {
         val scanner = GmsBarcodeScanning.getClient(this, options)
         super.onCreate(savedInstanceState)
         setContent {
-            HFNCheckinsTheme {
+            HFNTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -67,7 +68,6 @@ fun App(
                     .addOnFailureListener { e ->
                         // Task failed with an exception
                     }
-
             }) {
                 Text(text = "SCAN")
         }

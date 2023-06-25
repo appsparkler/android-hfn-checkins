@@ -1,8 +1,9 @@
-package com.example.hfncheckins.ui.components.InputScreen
+package com.example.hfncheckins.ui.components.MainScreen
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import com.example.hfncheckins.ui.components.InputScreen.ScanButton
 import org.junit.Rule
 import org.junit.Test
 import org.junit.Assert.*

@@ -17,7 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.hfncheckins.data.sample.getSampleEvent
 import com.example.hfncheckins.data.strings
 import com.example.hfncheckins.hfnTheme.HFNTheme
-import com.example.hfncheckins.model.Event
+import com.example.hfncheckins.model.HFNEvent
 import com.example.hfncheckins.viewModel.SeekerInfoFieldViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -25,7 +25,7 @@ import com.example.hfncheckins.viewModel.SeekerInfoFieldViewModel
 fun SeekerInfoField(
     modifier: Modifier = Modifier,
     seekerInfoFieldViewModel: SeekerInfoFieldViewModel = viewModel(),
-    event: Event,
+    hfnEvent: HFNEvent,
     onStartCheckin: (String) -> Unit
 ) {
     val seekerInfoUiState by seekerInfoFieldViewModel.uiState.collectAsState()
@@ -44,7 +44,7 @@ fun SeekerInfoField(
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = event.title,
+                text = hfnEvent.title,
                 style = MaterialTheme.typography.displaySmall,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -56,13 +56,13 @@ fun SeekerInfoField(
                 )
                 OutlinedTextField(
                     modifier = Modifier
-                        .testTag("seeker-input-field"),
+                        .testTag(strings.tag_seeker_input),
                     value = seekerInfoUiState.value,
                     onValueChange = {
                         seekerInfoFieldViewModel.updateValue(it)
                     },
                     label = {
-                        Text(text = strings.info)
+                        Text(text = strings.pleaseEnterInfo)
                     }
                 )
             }
@@ -90,7 +90,7 @@ fun SeekerInfoFieldPreview() {
                 modifier = Modifier
                     .padding(it)
                     .padding(12.dp),
-                event = getSampleEvent(),
+                hfnEvent = getSampleEvent(),
                 onStartCheckin = {}
             )
         }

@@ -19,7 +19,7 @@ class SeekerInfoFieldTest {
         val event = getSampleEvent()
         composeTestRule.setContent {
             SeekerInfoField(
-                event = event,
+                hfnEvent = event,
                 onStartCheckin = {}
             )
         }
@@ -41,7 +41,7 @@ class SeekerInfoFieldTest {
         val seekerInfoFieldViewModel = SeekerInfoFieldViewModel()
         composeTestRule.setContent {
             SeekerInfoField(
-                event = event,
+                hfnEvent = event,
                 onStartCheckin = {},
                 seekerInfoFieldViewModel = seekerInfoFieldViewModel
             )
@@ -69,7 +69,7 @@ class SeekerInfoFieldTest {
         val seekerInfoFieldViewModel = SeekerInfoFieldViewModel()
         composeTestRule.setContent {
             SeekerInfoField(
-                event = event,
+                hfnEvent = event,
                 onStartCheckin = {},
                 seekerInfoFieldViewModel = seekerInfoFieldViewModel
             )
@@ -97,7 +97,7 @@ class SeekerInfoFieldTest {
         val seekerInfoFieldViewModel = SeekerInfoFieldViewModel()
         composeTestRule.setContent {
             SeekerInfoField(
-                event = event,
+                hfnEvent = event,
                 onStartCheckin = {},
                 seekerInfoFieldViewModel = seekerInfoFieldViewModel
             )
@@ -126,7 +126,7 @@ class SeekerInfoFieldTest {
         var inputValue = ""
         composeTestRule.setContent {
             SeekerInfoField(
-                event = event,
+                hfnEvent = event,
                 onStartCheckin = {
                     inputValue = it
                 },

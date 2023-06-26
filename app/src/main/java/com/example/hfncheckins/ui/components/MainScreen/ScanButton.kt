@@ -21,7 +21,7 @@ fun ScanButton(
 ) {
     FloatingActionButton(
         modifier = Modifier
-            .padding(24.dp),
+            .padding(bottom = 24.dp),
         onClick = onClick
     ) {
         Row(

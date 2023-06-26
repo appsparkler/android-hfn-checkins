@@ -36,7 +36,7 @@ class SeekerInfoFieldTest {
     }
 
     @Test
-    fun test_inputValue() {
+    fun test_invalidInputValue() {
         val event = getSampleEvent()
         val seekerInfoFieldViewModel = SeekerInfoFieldViewModel()
         composeTestRule.setContent {
@@ -46,6 +46,10 @@ class SeekerInfoFieldTest {
                 seekerInfoFieldViewModel = seekerInfoFieldViewModel
             )
         }
+        composeTestRule
+            .onNodeWithText(strings.startCheckin)
+            .assertIsDisplayed()
+            .assertIsNotEnabled()
         val textInput = "Hello World"
         composeTestRule.onNodeWithTag("seeker-input-field")
             .performTextInput(textInput)
@@ -53,5 +57,99 @@ class SeekerInfoFieldTest {
             seekerInfoFieldViewModel.uiState.value.value,
             textInput
         )
+        composeTestRule
+            .onNodeWithText(strings.startCheckin)
+            .assertIsDisplayed()
+            .assertIsNotEnabled()
+    }
+
+    @Test
+    fun test_validInput_abhyasiId() {
+        val event = getSampleEvent()
+        val seekerInfoFieldViewModel = SeekerInfoFieldViewModel()
+        composeTestRule.setContent {
+            SeekerInfoField(
+                event = event,
+                onStartCheckin = {},
+                seekerInfoFieldViewModel = seekerInfoFieldViewModel
+            )
+        }
+        composeTestRule
+            .onNodeWithText(strings.startCheckin)
+            .assertIsDisplayed()
+            .assertIsNotEnabled()
+        val textInput = "OPXXBK478"
+        composeTestRule.onNodeWithTag("seeker-input-field")
+            .performTextInput(textInput)
+        assertEquals(
+            seekerInfoFieldViewModel.uiState.value.value,
+            textInput
+        )
+        composeTestRule
+            .onNodeWithText(strings.startCheckin)
+            .assertIsDisplayed()
+            .assertIsEnabled()
+    }
+
+    @Test
+    fun test_validInput_mobileNumber() {
+        val event = getSampleEvent()
+        val seekerInfoFieldViewModel = SeekerInfoFieldViewModel()
+        composeTestRule.setContent {
+            SeekerInfoField(
+                event = event,
+                onStartCheckin = {},
+                seekerInfoFieldViewModel = seekerInfoFieldViewModel
+            )
+        }
+        composeTestRule
+            .onNodeWithText(strings.startCheckin)
+            .assertIsDisplayed()
+            .assertIsNotEnabled()
+        val textInput = "+917330987462"
+        composeTestRule.onNodeWithTag("seeker-input-field")
+            .performTextInput(textInput)
+        assertEquals(
+            seekerInfoFieldViewModel.uiState.value.value,
+            textInput
+        )
+        composeTestRule
+            .onNodeWithText(strings.startCheckin)
+            .assertIsDisplayed()
+            .assertIsEnabled()
+    }
+
+    @Test
+    fun test_startCheckin() {
+        val event = getSampleEvent()
+        val seekerInfoFieldViewModel = SeekerInfoFieldViewModel()
+        var inputValue = ""
+        composeTestRule.setContent {
+            SeekerInfoField(
+                event = event,
+                onStartCheckin = {
+                    inputValue = it
+                },
+                seekerInfoFieldViewModel = seekerInfoFieldViewModel
+            )
+        }
+        composeTestRule
+            .onNodeWithText(strings.startCheckin)
+            .assertIsDisplayed()
+            .assertIsNotEnabled()
+        val mobileNumber = "+917330987462"
+        composeTestRule
+            .onNodeWithTag("seeker-input-field")
+            .performTextInput(mobileNumber)
+        assertEquals(
+            seekerInfoFieldViewModel.uiState.value.value,
+            mobileNumber
+        )
+        composeTestRule
+            .onNodeWithText(strings.startCheckin)
+            .assertIsDisplayed()
+            .assertIsEnabled()
+            .performClick()
+        assertEquals(inputValue, mobileNumber)
     }
 }

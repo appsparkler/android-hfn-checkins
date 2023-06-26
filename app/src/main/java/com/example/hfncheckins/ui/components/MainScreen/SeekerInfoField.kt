@@ -68,7 +68,7 @@ fun SeekerInfoField(
             }
             ElevatedButton(
                 onClick = {
-                    onStartCheckin("")
+                    onStartCheckin(seekerInfoUiState.value)
                 },
                 enabled = seekerInfoUiState.isValid
             ) {

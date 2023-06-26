@@ -16,7 +16,7 @@ import com.example.hfncheckins.ui.components.InputScreen.ScanButton
 fun MainScreen(
     modifier: Modifier = Modifier,
     event: HFNEvent,
-    onStartCheckin: (String)->Unit,
+    onStartCheckin: (String) -> Unit,
     onClickScan: () -> Unit
 ) {
     Column(

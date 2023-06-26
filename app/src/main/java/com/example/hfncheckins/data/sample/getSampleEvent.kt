@@ -1,9 +1,9 @@
 package com.example.hfncheckins.data.sample
 
-import com.example.hfncheckins.model.Event
+import com.example.hfncheckins.model.HFNEvent
 import java.util.*
 
-fun getSampleEvent() = Event(
+fun getSampleEvent() = HFNEvent(
     description = "Chariji's Birth Anniversary",
     title = "Chariji Maharaj's 95th Birth Anniversary Celebration",
     endDate = Date(),

@@ -16,7 +16,7 @@ class SeekerInfoFieldViewModel:ViewModel() {
     val uiState = _uiState.asStateFlow()
 
     fun updateValue(updatedValue: String) {
-        val isValid = isValidAbhyasiId(updatedValue)
+        val isValid = isValidAbhyasiId(updatedValue) || isValidPhoneNumber((updatedValue))
         _uiState.update {
             it.copy(
                 value = updatedValue,
@@ -30,4 +30,8 @@ class SeekerInfoFieldViewModel:ViewModel() {
         return pattern.matches(text)
     }
 
+    private fun isValidPhoneNumber(phoneNumber: String): Boolean {
+        val regex = Regex("^\\+[1-9]\\d{1,14}\$")
+        return regex.matches(phoneNumber)
+    }
 }

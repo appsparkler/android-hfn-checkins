@@ -1,6 +1,5 @@
-package com.example.hfncheckins.viewModel.utils
+package com.example.hfncheckins.utils
 
-import com.example.hfncheckins.utils.isValidAbhyasiId
 import org.junit.Test
 import org.junit.Assert.assertEquals
 

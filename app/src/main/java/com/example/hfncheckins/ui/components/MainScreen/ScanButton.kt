@@ -20,12 +20,11 @@ fun ScanButton(
     onClick: () -> Unit
 ) {
     FloatingActionButton(
-        modifier = Modifier
-            .padding(bottom = 24.dp),
+        modifier = modifier,
         onClick = onClick
     ) {
         Row(
-            modifier
+            Modifier
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(

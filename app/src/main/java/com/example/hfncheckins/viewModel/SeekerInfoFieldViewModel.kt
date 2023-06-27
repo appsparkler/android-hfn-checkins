@@ -2,6 +2,7 @@ package com.example.hfncheckins.viewModel
 
 import androidx.lifecycle.ViewModel
 import com.example.hfncheckins.utils.isValidAbhyasiId
+import com.example.hfncheckins.utils.isValidPhoneNumber
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -24,10 +25,5 @@ class SeekerInfoFieldViewModel:ViewModel() {
                 isValid = isValid
             )
         }
-    }
-
-    private fun isValidPhoneNumber(phoneNumber: String): Boolean {
-        val regex = Regex("^\\+[1-9]\\d{5,14}\$")
-        return regex.matches(phoneNumber)
     }
 }

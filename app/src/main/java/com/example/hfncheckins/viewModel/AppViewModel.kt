@@ -29,17 +29,19 @@ data class AbhyasiIdCheckin (
     val eventName: String,
 )
 
-interface MobileOrEmailCheckin {
-    val fullName: String
-    val ageGroup: String
-    val gender: GenderType
-    val city: String
-    val state: String
-    val country: String
-    val dormAndBerthAllocation: String
-    val eventName: String
-    val timestamp: Long
-}
+data class MobileOrEmailCheckin(
+    val fullName: String = "",
+    val ageGroup: String = "",
+    val gender: GenderType? = null,
+    val city: String = "",
+    val state: String = "",
+    val country: String = "",
+    val mobile: String = "",
+    val email: String = "",
+    val dormAndBerthAllocation: String = "",
+    val eventName: String = "",
+    val timestamp: Long? = null
+)
 
 enum class CheckinTypesEnum() {
     EmailOrMobile,
@@ -69,6 +71,22 @@ class AppViewModel:ViewModel() {
             checkinType = CheckinTypesEnum.AbhyasiId,
             abhyasiIdCheckin = AbhyasiIdCheckin(
                 abhyasiId,
+                eventName = event.title
+            )
+        )}
+    }
+
+    fun startEmailOrMobileCheckin(
+        mobile: String? = "",
+        email: String? = "",
+        event: HFNEvent
+    ) {
+        _uiState.update { _uiState.value.copy(
+            checkinType = CheckinTypesEnum.EmailOrMobile,
+            abhyasiIdCheckin = null,
+            mobileOrEmailCheckin = MobileOrEmailCheckin(
+                mobile = mobile.toString(),
+                email = email.toString(),
                 eventName = event.title
             )
         )}

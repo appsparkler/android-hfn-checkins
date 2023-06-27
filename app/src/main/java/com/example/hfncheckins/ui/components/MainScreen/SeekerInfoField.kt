@@ -55,6 +55,11 @@ fun SeekerInfoField(
                 textAlign = TextAlign.Center,
             )
             Column {
+                val imeAction = if (isValidInput(seekerInfoUiState.value)) {
+                    ImeAction.Go
+                } else {
+                    ImeAction.None
+                }
                 OutlinedTextField(
                     modifier = Modifier
                         .testTag(strings.tag_seeker_input),
@@ -66,20 +71,12 @@ fun SeekerInfoField(
                         Text(text = strings.pleaseEnterInfo)
                     },
                     keyboardActions = KeyboardActions(
-                        onDone = {
-                            val inputValue = seekerInfoUiState.value
-                            if(
-                                isValidPhoneNumber(inputValue) ||
-                                isEmailValid(inputValue)  ||
-                                isValidAbhyasiId(inputValue)
-                            ) {
-                                onStartCheckin(seekerInfoUiState.value)
-                            }
+                        onGo = {
+                            onStartCheckin(seekerInfoUiState.value)
                         }
                     ),
                     keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Done,
-//                        imeOptions =
+                        imeAction = imeAction,
                     )
                 )
                 Text(
@@ -99,6 +96,10 @@ fun SeekerInfoField(
         }
     }
 }
+
+private fun isValidInput(inputValue: String) = isValidPhoneNumber(inputValue) ||
+        isEmailValid(inputValue) ||
+        isValidAbhyasiId(inputValue)
 
 @Preview(
     uiMode = UI_MODE_NIGHT_YES

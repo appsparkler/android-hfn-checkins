@@ -43,76 +43,81 @@ fun App(
     appViewModel: AppViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
-    val appUiState by appViewModel.uiState.collectAsState()
-    val scanner = getGmsBarcodeScanner()
-    val event = getSampleEvent()
-    NavHost(
-        modifier = modifier,
-        navController = navController,
-        startDestination = Routes.MAIN_SCREEN.name
-    ) {
-        composable(Routes.MAIN_SCREEN.name) {
-            MainScreen(
-                event = event,
-                onStartCheckin = {
-                    handleClickStartCheckin(
-                        it,
-                        event,
-                        appViewModel,
-                        navController
-                    )
-                },
-                onClickScan = {
-                    handleClickScan(
-                        scanner,
-                        event,
-                        appViewModel,
-                        navController
+    HFNTheme() {
+        Scaffold {
+            val appUiState by appViewModel.uiState.collectAsState()
+            val scanner = getGmsBarcodeScanner()
+            val event = getSampleEvent()
+            NavHost(
+                modifier = modifier
+                    .padding(12.dp),
+                navController = navController,
+                startDestination = Routes.MAIN_SCREEN.name
+            ) {
+                composable(Routes.MAIN_SCREEN.name) {
+                    MainScreen(
+                        event = event,
+                        onStartCheckin = {
+                            handleClickStartCheckin(
+                                it,
+                                event,
+                                appViewModel,
+                                navController
+                            )
+                        },
+                        onClickScan = {
+                            handleClickScan(
+                                scanner,
+                                event,
+                                appViewModel,
+                                navController
+                            )
+                        }
                     )
                 }
-            )
-        }
-        composable(Routes.AbhyasiCheckin_Detail_Screen.name) {
-            Column {
-                Text(
-                    text = "Checkin with Abhyasi Id",
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Text(
-                    text = appUiState.abhyasiIdCheckin?.abhyasiId.toString(),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-        }
-        composable(Routes.MobileOrEmail_Detail_Screen.name) {
-            Column {
-                Text(
-                    text = "Checkin with Email Or Mobile",
-                    style = MaterialTheme.typography.titleMedium
-                )
-                val isMobileCheckin = appUiState.mobileOrEmailCheckin?.mobile !== ""
-                val emailOrMobileTextValue = if (isMobileCheckin) {
-                    appUiState.mobileOrEmailCheckin?.mobile.toString()
-                } else {
-                    appUiState.mobileOrEmailCheckin?.email.toString()
+                composable(Routes.AbhyasiCheckin_Detail_Screen.name) {
+                    Column {
+                        Text(
+                            text = "Checkin with Abhyasi Id",
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        Text(
+                            text = appUiState.abhyasiIdCheckin?.abhyasiId.toString(),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
                 }
-                Text(
-                    text = emailOrMobileTextValue,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-        }
-        composable(Routes.QR_Detail_Screen.name) {
-            Column {
-                Text(
-                    text = "Checkin with QR",
-                    style = MaterialTheme.typography.titleMedium
-                )
-                appUiState.qrcodeValue?.let { it1 ->
-                    Text(
-                        text = it1,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
+                composable(Routes.MobileOrEmail_Detail_Screen.name) {
+                    Column {
+                        Text(
+                            text = "Checkin with Email Or Mobile",
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        val isMobileCheckin = appUiState.mobileOrEmailCheckin?.mobile !== ""
+                        val emailOrMobileTextValue = if (isMobileCheckin) {
+                            appUiState.mobileOrEmailCheckin?.mobile.toString()
+                        } else {
+                            appUiState.mobileOrEmailCheckin?.email.toString()
+                        }
+                        Text(
+                            text = emailOrMobileTextValue,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                }
+                composable(Routes.QR_Detail_Screen.name) {
+                    Column {
+                        Text(
+                            text = "Checkin with QR",
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        appUiState.qrcodeValue?.let { it1 ->
+                            Text(
+                                text = it1,
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -221,7 +226,7 @@ fun startQrCheckin(
     appViewModel: AppViewModel,
     isQrCheckin: Boolean
 ) {
-    if(isQrCheckin) {
+    if (isQrCheckin) {
         appViewModel.startQrCheckin(
             rawValue
         )
@@ -249,14 +254,5 @@ private fun startAbhyasiidCheckin(
 )
 @Composable
 fun AppPreview() {
-    HFNTheme() {
-        Scaffold {
-            App(
-                modifier = Modifier
-                    .padding(it)
-                    .padding(12.dp),
-                navController = rememberNavController()
-            )
-        }
-    }
+    App()
 }

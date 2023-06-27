@@ -20,7 +20,6 @@ import com.example.hfncheckins.hfnTheme.HFNTheme
 import com.example.hfncheckins.model.HFNEvent
 import com.example.hfncheckins.viewModel.SeekerInfoFieldViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SeekerInfoField(
     modifier: Modifier = Modifier,
@@ -50,10 +49,6 @@ fun SeekerInfoField(
                 textAlign = TextAlign.Center,
             )
             Column {
-                Text(
-                    text = strings.inputInstructions,
-                    style = MaterialTheme.typography.labelSmall
-                )
                 OutlinedTextField(
                     modifier = Modifier
                         .testTag(strings.tag_seeker_input),
@@ -64,6 +59,10 @@ fun SeekerInfoField(
                     label = {
                         Text(text = strings.pleaseEnterInfo)
                     }
+                )
+                Text(
+                    text = strings.inputInstructions,
+                    style = MaterialTheme.typography.labelSmall
                 )
             }
             ElevatedButton(
@@ -78,7 +77,6 @@ fun SeekerInfoField(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(
     uiMode = UI_MODE_NIGHT_YES
 )

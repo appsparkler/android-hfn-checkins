@@ -5,4 +5,4 @@
 - vibrate on scan
 
 # DONE
-- ime actions and options - DONE
+- ime actions and options

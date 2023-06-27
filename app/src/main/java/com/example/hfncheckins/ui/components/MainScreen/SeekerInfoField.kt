@@ -2,6 +2,8 @@ package com.example.hfncheckins.ui.components.MainScreen
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -10,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,6 +21,9 @@ import com.example.hfncheckins.data.sample.getSampleEvent
 import com.example.hfncheckins.data.strings
 import com.example.hfncheckins.hfnTheme.HFNTheme
 import com.example.hfncheckins.model.HFNEvent
+import com.example.hfncheckins.utils.isEmailValid
+import com.example.hfncheckins.utils.isValidAbhyasiId
+import com.example.hfncheckins.utils.isValidPhoneNumber
 import com.example.hfncheckins.viewModel.SeekerInfoFieldViewModel
 
 @Composable
@@ -58,18 +64,35 @@ fun SeekerInfoField(
                     },
                     label = {
                         Text(text = strings.pleaseEnterInfo)
-                    }
+                    },
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            val inputValue = seekerInfoUiState.value
+                            if(
+                                isValidPhoneNumber(inputValue) ||
+                                isEmailValid(inputValue)  ||
+                                isValidAbhyasiId(inputValue)
+                            ) {
+                                onStartCheckin(seekerInfoUiState.value)
+                            }
+                        }
+                    ),
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Done,
+//                        imeOptions =
+                    )
                 )
                 Text(
                     text = strings.inputInstructions,
                     style = MaterialTheme.typography.labelSmall
                 )
             }
+
             ElevatedButton(
                 onClick = {
                     onStartCheckin(seekerInfoUiState.value)
                 },
-                enabled = seekerInfoUiState.isValid
+                enabled = seekerInfoUiState.isValid,
             ) {
                 Text(text = strings.startCheckin)
             }

@@ -152,4 +152,28 @@ class SeekerInfoFieldTest {
             .performClick()
         assertEquals(inputValue, mobileNumber)
     }
+
+    @Test
+    fun test_hasImeAction() {
+        val event = getSampleEvent()
+        val seekerInfoFieldViewModel = SeekerInfoFieldViewModel()
+        var inputValue = ""
+        composeTestRule.setContent {
+            SeekerInfoField(
+                hfnEvent = event,
+                onStartCheckin = {
+                    inputValue = it
+                },
+                seekerInfoFieldViewModel = seekerInfoFieldViewModel
+            )
+        }
+        val mobileNumber = "+917330987462"
+        composeTestRule
+            .onNodeWithTag(strings.tag_seeker_input)
+            .performTextInput(mobileNumber)
+        composeTestRule
+            .onNodeWithTag(strings.tag_seeker_input)
+            .performImeAction()
+        assertEquals(mobileNumber, inputValue)
+    }
 }

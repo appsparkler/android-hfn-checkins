@@ -2,12 +2,8 @@ package com.example.hfncheckins.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +25,8 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanner
 import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 enum class Routes() {
     MAIN_SCREEN,
@@ -43,8 +41,12 @@ fun App(
     appViewModel: AppViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
     HFNTheme() {
-        Scaffold {
+        Scaffold(
+            snackbarHost = { SnackbarHost(snackbarHostState) }
+        ) {
             val appUiState by appViewModel.uiState.collectAsState()
             val scanner = getGmsBarcodeScanner()
             val event = getSampleEvent()
@@ -62,7 +64,9 @@ fun App(
                                 it,
                                 event,
                                 appViewModel,
-                                navController
+                                navController,
+                                scope,
+                                snackbarHostState
                             )
                         },
                         onClickScan = {
@@ -70,7 +74,9 @@ fun App(
                                 scanner,
                                 event,
                                 appViewModel,
-                                navController
+                                navController,
+                                scope,
+                                snackbarHostState,
                             )
                         }
                     )
@@ -124,17 +130,35 @@ fun App(
     }
 }
 
+fun showSnackbar(
+    scope: CoroutineScope,
+    snackbarHostState: SnackbarHostState,
+    message: String
+) {
+    scope.launch {
+        snackbarHostState.showSnackbar(
+            message,
+            withDismissAction = true,
+            duration = SnackbarDuration.Short,
+        )
+    }
+}
+
 fun handleClickStartCheckin(
     inputValue: String,
     event: HFNEvent,
     appViewModel: AppViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    scope: CoroutineScope,
+    snackbarHostState: SnackbarHostState
 ) {
     startAbhyasiidCheckin(
         rawValue = inputValue,
-        event = event,
         appViewModel = appViewModel,
-        navController = navController
+        event = event,
+        navController = navController,
+        scope,
+        snackbarHostState
     )
     startMobileCheckin(
         inputValue,
@@ -198,13 +222,24 @@ fun handleClickScan(
     scanner: GmsBarcodeScanner,
     event: HFNEvent,
     appViewModel: AppViewModel,
-    navController: NavHostController
-): Unit {
+    navController: NavHostController,
+    scope: CoroutineScope,
+    snackbarHostState: SnackbarHostState,
+
+    ) {
     scanner.startScan()
         .addOnSuccessListener {
             handleScanSuccess(
                 it, appViewModel,
-                event, navController
+                event, navController,
+                scope, snackbarHostState
+            )
+        }
+        .addOnCanceledListener {
+            showSnackbar(
+                scope = scope,
+                snackbarHostState,
+                "Scan cancelled..."
             )
         }
 }
@@ -213,10 +248,12 @@ private fun handleScanSuccess(
     it: Barcode,
     appViewModel: AppViewModel,
     event: HFNEvent,
-    navController: NavHostController
+    navController: NavHostController,
+    scope: CoroutineScope,
+    snackbarHostState: SnackbarHostState
 ) {
     val rawValue = it.rawValue.toString()
-    startAbhyasiidCheckin(rawValue, appViewModel, event, navController)
+    startAbhyasiidCheckin(rawValue, appViewModel, event, navController, scope, snackbarHostState)
     startQrCheckin(rawValue, navController, appViewModel, it.format == Barcode.FORMAT_QR_CODE)
 }
 
@@ -238,7 +275,9 @@ private fun startAbhyasiidCheckin(
     rawValue: String,
     appViewModel: AppViewModel,
     event: HFNEvent,
-    navController: NavHostController
+    navController: NavHostController,
+    scope: CoroutineScope,
+    snackbarHostState: SnackbarHostState
 ) {
     if (isValidAbhyasiId(rawValue)) {
         appViewModel.startAbhyasiCheckin(
@@ -246,6 +285,13 @@ private fun startAbhyasiidCheckin(
             event = event
         )
         navController.navigate(Routes.AbhyasiCheckin_Detail_Screen.name)
+    }
+    else {
+        showSnackbar(
+            scope,
+            snackbarHostState,
+            "$rawValue is not a valid abhyasi id."
+        )
     }
 }
 

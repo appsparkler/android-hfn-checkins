@@ -33,7 +33,8 @@ import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
 enum class Routes() {
     MAIN_SCREEN,
     AbhyasiCheckin_Detail_Screen,
-    MobileOrEmail_Detail_Screen
+    MobileOrEmail_Detail_Screen,
+    QR_Detail_Screen
 }
 
 @Composable
@@ -99,6 +100,20 @@ fun App(
                     text = emailOrMobileTextValue,
                     style = MaterialTheme.typography.bodyMedium
                 )
+            }
+        }
+        composable(Routes.QR_Detail_Screen.name) {
+            Column {
+                Text(
+                    text = "Checkin with QR",
+                    style = MaterialTheme.typography.titleMedium
+                )
+                appUiState.qrcodeValue?.let { it1 ->
+                    Text(
+                        text = it1,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
         }
     }
@@ -197,6 +212,21 @@ private fun handleScanSuccess(
 ) {
     val rawValue = it.rawValue.toString()
     startAbhyasiidCheckin(rawValue, appViewModel, event, navController)
+    startQrCheckin(rawValue, navController, appViewModel, it.format == Barcode.FORMAT_QR_CODE)
+}
+
+fun startQrCheckin(
+    rawValue: String,
+    navController: NavHostController,
+    appViewModel: AppViewModel,
+    isQrCheckin: Boolean
+) {
+    if(isQrCheckin) {
+        appViewModel.startQrCheckin(
+            rawValue
+        )
+        navController.navigate(Routes.QR_Detail_Screen.name)
+    }
 }
 
 private fun startAbhyasiidCheckin(

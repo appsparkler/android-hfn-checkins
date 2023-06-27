@@ -22,6 +22,7 @@ import com.example.hfncheckins.hfnTheme.HFNTheme
 import com.example.hfncheckins.model.HFNEvent
 import com.example.hfncheckins.ui.components.MainScreen.MainScreen
 import com.example.hfncheckins.utils.isValidAbhyasiId
+import com.example.hfncheckins.utils.isValidPhoneNumber
 import com.example.hfncheckins.viewModel.AppViewModel
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanner
@@ -30,7 +31,8 @@ import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
 
 enum class Routes() {
     MAIN_SCREEN,
-    AbhyasiCheckin_Detail_Screen
+    AbhyasiCheckin_Detail_Screen,
+    MobileOrEmail_Detail_Screen
 }
 
 @Composable
@@ -80,6 +82,24 @@ fun App(
                 )
             }
         }
+        composable(Routes.MobileOrEmail_Detail_Screen.name) {
+            Column {
+                Text(
+                    text = "Checkin with Email Or Mobile",
+                    style = MaterialTheme.typography.titleMedium
+                )
+                val isMobileCheckin = appUiState.mobileOrEmailCheckin?.mobile !== ""
+                val emailOrMobileTextValue = if (isMobileCheckin) {
+                    appUiState.mobileOrEmailCheckin?.mobile.toString()
+                } else {
+                    appUiState.mobileOrEmailCheckin?.email.toString()
+                }
+                Text(
+                    text = emailOrMobileTextValue,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        }
     }
 }
 
@@ -95,6 +115,27 @@ fun handleClickStartCheckin(
         appViewModel = appViewModel,
         navController = navController
     )
+    startMobileCheckin(
+        inputValue,
+        event,
+        appViewModel,
+        navController
+    )
+}
+
+fun startMobileCheckin(
+    inputValue: String,
+    hfnEvent: HFNEvent,
+    appViewModel: AppViewModel,
+    navController: NavHostController
+) {
+    if (isValidPhoneNumber(inputValue)) {
+        appViewModel.startEmailOrMobileCheckin(
+            mobile = inputValue,
+            event = hfnEvent
+        )
+        navController.navigate(Routes.MobileOrEmail_Detail_Screen.name)
+    }
 }
 
 @Composable
@@ -157,7 +198,6 @@ private fun startAbhyasiidCheckin(
 @Composable
 fun AppPreview() {
     HFNTheme() {
-
         Scaffold {
             App(
                 modifier = Modifier

@@ -21,6 +21,7 @@ import com.example.hfncheckins.data.sample.getSampleEvent
 import com.example.hfncheckins.hfnTheme.HFNTheme
 import com.example.hfncheckins.model.HFNEvent
 import com.example.hfncheckins.ui.components.MainScreen.MainScreen
+import com.example.hfncheckins.utils.isEmailValid
 import com.example.hfncheckins.utils.isValidAbhyasiId
 import com.example.hfncheckins.utils.isValidPhoneNumber
 import com.example.hfncheckins.viewModel.AppViewModel
@@ -121,9 +122,15 @@ fun handleClickStartCheckin(
         appViewModel,
         navController
     )
+    startEmailCheckin(
+        inputValue,
+        event,
+        appViewModel,
+        navController
+    )
 }
 
-fun startMobileCheckin(
+private fun startMobileCheckin(
     inputValue: String,
     hfnEvent: HFNEvent,
     appViewModel: AppViewModel,
@@ -132,6 +139,21 @@ fun startMobileCheckin(
     if (isValidPhoneNumber(inputValue)) {
         appViewModel.startEmailOrMobileCheckin(
             mobile = inputValue,
+            event = hfnEvent
+        )
+        navController.navigate(Routes.MobileOrEmail_Detail_Screen.name)
+    }
+}
+
+private fun startEmailCheckin(
+    inputValue: String,
+    hfnEvent: HFNEvent,
+    appViewModel: AppViewModel,
+    navController: NavHostController
+) {
+    if (isEmailValid(inputValue)) {
+        appViewModel.startEmailOrMobileCheckin(
+            email = inputValue,
             event = hfnEvent
         )
         navController.navigate(Routes.MobileOrEmail_Detail_Screen.name)

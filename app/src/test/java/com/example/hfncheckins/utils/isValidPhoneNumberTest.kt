@@ -3,7 +3,7 @@ package com.example.hfncheckins.utils
 import org.junit.Test
 import org.junit.Assert.*
 
-class IsValidPhoneNumberTest {
+class isValidPhoneNumberTest {
     @Test
     fun test_validValue() {
         assertEquals(

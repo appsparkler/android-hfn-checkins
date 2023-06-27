@@ -1,6 +1,7 @@
 package com.example.hfncheckins.viewModel
 
 import androidx.lifecycle.ViewModel
+import com.example.hfncheckins.utils.isEmailValid
 import com.example.hfncheckins.utils.isValidAbhyasiId
 import com.example.hfncheckins.utils.isValidPhoneNumber
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +19,10 @@ class SeekerInfoFieldViewModel:ViewModel() {
     val uiState = _uiState.asStateFlow()
 
     fun updateValue(updatedValue: String) {
-        val isValid = isValidAbhyasiId(updatedValue) || isValidPhoneNumber((updatedValue))
+        val isValid =
+            isValidAbhyasiId(updatedValue) ||
+            isValidPhoneNumber(updatedValue) ||
+            isEmailValid(updatedValue)
         _uiState.update {
             it.copy(
                 value = updatedValue,

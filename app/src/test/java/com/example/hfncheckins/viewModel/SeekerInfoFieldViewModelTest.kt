@@ -34,4 +34,14 @@ class SeekerInfoFieldViewModelTest {
         assertEquals(updatedValue, seekerInfoFieldViewModel.uiState.value.value)
         assertEquals(true, seekerInfoFieldViewModel.uiState.value.isValid)
     }
+
+    @Test fun test_isValidForEmailAddress() {
+        val seekerInfoFieldViewModel = SeekerInfoFieldViewModel()
+        assertEquals("", seekerInfoFieldViewModel.uiState.value.value)
+        assertEquals(false, seekerInfoFieldViewModel.uiState.value.isValid)
+        val updatedValue = "abc@def.com"
+        seekerInfoFieldViewModel.updateValue(updatedValue)
+        assertEquals(updatedValue, seekerInfoFieldViewModel.uiState.value.value)
+        assertEquals(true, seekerInfoFieldViewModel.uiState.value.isValid)
+    }
 }

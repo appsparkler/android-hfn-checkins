@@ -3,6 +3,7 @@
 - app icon
 - vibrate on scan
 - app should work only in potrait mode
+- avoid calling showSnackbar on cancelled scans
 
 # DONE
 - invalid code scan snackbar

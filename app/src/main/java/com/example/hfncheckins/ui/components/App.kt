@@ -66,7 +66,8 @@ fun App(
                                 appViewModel,
                                 navController,
                                 scope,
-                                snackbarHostState
+                                snackbarHostState,
+                                false
                             )
                         },
                         onClickScan = {
@@ -150,7 +151,8 @@ fun handleClickStartCheckin(
     appViewModel: AppViewModel,
     navController: NavHostController,
     scope: CoroutineScope,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
+    isBarcodeScanned: Boolean
 ) {
     startAbhyasiidCheckin(
         rawValue = inputValue,
@@ -158,7 +160,8 @@ fun handleClickStartCheckin(
         event = event,
         navController = navController,
         scope,
-        snackbarHostState
+        snackbarHostState,
+        isBarcodeScanned
     )
     startMobileCheckin(
         inputValue,
@@ -253,7 +256,7 @@ private fun handleScanSuccess(
     snackbarHostState: SnackbarHostState
 ) {
     val rawValue = it.rawValue.toString()
-    startAbhyasiidCheckin(rawValue, appViewModel, event, navController, scope, snackbarHostState)
+    startAbhyasiidCheckin(rawValue, appViewModel, event, navController, scope, snackbarHostState, it.format == Barcode.FORMAT_CODE_128)
     startQrCheckin(rawValue, navController, appViewModel, it.format == Barcode.FORMAT_QR_CODE)
 }
 
@@ -277,21 +280,24 @@ private fun startAbhyasiidCheckin(
     event: HFNEvent,
     navController: NavHostController,
     scope: CoroutineScope,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
+    isBarcodeScanned: Boolean
 ) {
-    if (isValidAbhyasiId(rawValue)) {
-        appViewModel.startAbhyasiCheckin(
-            abhyasiId = rawValue,
-            event = event
-        )
-        navController.navigate(Routes.AbhyasiCheckin_Detail_Screen.name)
-    }
-    else {
-        showSnackbar(
-            scope,
-            snackbarHostState,
-            "$rawValue is not a valid abhyasi id."
-        )
+    if(isBarcodeScanned) {
+        if (isValidAbhyasiId(rawValue)) {
+            appViewModel.startAbhyasiCheckin(
+                abhyasiId = rawValue,
+                event = event
+            )
+            navController.navigate(Routes.AbhyasiCheckin_Detail_Screen.name)
+        }
+        else {
+            showSnackbar(
+                scope,
+                snackbarHostState,
+                "$rawValue is not a valid abhyasi id."
+            )
+        }
     }
 }
 

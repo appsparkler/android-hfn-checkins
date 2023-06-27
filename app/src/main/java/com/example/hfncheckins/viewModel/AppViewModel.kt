@@ -59,7 +59,8 @@ data class AppUiState(
     val mobileOrEmailCheckin: MobileOrEmailCheckin? = null,
 
     // if QR code checkin
-    val qrCodeCheckins: List<QRCodeCheckinInfo>? = null
+//    val qrCodeCheckins: List<QRCodeCheckinInfo>? = null
+    val qrcodeValue: String? = ""
 )
 
 class AppViewModel:ViewModel() {
@@ -89,6 +90,18 @@ class AppViewModel:ViewModel() {
                 email = email.toString(),
                 eventName = event.title
             )
+        )}
+    }
+
+//    Temp
+    fun startQrCheckin(
+        qrValue: String,
+    ) {
+        _uiState.update { _uiState.value.copy(
+            checkinType = CheckinTypesEnum.QRCode,
+            abhyasiIdCheckin = null,
+            mobileOrEmailCheckin = null,
+            qrcodeValue = qrValue,
         )}
     }
 

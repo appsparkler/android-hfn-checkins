@@ -20,7 +20,6 @@ class MainActivity : ComponentActivity() {
                 Barcode.FORMAT_CODE_128
             )
             .build()
-        val scanner = GmsBarcodeScanning.getClient(this, options)
         super.onCreate(savedInstanceState)
         setContent {
             HFNTheme {

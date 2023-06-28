@@ -8,9 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hfncheckins.data.sample.getSampleEvent
-import com.example.hfncheckins.hfnTheme.HFNTheme
+import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.model.HFNEvent
-import com.example.hfncheckins.ui.components.InputScreen.ScanButton
 
 @Composable
 fun MainScreen(

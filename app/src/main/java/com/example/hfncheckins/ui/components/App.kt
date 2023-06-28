@@ -14,7 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.hfncheckins.data.sample.getSampleEvent
-import com.example.hfncheckins.hfnTheme.HFNTheme
+import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.model.HFNEvent
 import com.example.hfncheckins.ui.components.MainScreen.MainScreen
 import com.example.hfncheckins.utils.isEmailValid
@@ -228,7 +228,6 @@ fun handleClickScan(
     navController: NavHostController,
     scope: CoroutineScope,
     snackbarHostState: SnackbarHostState,
-
     ) {
     scanner.startScan()
         .addOnSuccessListener {

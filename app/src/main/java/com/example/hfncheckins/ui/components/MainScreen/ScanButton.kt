@@ -1,4 +1,4 @@
-package com.example.hfncheckins.ui.components.InputScreen
+package com.example.hfncheckins.ui.components.MainScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -7,12 +7,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hfncheckins.R
-import com.example.hfncheckins.hfnTheme.HFNTheme
+import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 
 @Composable
 fun ScanButton(

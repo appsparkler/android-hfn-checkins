@@ -7,9 +7,6 @@ android {
     namespace 'com.example.hfncheckins'
     compileSdk 34
 
-    lintOptions {
-        checkReleaseBuilds false
-    }
 
     defaultConfig {
         applicationId "com.example.hfncheckins"
@@ -47,6 +44,9 @@ android {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
+    }
+    lint {
+        checkReleaseBuilds false
     }
 }
 

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.hfncheckins.data.sample.getSampleEvent
 import com.example.hfncheckins.data.strings
-import com.example.hfncheckins.hfnTheme.HFNTheme
+import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.model.HFNEvent
 import com.example.hfncheckins.utils.isEmailValid
 import com.example.hfncheckins.utils.isValidAbhyasiId

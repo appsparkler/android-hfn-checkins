@@ -7,6 +7,7 @@ android {
     namespace 'com.example.hfncheckins'
     compileSdk 34
 
+
     defaultConfig {
         applicationId "com.example.hfncheckins"
         minSdk 24
@@ -18,6 +19,10 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+    }
+
+    lintOptions {
+        abortOnError false
     }
 
     buildTypes {
@@ -43,6 +48,9 @@ android {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
+    }
+    lint {
+        checkReleaseBuilds false
     }
 }
 

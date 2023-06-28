@@ -1,4 +1,4 @@
-package com.example.hfncheckins.hfnTheme
+package com.example.hfncheckins.ui.hfnTheme
 
 import androidx.compose.ui.graphics.Color
 
@@ -25,8 +25,6 @@ val md_theme_light_inverseOnSurface = Color(0xFFF1F0F4)
 val md_theme_light_inverseSurface = Color(0xFF2F3033)
 val md_theme_light_inversePrimary = Color(0xFFA0CAFF)
 val md_theme_light_surfaceTint = Color(0xFF0061A6)
-val md_theme_light_outlineVariant = Color(0xFFC3C6CF)
-val md_theme_light_scrim = Color(0xFF000000)
 val md_theme_light_surface = Color(0xFFFAF9FC)
 val md_theme_light_onSurface = Color(0xFF1A1C1E)
 val md_theme_light_surfaceVariant = Color(0xFFDFE2EB)
@@ -55,12 +53,11 @@ val md_theme_dark_inverseOnSurface = Color(0xFF1A1C1E)
 val md_theme_dark_inverseSurface = Color(0xFFE3E2E6)
 val md_theme_dark_inversePrimary = Color(0xFF0061A6)
 val md_theme_dark_surfaceTint = Color(0xFFA0CAFF)
-val md_theme_dark_outlineVariant = Color(0xFF43474E)
-val md_theme_dark_scrim = Color(0xFF000000)
 val md_theme_dark_surface = Color(0xFF121316)
 val md_theme_dark_onSurface = Color(0xFFC6C6CA)
 val md_theme_dark_surfaceVariant = Color(0xFF43474E)
 val md_theme_dark_onSurfaceVariant = Color(0xFFC3C6CF)
 
 
-val seed = Color(0xFF0E98FE)
+//val seed = Color(0xFF0E98FE)
+//

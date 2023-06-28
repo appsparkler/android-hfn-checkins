@@ -1,11 +1,10 @@
-package com.example.hfncheckins.hfnTheme
+package com.example.hfncheckins.ui.hfnTheme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
-import com.example.hfncheckins.ui.hfnTheme.Typography
 
 
 private val LightColorScheme = lightColorScheme(
@@ -73,7 +72,7 @@ private val DarkColorScheme = darkColorScheme(
 fun HFNTheme(
   darkTheme: Boolean = isSystemInDarkTheme(),
   // Dynamic color is available on Android 12+
-  dynamicColor: Boolean = true,
+//  dynamicColor: Boolean = true,
   content: @Composable() () -> Unit
 ) {
   val colorScheme = when {

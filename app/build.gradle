@@ -7,6 +7,10 @@ android {
     namespace 'com.example.hfncheckins'
     compileSdk 34
 
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
     defaultConfig {
         applicationId "com.example.hfncheckins"
         minSdk 24

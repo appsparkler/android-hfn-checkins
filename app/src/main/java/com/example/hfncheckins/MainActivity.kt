@@ -12,14 +12,7 @@ import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
 import java.util.*
 
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
-        val options = GmsBarcodeScannerOptions.Builder()
-            .setBarcodeFormats(
-                Barcode.FORMAT_QR_CODE,
-                Barcode.FORMAT_CODE_128
-            )
-            .build()
         super.onCreate(savedInstanceState)
         setContent {
             HFNTheme {

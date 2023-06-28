@@ -28,11 +28,11 @@ import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-enum class Routes() {
+enum class Routes {
     MAIN_SCREEN,
-    AbhyasiCheckin_Detail_Screen,
-    MobileOrEmail_Detail_Screen,
-    QR_Detail_Screen
+    ABHYASI_CHECKIN_DETAIL_SCREEN,
+    MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN,
+    QR_CHECKIN_DETAIL_SCREEN
 }
 
 @Composable
@@ -43,7 +43,7 @@ fun App(
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-    HFNTheme() {
+    HFNTheme {
         Scaffold(
             snackbarHost = { SnackbarHost(snackbarHostState) }
         ) {
@@ -82,7 +82,7 @@ fun App(
                         }
                     )
                 }
-                composable(Routes.AbhyasiCheckin_Detail_Screen.name) {
+                composable(Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name) {
                     Column {
                         Text(
                             text = "Checkin with Abhyasi Id",
@@ -94,7 +94,7 @@ fun App(
                         )
                     }
                 }
-                composable(Routes.MobileOrEmail_Detail_Screen.name) {
+                composable(Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name) {
                     Column {
                         Text(
                             text = "Checkin with Email Or Mobile",
@@ -112,7 +112,7 @@ fun App(
                         )
                     }
                 }
-                composable(Routes.QR_Detail_Screen.name) {
+                composable(Routes.QR_CHECKIN_DETAIL_SCREEN.name) {
                     Column {
                         Text(
                             text = "Checkin with QR",
@@ -188,7 +188,7 @@ private fun startMobileCheckin(
             mobile = inputValue,
             event = hfnEvent
         )
-        navController.navigate(Routes.MobileOrEmail_Detail_Screen.name)
+        navController.navigate(Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name)
     }
 }
 
@@ -203,7 +203,7 @@ private fun startEmailCheckin(
             email = inputValue,
             event = hfnEvent
         )
-        navController.navigate(Routes.MobileOrEmail_Detail_Screen.name)
+        navController.navigate(Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name)
     }
 }
 
@@ -270,7 +270,7 @@ fun startQrCheckin(
         appViewModel.startQrCheckin(
             rawValue
         )
-        navController.navigate(Routes.QR_Detail_Screen.name)
+        navController.navigate(Routes.QR_CHECKIN_DETAIL_SCREEN.name)
     }
 }
 
@@ -289,7 +289,7 @@ private fun startAbhyasiidCheckin(
                 abhyasiId = rawValue,
                 event = event
             )
-            navController.navigate(Routes.AbhyasiCheckin_Detail_Screen.name)
+            navController.navigate(Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name)
         }
         else {
             showSnackbar(
@@ -301,9 +301,7 @@ private fun startAbhyasiidCheckin(
     }
 }
 
-@Preview(
-//    uiMode = UI_MODE_NIGHT_YES
-)
+@Preview
 @Composable
 fun AppPreview() {
     App()

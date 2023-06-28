@@ -18,7 +18,7 @@ class AppViewModelTest {
     fun test_initialState() {
         assertNull(appViewModel.uiState.value.abhyasiIdCheckin)
         assertNull(appViewModel.uiState.value.checkinType)
-        assertNull(appViewModel.uiState.value.qrcodeValue)
+        assertEquals("", appViewModel.uiState.value.qrcodeValue)
         assertNull(appViewModel.uiState.value.mobileOrEmailCheckin)
     }
 

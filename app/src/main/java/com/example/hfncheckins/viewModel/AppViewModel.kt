@@ -6,21 +6,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-enum class GenderType() {
-    M, F, U
-}
+//enum class GenderType() {
+//    M, F, U
+//}
 
-interface QRCodeCheckinInfo {
-    val regId: String
-    val abhyasiId: String
-    val pnr: String
-    val fullName: String
-    val dormPreference: String;
-    val berthPreference: String;
-    val dormAndBerthAllocation: String
-    val timestamp: Long
-
-}
+//interface QRCodeCheckinInfo {
+//    val regId: String
+//    val abhyasiId: String
+//    val pnr: String
+//    val fullName: String
+//    val dormPreference: String;
+//    val berthPreference: String;
+//    val dormAndBerthAllocation: String
+//    val timestamp: Long
+//}
 
 data class AbhyasiIdCheckin (
     val abhyasiId: String,
@@ -32,7 +31,6 @@ data class AbhyasiIdCheckin (
 data class MobileOrEmailCheckin(
     val fullName: String = "",
     val ageGroup: String = "",
-    val gender: GenderType? = null,
     val city: String = "",
     val state: String = "",
     val country: String = "",

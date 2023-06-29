@@ -282,15 +282,15 @@ private fun startAbhyasiidCheckin(
     snackbarHostState: SnackbarHostState,
     isBarcodeScanned: Boolean
 ) {
-    if(isBarcodeScanned) {
-        if (isValidAbhyasiId(rawValue)) {
-            appViewModel.startAbhyasiCheckin(
-                abhyasiId = rawValue,
-                event = event
-            )
-            navController.navigate(Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name)
-        }
-        else {
+    if (isValidAbhyasiId(rawValue)) {
+        appViewModel.startAbhyasiCheckin(
+            abhyasiId = rawValue,
+            event = event
+        )
+        navController.navigate(Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name)
+    }
+    else {
+        if(isBarcodeScanned) {
             showSnackbar(
                 scope,
                 snackbarHostState,
@@ -298,6 +298,7 @@ private fun startAbhyasiidCheckin(
             )
         }
     }
+
 }
 
 @Preview

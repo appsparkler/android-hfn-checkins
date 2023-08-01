@@ -21,9 +21,6 @@ android {
         }
     }
 
-    lintOptions {
-        abortOnError false
-    }
 
     buildTypes {
         release {
@@ -51,6 +48,7 @@ android {
     }
     lint {
         checkReleaseBuilds false
+        abortOnError false
     }
 }
 

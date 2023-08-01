@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
+import com.example.hfncheckins.viewModel.QRCodeCheckinInfo
 
 @Composable
 fun FieldData(
@@ -39,7 +40,9 @@ fun FieldData(
 
 @Composable
 fun QRCheckinItem(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    checkinInfo: QRCodeCheckinInfo,
+    onChangeDormAndBerthAllocation: (String) -> Unit
 ) {
     ElevatedCard(
         modifier = modifier
@@ -54,33 +57,38 @@ fun QRCheckinItem(
             ) {
                 Checkbox(checked = true, onCheckedChange = {})
                 Text(
-                    text = "Jane Mathew",
+                    text = checkinInfo.fullName,
                     style = MaterialTheme.typography.titleMedium
                 )
             }
             FieldData(
+                fieldName = "Event Name: ",
+                fieldValue = checkinInfo.eventName
+            )
+            FieldData(
                 fieldName = "Abhyasi ID: ",
-                fieldValue = "INWWI281"
+                fieldValue = checkinInfo.abhyasiId
             )
             FieldData(
                 fieldName = "Registration ID: ",
-                fieldValue = "b366daa6-2960-4a8b-a300-29bb05ae4e46"
+                fieldValue = checkinInfo.regId
             )
             FieldData(
                 fieldName = "Order ID: ",
-                fieldValue = "24999"
+                fieldValue = checkinInfo.orderId
             )
             FieldData(
                 fieldName = "Dorm Preference: ",
-                fieldValue = "East Comfort Dorm"
+                fieldValue = checkinInfo.dormPreference
             )
             FieldData(
                 fieldName = "Berth Preference: ",
-                fieldValue = "LB"
+                fieldValue = checkinInfo.berthPreference
             )
+            FieldData(fieldName = "PNR: ", fieldValue = checkinInfo.pnr)
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = "", onValueChange = {},
+                value = checkinInfo.dormAndBerthAllocation, onValueChange = onChangeDormAndBerthAllocation,
                 label = {
                     Text("Dorm and Berth Allocation")
                 }
@@ -95,8 +103,22 @@ fun QRCheckinPreview() {
     HFNCheckinsTheme {
         Scaffold {
             QRCheckinItem(
-                modifier = Modifier.padding(it)
-                    .padding(8.dp)
+                modifier = Modifier
+                    .padding(it)
+                    .padding(8.dp),
+                onChangeDormAndBerthAllocation = {},
+                checkinInfo = QRCodeCheckinInfo(
+                    abhyasiId = "INWWI281",
+                    berthPreference = "LB",
+                    dormPreference = "East Comfort Dorm",
+                    dormAndBerthAllocation = "",
+                    timestamp = 0,
+                    fullName = "Jane Mathew",
+                    orderId = "24999",
+                    regId = "b366daa6-2960-4a8b-a300-29bb05ae4e46",
+                    pnr = "AE-IDDK-IWQ",
+                    eventName = "2023 Birth Anniversary Celebrations of Pujya Daaji"
+                )
             )
         }
     }

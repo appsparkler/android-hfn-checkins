@@ -19,7 +19,21 @@ import kotlinx.coroutines.flow.update
 //    val berthPreference: String;
 //    val dormAndBerthAllocation: String
 //    val timestamp: Long
+//    val orderId: String
 //}
+
+data class QRCodeCheckinInfo(
+    val eventName: String,
+    val regId: String,
+    val abhyasiId: String,
+    val orderId: String,
+    val pnr: String,
+    val fullName: String,
+    val dormPreference: String,
+    val berthPreference: String,
+    val dormAndBerthAllocation: String,
+    val timestamp: Long,
+)
 
 data class AbhyasiIdCheckin (
     val abhyasiId: String,

@@ -38,7 +38,7 @@ fun FieldData(
 }
 
 @Composable
-fun QRCheckinScreen(
+fun QRCheckinItem(
     modifier: Modifier = Modifier
 ) {
     ElevatedCard(
@@ -94,8 +94,9 @@ fun QRCheckinScreen(
 fun QRCheckinPreview() {
     HFNCheckinsTheme {
         Scaffold {
-            QRCheckinScreen(
+            QRCheckinItem(
                 modifier = Modifier.padding(it)
+                    .padding(8.dp)
             )
         }
     }

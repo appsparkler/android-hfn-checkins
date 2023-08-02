@@ -33,6 +33,7 @@ data class QRCodeCheckinInfo(
     val berthPreference: String,
     val dormAndBerthAllocation: String,
     val timestamp: Long,
+    val checkin: Boolean
 )
 
 data class AbhyasiIdCheckin (

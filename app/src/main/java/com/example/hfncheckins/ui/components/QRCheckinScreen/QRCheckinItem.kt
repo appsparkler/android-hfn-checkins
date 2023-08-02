@@ -128,7 +128,7 @@ fun QRCheckinItem(
 
 @Preview
 @Composable
-fun QRCheckinPreview() {
+fun QRCheckinItemPreview() {
     val context = LocalContext.current
 
     HFNCheckinsTheme {

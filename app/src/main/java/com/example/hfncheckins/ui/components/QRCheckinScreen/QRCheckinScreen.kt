@@ -1,30 +1,40 @@
 package com.example.hfncheckins.ui.components.QRCheckinScreen
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
 import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
 import com.example.hfncheckins.viewModel.QRCodeCheckinInfo
 
 @Composable
 fun QRCheckinScreen(
     modifier: Modifier = Modifier,
-    qrCheckinItems: List<QRCodeCheckinInfo>
+    qrCheckinItems: List<QRCodeCheckinInfo>,
+    onClickCheckin: (List<QRCodeCheckinInfo>) -> Unit,
+    onClickCancel: () -> Unit,
 ) {
+    var qrCheckins by remember {
+        mutableStateOf(qrCheckinItems)
+    }
     Column(
         modifier = modifier
             .fillMaxSize(),
@@ -47,62 +57,86 @@ fun QRCheckinScreen(
                     style = MaterialTheme.typography.headlineLarge
                 )
             }
-            items(qrCheckinItems.size) {
-                QRCheckinItem(checkinInfo = qrCheckinItems[it], onChange = {})
+            items(qrCheckins.size) {
+                QRCheckinItem(
+                    checkinInfo = qrCheckins[it],
+                    onChange = {
+                        qrCheckins = qrCheckins.map{qrCheckinItem ->
+                            if(it.regId === qrCheckinItem.regId) it
+                            else qrCheckinItem
+                        }
+                })
             }
             item {
-                Row {
-                    OutlinedButton(onClick = { /*TODO*/ }) {
-                        Text(text="Cancel")
+                CheckinAndCancelButtons(
+                    onClickCancel = onClickCancel,
+                    onClickCheckin = {
+                        onClickCheckin(qrCheckins)
                     }
-                    Button(onClick = { /*TODO*/ }) {
-                        Text(text = "Checkin")
-                    }
-                }
+                )
             }
         }
-
     }
-
 }
 
 @Preview
 @Composable
 fun QRCheckinScreenPreview() {
+    var qrCheckinItems = listOf(
+        QRCodeCheckinInfo(
+            checkin = false,
+            orderId = "23433",
+            fullName = "James Allen",
+            berthPreference = "LB",
+            dormPreference = "B1",
+            abhyasiId = "INAWIE383",
+            eventName = "",
+            pnr = "",
+            regId = "0",
+            timestamp = 0,
+            dormAndBerthAllocation = ""
+        ),
+        QRCodeCheckinInfo(
+            checkin = false,
+            orderId = "23433",
+            fullName = "Warren Buffet",
+            berthPreference = "LB",
+            dormPreference = "B1",
+            abhyasiId = "INAWIE383",
+            eventName = "",
+            pnr = "",
+            regId = "1",
+            timestamp = 0,
+            dormAndBerthAllocation = ""
+        ),
+        QRCodeCheckinInfo(
+            checkin = false,
+            orderId = "23433",
+            fullName = "Gaur Gopal Das",
+            berthPreference = "LB",
+            dormPreference = "B1",
+            abhyasiId = "INAWIE383",
+            eventName = "",
+            pnr = "",
+            regId = "2",
+            timestamp = 0,
+            dormAndBerthAllocation = ""
+        )
+    )
     HFNCheckinsTheme {
         Scaffold {
             QRCheckinScreen(
                 modifier = Modifier
                     .padding(it)
                     .padding(8.dp),
-                qrCheckinItems = listOf(
-                    QRCodeCheckinInfo(
-                        checkin = false,
-                        orderId = "23433",
-                        fullName = "James Allen",
-                        berthPreference = "LB",
-                        dormPreference = "B1",
-                        abhyasiId = "INAWIE383",
-                        eventName = "",
-                        pnr = "",
-                        regId = "",
-                        timestamp = 0,
-                        dormAndBerthAllocation = ""
-                    ),
-                    QRCodeCheckinInfo(
-                        checkin = false,
-                        orderId = "23433",
-                        fullName = "Warren Buffet",
-                        berthPreference = "LB",
-                        dormPreference = "B1",
-                        abhyasiId = "INAWIE383",
-                        eventName = "",
-                        pnr = "",
-                        regId = "",
-                        timestamp = 0,
-                        dormAndBerthAllocation = ""
-                    )
-                )
+                onClickCancel = {},
+                onClickCheckin = {
+                     val checkedInList = it.filter {
+                         it.checkin
+                     }
+                    Log.d("QRCheckinScreen", checkedInList.size.toString())
+                },
+                qrCheckinItems = qrCheckinItems
             )
         }
     }

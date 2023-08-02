@@ -6,10 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -20,28 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
 import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
-
-@Composable
-fun CheckinAndCancelButtons(
-    modifier: Modifier = Modifier,
-    onClickCancel: () -> Unit,
-onClickCheckin: () -> Unit
-) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement
-            .spacedBy(8.dp, Alignment.CenterHorizontally)
-    ) {
-        OutlinedButton(onClick = onClickCancel) {
-            Text(text = "Cancel")
-        }
-        Button(
-            onClick = onClickCheckin) {
-            Text(text = "Checkin")
-        }
-    }
-}
 
 @Composable
 fun AbhyasiIdCheckinScreen(

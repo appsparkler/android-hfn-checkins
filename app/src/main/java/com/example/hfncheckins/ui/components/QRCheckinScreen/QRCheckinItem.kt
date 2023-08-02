@@ -13,10 +13,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -51,17 +47,7 @@ fun QRCheckinItem(
     checkinInfo: QRCodeCheckinInfo,
     onChange: (QRCodeCheckinInfo) -> Unit
 ) {
-    var dormAndBerthAllocation by remember {
-        mutableStateOf("")
-    }
-    var isChecked by remember {
-        mutableStateOf(false)
-    }
-    onChange(checkinInfo.copy(
-        dormAndBerthAllocation = dormAndBerthAllocation,
-        checkin = isChecked
-    ))
-    val cardContainerColor = if (isChecked) MaterialTheme.colorScheme.primaryContainer
+    val cardContainerColor = if (checkinInfo.checkin) MaterialTheme.colorScheme.primaryContainer
     else MaterialTheme.colorScheme.surfaceContainer
     ElevatedCard(
         modifier = modifier
@@ -78,8 +64,10 @@ fun QRCheckinItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Checkbox(
-                    checked = isChecked, onCheckedChange = {
-                    isChecked = it
+                    checked = checkinInfo.checkin, onCheckedChange = {
+                        onChange(checkinInfo.copy(
+                            checkin = it
+                        ))
                 })
                 Text(
                     text = checkinInfo.fullName,
@@ -113,10 +101,14 @@ fun QRCheckinItem(
             FieldData(fieldName = "PNR: ", fieldValue = checkinInfo.pnr)
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = dormAndBerthAllocation,
-                enabled = isChecked,
+                value = checkinInfo.dormAndBerthAllocation,
+                enabled = checkinInfo.checkin,
                 onValueChange = {
-                    dormAndBerthAllocation = it
+                    onChange(
+                        checkinInfo.copy(
+                            dormAndBerthAllocation = it
+                        )
+                    )
                 },
                 label = {
                     Text("Dorm and Berth Allocation")

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -22,6 +21,27 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
+
+@Composable
+fun CheckinAndCancelButtons(
+    modifier: Modifier = Modifier,
+    onClickCancel: () -> Unit,
+onClickCheckin: () -> Unit
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement
+            .spacedBy(8.dp, Alignment.CenterHorizontally)
+    ) {
+        OutlinedButton(onClick = onClickCancel) {
+            Text(text = "Cancel")
+        }
+        Button(
+            onClick = onClickCheckin) {
+            Text(text = "Checkin")
+        }
+    }
+}
 
 @Composable
 fun AbhyasiIdCheckinScreen(
@@ -71,20 +91,10 @@ fun AbhyasiIdCheckinScreen(
                         Text(text = "Dorm and Berth Allocation:")
                     }
                 )
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement
-                        .spacedBy(8.dp, Alignment.CenterHorizontally)
-                ) {
-                    OutlinedButton(onClick = { /*TODO*/ }) {
-                        Text(text = "Cancel")
-                    }
-                    Button(
-                        onClick = { /*TODO*/ }) {
-                        Text(text = "Checkin")
-                    }
-                }
-
+                CheckinAndCancelButtons(
+                    onClickCancel = {},
+                    onClickCheckin = {}
+                )
             }
         }
     }

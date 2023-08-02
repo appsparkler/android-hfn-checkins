@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
@@ -44,9 +45,14 @@ fun QRCheckinItem(
     checkinInfo: QRCodeCheckinInfo,
     onChangeDormAndBerthAllocation: (String) -> Unit
 ) {
+    val cardContainerColor = if (checkinInfo.checkin) MaterialTheme.colorScheme.primaryContainer
+    else MaterialTheme.colorScheme.surfaceContainer
     ElevatedCard(
         modifier = modifier
             .fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = cardContainerColor
+        )
     ) {
         Column(
             modifier = Modifier
@@ -55,7 +61,7 @@ fun QRCheckinItem(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Checkbox(checked = true, onCheckedChange = {})
+                Checkbox(checked = checkinInfo.checkin, onCheckedChange = {})
                 Text(
                     text = checkinInfo.fullName,
                     style = MaterialTheme.typography.titleMedium
@@ -88,7 +94,8 @@ fun QRCheckinItem(
             FieldData(fieldName = "PNR: ", fieldValue = checkinInfo.pnr)
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = checkinInfo.dormAndBerthAllocation, onValueChange = onChangeDormAndBerthAllocation,
+                value = checkinInfo.dormAndBerthAllocation,
+                onValueChange = onChangeDormAndBerthAllocation,
                 label = {
                     Text("Dorm and Berth Allocation")
                 }
@@ -117,7 +124,8 @@ fun QRCheckinPreview() {
                     orderId = "24999",
                     regId = "b366daa6-2960-4a8b-a300-29bb05ae4e46",
                     pnr = "AE-IDDK-IWQ",
-                    eventName = "2023 Birth Anniversary Celebrations of Pujya Daaji"
+                    eventName = "2023 Birth Anniversary Celebrations of Pujya Daaji",
+                    checkin = true
                 )
             )
         }

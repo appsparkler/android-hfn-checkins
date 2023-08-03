@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedCard
@@ -43,6 +44,7 @@ fun SelectField(
     var menuExpanded by remember {
         mutableStateOf(false)
     }
+    val scrollState = rememberScrollState()
     Column(modifier = modifier) {
         val colors = OutlinedTextFieldDefaults.colors()
         OutlinedTextField(
@@ -100,6 +102,7 @@ fun SelectField(
             DropdownMenu(
                 modifier = customModifier,
                 expanded = menuExpanded,
+                scrollState = scrollState,
                 onDismissRequest = {
                     menuExpanded = false
                 },

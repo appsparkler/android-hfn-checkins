@@ -4,17 +4,21 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
@@ -35,11 +39,18 @@ data class EmailOrMobileCheckin(
     val timestamp: Long
 )
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun EmailWithMobileOrEmailScreen(
     modifier: Modifier = Modifier,
-    startWithMobile: Boolean
+    startWithMobile: Boolean,
+    emailOrMobileCheckin: EmailOrMobileCheckin,
+    onClickCheckin: () -> Unit,
+    onClickCancel: () -> Unit
 ) {
+    val nextImeAction = KeyboardOptions.Default.copy(
+        imeAction = ImeAction.Next
+    )
     CustomLazyColumn(
         modifier = modifier
     ) {
@@ -52,9 +63,6 @@ fun EmailWithMobileOrEmailScreen(
             ElevatedCard(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                var ageMenuExpanded by remember {
-                    mutableStateOf(false)
-                }
                 Column(
                     modifier = Modifier.padding(12.dp),
                     verticalArrangement = Arrangement.spacedBy(
@@ -62,28 +70,31 @@ fun EmailWithMobileOrEmailScreen(
                     )
                 ) {
                     OutlinedTextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        value = "",
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        value = emailOrMobileCheckin.fullName,
                         onValueChange = {},
                         label = {
                             Text(text = "Full Name")
-                        }
+                        },
+                        keyboardOptions = nextImeAction,
                     )
                     AgeAndGenderRow(
-                        age = "", onChangeAge = {},
-                        gender = "", onChangeGender = {}
+                        age = emailOrMobileCheckin.ageGroup, onChangeAge = {},
+                        gender = emailOrMobileCheckin.gender, onChangeGender = {}
                     )
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = "",
+                        value = emailOrMobileCheckin.city,
                         onValueChange = {},
+                        keyboardOptions = nextImeAction,
                         label = {
                             Text(text = "City")
                         }
                     )
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = "",
+                        value = emailOrMobileCheckin.state,
                         onValueChange = {},
                         label = {
                             Text(text = "State")
@@ -91,7 +102,7 @@ fun EmailWithMobileOrEmailScreen(
                     )
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = "",
+                        value = emailOrMobileCheckin.country,
                         onValueChange = {},
                         label = {
                             Text(text = "Country")
@@ -99,7 +110,7 @@ fun EmailWithMobileOrEmailScreen(
                     )
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = "",
+                        value = emailOrMobileCheckin.mobile,
                         onValueChange = {},
                         enabled = !startWithMobile,
                         label = {
@@ -108,7 +119,7 @@ fun EmailWithMobileOrEmailScreen(
                     )
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = "",
+                        value = emailOrMobileCheckin.email,
                         onValueChange = {},
                         enabled = startWithMobile,
                         label = {
@@ -117,7 +128,7 @@ fun EmailWithMobileOrEmailScreen(
                     )
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = "",
+                        value = emailOrMobileCheckin.dormOrBerthAllocation,
                         onValueChange = {},
                         label = {
                             Text(text = "Dorm and Berth Allocation")
@@ -128,8 +139,8 @@ fun EmailWithMobileOrEmailScreen(
         }
         item {
             CheckinAndCancelButtons(
-                onClickCancel = { /*TODO*/ },
-                onClickCheckin = {}
+                onClickCancel = onClickCancel,
+                onClickCheckin = onClickCheckin
             )
         }
     }
@@ -144,7 +155,21 @@ fun EmailWithMobileOrEmailScreenPreview() {
                 startWithMobile = true,
                 modifier = Modifier
                     .padding(it)
-                    .padding(16.dp)
+                    .padding(16.dp),
+                emailOrMobileCheckin = EmailOrMobileCheckin(
+                    gender = "",
+                    timestamp = 0,
+                    fullName = "John Doe",
+                    ageGroup = "",
+                    mobile = "+911234567890",
+                    email = "johndoe@hfn",
+                    dormOrBerthAllocation = "Dorm",
+                    city = "New York",
+                    state = "NY",
+                    country = "USA"
+                ),
+                onClickCheckin = {},
+                onClickCancel = {}
             )
         }
     }

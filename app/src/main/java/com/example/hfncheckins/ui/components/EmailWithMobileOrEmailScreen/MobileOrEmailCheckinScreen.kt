@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
+import com.example.hfncheckins.ui.components.common.CustomLazyColumn
 import com.example.hfncheckins.ui.components.common.Heading
 import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
 
@@ -41,12 +42,8 @@ fun EmailWithMobileOrEmailScreen(
     modifier: Modifier = Modifier,
     startWithMobile: Boolean
 ) {
-    LazyColumn(
+    CustomLazyColumn(
         modifier = modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement
-            .spacedBy(16.dp)
     ) {
         item {
             Heading(
@@ -149,7 +146,7 @@ fun EmailWithMobileOrEmailScreenPreview() {
                 startWithMobile = true,
                 modifier = Modifier
                     .padding(it)
-                    .padding(12.dp)
+                    .padding(16.dp)
             )
         }
     }

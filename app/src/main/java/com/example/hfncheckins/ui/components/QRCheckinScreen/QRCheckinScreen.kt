@@ -1,11 +1,16 @@
 package com.example.hfncheckins.ui.components.QRCheckinScreen
 
 import android.util.Log
+import androidx.compose.foundation.gestures.FlingBehavior
+import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,6 +26,33 @@ import com.example.hfncheckins.ui.components.common.Heading
 import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
 import com.example.hfncheckins.viewModel.QRCodeCheckinInfo
 
+
+@Composable
+fun CustomLazyColumn(
+    modifier: Modifier = Modifier,
+    state: LazyListState = rememberLazyListState(),
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    reverseLayout: Boolean = false,
+    flingBehavior: FlingBehavior = ScrollableDefaults.flingBehavior(),
+    userScrollEnabled: Boolean = true,
+    content: LazyListScope.() -> Unit
+) {
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(
+            16.dp,
+        ),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        content = content,
+        userScrollEnabled = userScrollEnabled,
+        flingBehavior = flingBehavior,
+        reverseLayout = reverseLayout,
+        contentPadding = contentPadding,
+        state = state
+    )
+}
+
 @Composable
 fun QRCheckinScreen(
     modifier: Modifier = Modifier,
@@ -31,44 +63,29 @@ fun QRCheckinScreen(
     var qrCheckins by remember {
         mutableStateOf(qrCheckinItems)
     }
-    Column(
-        modifier = modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(
-            12.dp,
-        )
-    ) {
-        LazyColumn(
-            verticalArrangement = Arrangement
-                .spacedBy(
-                    16.dp,
-                ),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            item {
-                Heading(
-                    heading= "Checkin with \n QR"
-                )
-            }
-            items(qrCheckins.size) {
-                QRCheckinItem(
-                    checkinInfo = qrCheckins[it],
-                    onChange = {
-                        qrCheckins = qrCheckins.map{qrCheckinItem ->
-                            if(it.regId === qrCheckinItem.regId) it
-                            else qrCheckinItem
-                        }
-                })
-            }
-            item {
-                CheckinAndCancelButtons(
-                    onClickCancel = onClickCancel,
-                    onClickCheckin = {
-                        onClickCheckin(qrCheckins)
+    CustomLazyColumn(modifier = modifier) {
+        item {
+            Heading(
+                heading = "Checkin with \n QR"
+            )
+        }
+        items(qrCheckins.size) {
+            QRCheckinItem(
+                checkinInfo = qrCheckins[it],
+                onChange = {
+                    qrCheckins = qrCheckins.map { qrCheckinItem ->
+                        if (it.regId === qrCheckinItem.regId) it
+                        else qrCheckinItem
                     }
-                )
-            }
+                })
+        }
+        item {
+            CheckinAndCancelButtons(
+                onClickCancel = onClickCancel,
+                onClickCheckin = {
+                    onClickCheckin(qrCheckins)
+                }
+            )
         }
     }
 }
@@ -84,8 +101,8 @@ fun QRCheckinScreenPreview() {
             berthPreference = "LB",
             dormPreference = "B1",
             abhyasiId = "INAWIE383",
-            eventName = "",
-            pnr = "",
+            eventName = "Bhandara",
+            pnr = "INR-APQ-1234",
             regId = "0",
             timestamp = 0,
             dormAndBerthAllocation = ""
@@ -97,8 +114,8 @@ fun QRCheckinScreenPreview() {
             berthPreference = "LB",
             dormPreference = "B1",
             abhyasiId = "INAWIE383",
-            eventName = "",
-            pnr = "",
+            eventName = "Bhandara",
+            pnr = "INR-APQ-1234",
             regId = "1",
             timestamp = 0,
             dormAndBerthAllocation = ""
@@ -110,8 +127,8 @@ fun QRCheckinScreenPreview() {
             berthPreference = "LB",
             dormPreference = "B1",
             abhyasiId = "INAWIE383",
-            eventName = "",
-            pnr = "",
+            eventName = "Bhandara",
+            pnr = "INR-APQ-1234",
             regId = "2",
             timestamp = 0,
             dormAndBerthAllocation = ""
@@ -122,12 +139,12 @@ fun QRCheckinScreenPreview() {
             QRCheckinScreen(
                 modifier = Modifier
                     .padding(it)
-                    .padding(8.dp),
+                    .padding(16.dp),
                 onClickCancel = {},
                 onClickCheckin = {
-                     val checkedInList = it.filter {
-                         it.checkin
-                     }
+                    val checkedInList = it.filter {
+                        it.checkin
+                    }
                     Log.d("QRCheckinScreen", checkedInList.size.toString())
                 },
                 qrCheckinItems = qrCheckinItems

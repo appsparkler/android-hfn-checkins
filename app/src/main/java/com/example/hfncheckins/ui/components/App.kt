@@ -52,6 +52,7 @@ fun App(
             val event = getSampleEvent()
             NavHost(
                 modifier = modifier
+                    .padding(it)
                     .padding(12.dp),
                 navController = navController,
                 startDestination = Routes.MAIN_SCREEN.name

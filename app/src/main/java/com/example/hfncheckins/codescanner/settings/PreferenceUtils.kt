@@ -1,12 +1,12 @@
-package com.example.codescanner.settings
+package com.example.hfncheckins.codescanner.settings
 
 import android.content.Context
 import android.graphics.RectF
 import android.preference.PreferenceManager
 import androidx.annotation.StringRes
 import com.example.hfncheckins.R
-import com.example.codescanner.camera.CameraSizePair
-import com.example.codescanner.camera.GraphicOverlay
+import com.example.hfncheckins.codescanner.camera.CameraSizePair
+import com.example.hfncheckins.codescanner.camera.GraphicOverlay
 import com.google.android.gms.common.images.Size
 import com.google.mlkit.vision.barcode.common.Barcode
 

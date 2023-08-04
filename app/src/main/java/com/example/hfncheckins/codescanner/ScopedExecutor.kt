@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.codescanner
+package com.example.hfncheckins.codescanner
 
 import java.util.concurrent.Executor
 import java.util.concurrent.atomic.AtomicBoolean

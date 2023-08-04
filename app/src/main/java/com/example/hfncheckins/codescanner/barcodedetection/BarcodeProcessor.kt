@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.example.codescanner.barcodedetection
+package com.example.hfncheckins.codescanner.barcodedetection
 
 import android.animation.ValueAnimator
 import android.util.Log
 import androidx.annotation.MainThread
-import com.example.codescanner.InputInfo
-import com.example.codescanner.camera.CameraReticleAnimator
-import com.example.codescanner.camera.FrameProcessorBase
-import com.example.codescanner.camera.GraphicOverlay
-import com.example.codescanner.camera.WorkflowModel
-import com.example.codescanner.settings.PreferenceUtils
+import com.example.hfncheckins.codescanner.camera.CameraReticleAnimator
+import com.example.hfncheckins.codescanner.camera.FrameProcessorBase
+import com.example.hfncheckins.codescanner.camera.GraphicOverlay
+import com.example.hfncheckins.codescanner.camera.WorkflowModel
+import com.example.hfncheckins.codescanner.settings.PreferenceUtils
+import com.example.hfncheckins.codescanner.InputInfo
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode

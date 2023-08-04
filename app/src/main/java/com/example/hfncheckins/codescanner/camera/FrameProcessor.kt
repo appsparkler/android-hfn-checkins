@@ -1,4 +1,4 @@
-package com.example.codescanner.camera
+package com.example.hfncheckins.codescanner.camera
 
 import java.nio.ByteBuffer
 

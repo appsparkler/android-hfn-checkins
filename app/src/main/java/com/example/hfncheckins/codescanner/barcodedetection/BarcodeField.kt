@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.codescanner.barcodedetection
+package com.example.hfncheckins.codescanner.barcodedetection
 
 import android.os.Parcel
 import android.os.Parcelable

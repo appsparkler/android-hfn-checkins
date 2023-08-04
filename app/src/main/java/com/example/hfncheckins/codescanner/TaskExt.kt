@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.codescanner
+package com.example.hfncheckins.codescanner
 
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.OnCanceledListener

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.codescanner.camera
+package com.example.hfncheckins.codescanner.camera
 
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator

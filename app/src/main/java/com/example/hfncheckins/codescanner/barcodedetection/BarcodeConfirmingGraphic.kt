@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.example.codescanner.barcodedetection
+package com.example.hfncheckins.codescanner.barcodedetection
 
 import android.graphics.Canvas
 import android.graphics.Path
-import com.example.codescanner.camera.GraphicOverlay
-import com.example.codescanner.settings.PreferenceUtils
+import com.example.hfncheckins.codescanner.camera.GraphicOverlay
+import com.example.hfncheckins.codescanner.settings.PreferenceUtils
 import com.google.mlkit.vision.barcode.common.Barcode
 
 /** Guides user to move camera closer to confirm the detected barcode.  */

@@ -1,4 +1,4 @@
-package com.example.codescanner
+package com.example.hfncheckins.codescanner
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

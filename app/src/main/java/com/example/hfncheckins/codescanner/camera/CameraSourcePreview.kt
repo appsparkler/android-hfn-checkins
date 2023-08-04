@@ -1,4 +1,4 @@
-package com.example.codescanner.camera
+package com.example.hfncheckins.codescanner.camera
 /*
  * Copyright 2020 Google LLC
  *
@@ -21,7 +21,7 @@ import android.util.Log
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.FrameLayout
-import com.example.codescanner.Utils
+import com.example.hfncheckins.codescanner.Utils
 import com.google.android.gms.common.images.Size
 import com.example.hfncheckins.R
 import java.io.IOException

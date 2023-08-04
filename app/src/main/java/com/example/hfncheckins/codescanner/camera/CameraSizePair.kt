@@ -1,4 +1,4 @@
-package com.example.codescanner.camera
+package com.example.hfncheckins.codescanner.camera
 
 import android.hardware.Camera
 import com.google.android.gms.common.images.Size

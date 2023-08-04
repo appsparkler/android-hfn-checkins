@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.codescanner.barcodedetection
+package com.example.hfncheckins.codescanner.barcodedetection
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -27,11 +27,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-//import com.com.example.codescanner.R
-//import com.com.example.codescanner.camera.WorkflowModel
-//import com.com.example.codescanner.camera.WorkflowModel.WorkflowState
 import com.example.hfncheckins.R
-import com.example.codescanner.camera.WorkflowModel
+import com.example.hfncheckins.codescanner.camera.WorkflowModel
 
 /** Displays the bottom sheet to present barcode fields contained in the detected barcode.  */
 class BarcodeResultFragment : BottomSheetDialogFragment() {

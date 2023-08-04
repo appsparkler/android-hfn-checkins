@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.example.codescanner
+package com.example.hfncheckins.codescanner
 
 import android.graphics.Bitmap
-import com.example.codescanner.camera.FrameMetadata
+import com.example.hfncheckins.codescanner.camera.FrameMetadata
 import java.nio.ByteBuffer
 
 interface InputInfo {

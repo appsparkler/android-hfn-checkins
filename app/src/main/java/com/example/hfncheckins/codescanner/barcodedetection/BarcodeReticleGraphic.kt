@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.codescanner.barcodedetection
+package com.example.hfncheckins.codescanner.barcodedetection
 
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -22,8 +22,8 @@ import android.graphics.Paint.Style
 import android.graphics.RectF
 import androidx.core.content.ContextCompat
 import com.example.hfncheckins.R
-import com.example.codescanner.camera.CameraReticleAnimator
-import com.example.codescanner.camera.GraphicOverlay
+import com.example.hfncheckins.codescanner.camera.CameraReticleAnimator
+import com.example.hfncheckins.codescanner.camera.GraphicOverlay
 
 /**
  * A camera reticle that locates at the center of canvas to indicate the system is active but has

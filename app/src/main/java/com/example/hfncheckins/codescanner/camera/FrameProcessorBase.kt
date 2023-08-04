@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.example.codescanner.camera
+package com.example.hfncheckins.codescanner.camera
 
 import android.os.SystemClock
 import android.util.Log
 import androidx.annotation.GuardedBy
-import com.example.codescanner.CameraInputInfo
-import com.example.codescanner.InputInfo
-import com.example.codescanner.ScopedExecutor
+import com.example.hfncheckins.codescanner.CameraInputInfo
+import com.example.hfncheckins.codescanner.InputInfo
+import com.example.hfncheckins.codescanner.ScopedExecutor
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskExecutors

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.codescanner
+package com.example.hfncheckins.codescanner
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
@@ -26,14 +26,14 @@ import android.view.View.OnClickListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.codescanner.barcodedetection.BarcodeField
-import com.example.codescanner.barcodedetection.BarcodeProcessor
-import com.example.codescanner.barcodedetection.BarcodeResultFragment
-import com.example.codescanner.camera.CameraSource
-import com.example.codescanner.camera.CameraSourcePreview
-import com.example.codescanner.camera.GraphicOverlay
-import com.example.codescanner.camera.WorkflowModel
-import com.example.codescanner.camera.WorkflowModel.WorkflowState
+import com.example.hfncheckins.codescanner.barcodedetection.BarcodeField
+import com.example.hfncheckins.codescanner.barcodedetection.BarcodeProcessor
+import com.example.hfncheckins.codescanner.barcodedetection.BarcodeResultFragment
+import com.example.hfncheckins.codescanner.camera.CameraSource
+import com.example.hfncheckins.codescanner.camera.CameraSourcePreview
+import com.example.hfncheckins.codescanner.camera.GraphicOverlay
+import com.example.hfncheckins.codescanner.camera.WorkflowModel
+import com.example.hfncheckins.codescanner.camera.WorkflowModel.WorkflowState
 import com.google.android.material.chip.Chip
 import com.google.common.base.Objects
 import java.io.IOException

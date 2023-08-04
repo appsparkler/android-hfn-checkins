@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.codescanner.barcodedetection
+package com.example.hfncheckins.codescanner.barcodedetection
 
 import android.graphics.Canvas
 import android.graphics.Color
@@ -26,12 +26,8 @@ import android.graphics.PorterDuffXfermode
 import android.graphics.RectF
 import androidx.core.content.ContextCompat
 import com.example.hfncheckins.R
-import com.example.codescanner.camera.GraphicOverlay
-import com.example.codescanner.settings.PreferenceUtils
-//import com.google.mlkit.md.camera.GraphicOverlay
-//import com.google.mlkit.md.camera.GraphicOverlay.Graphic
-//import com.google.mlkit.md.R
-//import com.google.mlkit.md.settings.PreferenceUtils
+import com.example.hfncheckins.codescanner.camera.GraphicOverlay
+import com.example.hfncheckins.codescanner.settings.PreferenceUtils
 
 internal abstract class BarcodeGraphicBase(overlay: GraphicOverlay) : GraphicOverlay.Graphic(overlay) {
 

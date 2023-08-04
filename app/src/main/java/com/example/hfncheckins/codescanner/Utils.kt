@@ -1,4 +1,4 @@
-package com.example.codescanner
+package com.example.hfncheckins.codescanner
 
 import android.app.Activity
 import android.content.Context
@@ -13,7 +13,7 @@ import android.hardware.Camera
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.codescanner.camera.CameraSizePair
+import com.example.hfncheckins.codescanner.camera.CameraSizePair
 import com.google.mlkit.vision.common.InputImage
 import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer

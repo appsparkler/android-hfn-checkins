@@ -30,7 +30,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 //import com.com.example.codescanner.R
 //import com.com.example.codescanner.camera.WorkflowModel
 //import com.com.example.codescanner.camera.WorkflowModel.WorkflowState
-import com.example.codescanner.R
+import com.example.hfncheckins.R
 import com.example.codescanner.camera.WorkflowModel
 
 /** Displays the bottom sheet to present barcode fields contained in the detected barcode.  */

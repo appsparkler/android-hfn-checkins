@@ -21,7 +21,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.codescanner.R
+import com.example.hfncheckins.R
 
 //import com.google.mlkit.md.R
 //import com.google.mlkit.md.barcodedetection.BarcodeFieldAdapter.BarcodeFieldViewHolder

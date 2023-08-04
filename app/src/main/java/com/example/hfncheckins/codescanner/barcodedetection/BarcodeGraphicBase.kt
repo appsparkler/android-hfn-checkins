@@ -25,7 +25,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.RectF
 import androidx.core.content.ContextCompat
-import com.example.codescanner.R
+import com.example.hfncheckins.R
 import com.example.codescanner.camera.GraphicOverlay
 import com.example.codescanner.settings.PreferenceUtils
 //import com.google.mlkit.md.camera.GraphicOverlay

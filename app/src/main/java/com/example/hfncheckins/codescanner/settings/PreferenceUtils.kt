@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.RectF
 import android.preference.PreferenceManager
 import androidx.annotation.StringRes
-import com.example.codescanner.R
+import com.example.hfncheckins.R
 import com.example.codescanner.camera.CameraSizePair
 import com.example.codescanner.camera.GraphicOverlay
 import com.google.android.gms.common.images.Size

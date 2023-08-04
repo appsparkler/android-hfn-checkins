@@ -21,7 +21,7 @@ import android.graphics.Paint
 import android.graphics.Paint.Style
 import android.graphics.RectF
 import androidx.core.content.ContextCompat
-import com.example.codescanner.R
+import com.example.hfncheckins.R
 import com.example.codescanner.camera.CameraReticleAnimator
 import com.example.codescanner.camera.GraphicOverlay
 

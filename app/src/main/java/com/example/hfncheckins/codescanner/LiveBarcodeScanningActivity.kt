@@ -18,13 +18,11 @@ package com.example.codescanner
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
-import android.content.Intent
 import android.hardware.Camera
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.View.OnClickListener
-import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -38,15 +36,8 @@ import com.example.codescanner.camera.WorkflowModel
 import com.example.codescanner.camera.WorkflowModel.WorkflowState
 import com.google.android.material.chip.Chip
 import com.google.common.base.Objects
-//import com.google.mlkit.md.camera.WorkflowModel
-//import com.google.mlkit.md.camera.WorkflowModel.WorkflowState
-//import com.google.mlkit.md.barcodedetection.BarcodeField
-//import com.google.mlkit.md.barcodedetection.BarcodeProcessor
-//import com.google.mlkit.md.barcodedetection.BarcodeResultFragment
-//import com.google.mlkit.md.camera.CameraSource
-//import com.google.mlkit.md.camera.CameraSourcePreview
-//import com.google.mlkit.md.settings.SettingsActivity
 import java.io.IOException
+import com.example.hfncheckins.R
 import java.util.ArrayList
 
 /** Demonstrates the barcode scanning workflow using camera preview.  */

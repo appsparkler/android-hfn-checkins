@@ -27,9 +27,6 @@ import android.view.WindowManager
 import com.example.codescanner.Utils
 import com.example.codescanner.settings.PreferenceUtils
 import com.google.android.gms.common.images.Size
-//import com.google.mlkit.md.R
-//import com.google.mlkit.md.Utils
-//import com.google.mlkit.md.settings.PreferenceUtils
 import java.io.IOException
 import java.nio.ByteBuffer
 import java.util.IdentityHashMap

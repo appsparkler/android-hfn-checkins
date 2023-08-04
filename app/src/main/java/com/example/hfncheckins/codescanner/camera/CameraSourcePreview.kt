@@ -23,7 +23,7 @@ import android.view.SurfaceView
 import android.widget.FrameLayout
 import com.example.codescanner.Utils
 import com.google.android.gms.common.images.Size
-import com.example.codescanner.R
+import com.example.hfncheckins.R
 import java.io.IOException
 
 /** Preview the camera image in the screen.  */

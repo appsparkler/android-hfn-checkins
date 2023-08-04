@@ -26,13 +26,6 @@ import com.example.codescanner.camera.GraphicOverlay
 import com.example.codescanner.camera.WorkflowModel
 import com.example.codescanner.settings.PreferenceUtils
 import com.google.android.gms.tasks.Task
-//import com.google.mlkit.md.InputInfo
-//import com.google.mlkit.md.camera.CameraReticleAnimator
-//import com.google.mlkit.md.camera.GraphicOverlay
-//import com.google.mlkit.md.camera.WorkflowModel
-//import com.google.mlkit.md.camera.WorkflowModel.WorkflowState
-//import com.google.mlkit.md.camera.FrameProcessorBase
-//import com.google.mlkit.md.settings.PreferenceUtils
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage

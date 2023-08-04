@@ -7,7 +7,6 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import com.example.codescanner.Utils
-//import com.google.mlkit.md.Utils
 import java.util.ArrayList
 
 /**

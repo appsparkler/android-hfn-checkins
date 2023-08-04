@@ -18,7 +18,6 @@ package com.example.codescanner.barcodedetection
 
 import android.os.Parcel
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
 
 /** Information about a barcode field.  */
 //@Parcelize

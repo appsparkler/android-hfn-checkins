@@ -13,4 +13,4 @@
 .cxx
 local.properties
 
-goolge-services.json
+app/google-services.json

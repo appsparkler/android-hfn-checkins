@@ -29,9 +29,9 @@ fun CheckinSuccessScreen(
     ) {
         Icon(
             painter = painterResource(
-                id = R.drawable.baseline_arrow_drop_up_24
+                id = R.drawable.baseline_check_circle_24
             ),
-            modifier = Modifier.size(300.dp),
+            modifier = Modifier.size(150.dp),
             contentDescription = "Checkin success",
             tint = Color(0xFF4BB543)
         )

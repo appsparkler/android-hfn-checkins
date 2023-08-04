@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -14,7 +16,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,7 +42,6 @@ data class EmailOrMobileCheckin(
     val isValid: Boolean
 )
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun EmailWithMobileOrEmailScreen(
     modifier: Modifier = Modifier,
@@ -73,6 +73,9 @@ fun EmailWithMobileOrEmailScreen(
         item {
             ElevatedCard(
                 modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.elevatedCardColors(
+                    containerColor = if (emailOrMobileCheckin.isValid) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainer
+                )
             ) {
                 Column(
                     modifier = Modifier.padding(12.dp),
@@ -202,7 +205,7 @@ fun EmailWithMobileOrEmailScreen(
                         label = {
                             Text(text = "Dorm and Berth Allocation")
                         },
-                        keyboardOptions = if(emailOrMobileCheckin.isValid) imeDoneAction else imeNoneAction
+                        keyboardOptions = if (emailOrMobileCheckin.isValid) imeDoneAction else imeNoneAction
                     )
                 }
             }

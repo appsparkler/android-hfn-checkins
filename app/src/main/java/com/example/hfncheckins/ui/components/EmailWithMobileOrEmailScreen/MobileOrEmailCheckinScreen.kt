@@ -78,7 +78,7 @@ fun EmailWithMobileOrEmailScreen(
                 )
             ) {
                 Column(
-                    modifier = Modifier.padding(12.dp),
+                    modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(
                         2.dp
                     )
@@ -246,7 +246,7 @@ fun EmailWithMobileOrEmailScreenPreview() {
             EmailWithMobileOrEmailScreen(
                 modifier = Modifier
                     .padding(it)
-                    .padding(16.dp),
+                    .padding(8.dp),
                 emailOrMobileCheckin = emailOrCheckin,
                 onClickCheckin = {},
                 onClickCancel = {},

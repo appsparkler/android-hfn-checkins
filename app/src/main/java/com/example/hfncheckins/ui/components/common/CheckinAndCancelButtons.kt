@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CheckinAndCancelButtons(
     modifier: Modifier = Modifier,
+    isCheckinValid: Boolean,
     onClickCancel: () -> Unit,
     onClickCheckin: () -> Unit
 ) {
@@ -25,7 +26,8 @@ fun CheckinAndCancelButtons(
             Text(text = "Cancel")
         }
         Button(
-            onClick = onClickCheckin
+            onClick = onClickCheckin,
+            enabled = isCheckinValid
         ) {
             Text(text = "Checkin")
         }

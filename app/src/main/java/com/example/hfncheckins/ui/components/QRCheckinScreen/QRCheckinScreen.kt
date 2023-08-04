@@ -45,6 +45,7 @@ fun QRCheckinScreen(
         }
         item {
             CheckinAndCancelButtons(
+                isCheckinValid = false,
                 onClickCancel = onClickCancel,
                 onClickCheckin = {
                     onClickCheckin(qrCheckins)

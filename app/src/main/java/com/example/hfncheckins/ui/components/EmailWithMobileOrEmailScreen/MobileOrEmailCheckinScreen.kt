@@ -1,23 +1,23 @@
 package com.example.hfncheckins.ui.components.EmailWithMobileOrEmailScreen
 
+
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,8 +25,11 @@ import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
 import com.example.hfncheckins.ui.components.common.CustomLazyColumn
 import com.example.hfncheckins.ui.components.common.Heading
 import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
+import com.example.hfncheckins.utils.isEmailValid
+import com.example.hfncheckins.utils.isValidPhoneNumber
 
 data class EmailOrMobileCheckin(
+    val startWithMobile: Boolean,
     val email: String,
     val mobile: String,
     val fullName: String,
@@ -36,21 +39,31 @@ data class EmailOrMobileCheckin(
     val state: String,
     val country: String,
     val dormOrBerthAllocation: String,
-    val timestamp: Long
+    val timestamp: Long,
+    val isValid: Boolean
 )
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun EmailWithMobileOrEmailScreen(
     modifier: Modifier = Modifier,
-    startWithMobile: Boolean,
     emailOrMobileCheckin: EmailOrMobileCheckin,
     onClickCheckin: () -> Unit,
-    onClickCancel: () -> Unit
+    onClickCancel: () -> Unit,
+    onChange: (EmailOrMobileCheckin) -> Unit
 ) {
-    val nextImeAction = KeyboardOptions.Default.copy(
+    val imeDoneAction = KeyboardOptions.Default.copy(
+        imeAction = ImeAction.Done
+    )
+    val imeNoneAction = KeyboardOptions.Default.copy(
+        imeAction = ImeAction.None
+    )
+    val imeNextAction = KeyboardOptions.Default.copy(
         imeAction = ImeAction.Next
     )
+    val optionalText = " (optional)"
+    val emailLabel = "Email" + if (emailOrMobileCheckin.startWithMobile) optionalText else ""
+    val mobileLabel = "Mobile" + if (!emailOrMobileCheckin.startWithMobile) optionalText else ""
     CustomLazyColumn(
         modifier = modifier
     ) {
@@ -73,72 +86,132 @@ fun EmailWithMobileOrEmailScreen(
                         modifier = Modifier
                             .fillMaxWidth(),
                         value = emailOrMobileCheckin.fullName,
-                        onValueChange = {},
+                        onValueChange = {
+                            onChange(
+                                emailOrMobileCheckin.copy(
+                                    fullName = it
+                                )
+                            )
+                        },
                         label = {
                             Text(text = "Full Name")
                         },
-                        keyboardOptions = nextImeAction,
+                        keyboardOptions = imeDoneAction
                     )
                     AgeAndGenderRow(
-                        age = emailOrMobileCheckin.ageGroup, onChangeAge = {},
-                        gender = emailOrMobileCheckin.gender, onChangeGender = {}
+                        age = emailOrMobileCheckin.ageGroup, onChangeAge = {
+                            onChange(
+                                emailOrMobileCheckin.copy(
+                                    ageGroup = it
+                                )
+                            )
+                        },
+                        gender = emailOrMobileCheckin.gender, onChangeGender = {
+                            onChange(
+                                emailOrMobileCheckin.copy(
+                                    gender = it
+                                )
+                            )
+                        }
                     )
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
                         value = emailOrMobileCheckin.city,
-                        onValueChange = {},
-                        keyboardOptions = nextImeAction,
+                        onValueChange = {
+                            onChange(
+                                emailOrMobileCheckin.copy(
+                                    city = it
+                                )
+                            )
+                        },
                         label = {
                             Text(text = "City")
-                        }
+                        },
+                        keyboardOptions = imeNextAction
                     )
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
                         value = emailOrMobileCheckin.state,
-                        onValueChange = {},
+                        onValueChange = {
+                            onChange(
+                                emailOrMobileCheckin.copy(
+                                    state = it
+                                )
+                            )
+                        },
                         label = {
                             Text(text = "State")
-                        }
+                        },
+                        keyboardOptions = imeNextAction
                     )
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
                         value = emailOrMobileCheckin.country,
-                        onValueChange = {},
+                        onValueChange = {
+                            onChange(
+                                emailOrMobileCheckin.copy(
+                                    country = it
+                                )
+                            )
+                        },
                         label = {
                             Text(text = "Country")
-                        }
+                        },
+                        keyboardOptions = imeNextAction
                     )
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
                         value = emailOrMobileCheckin.mobile,
-                        onValueChange = {},
-                        enabled = !startWithMobile,
+                        onValueChange = {
+                            onChange(
+                                emailOrMobileCheckin.copy(
+                                    mobile = it
+                                )
+                            )
+                        },
+                        enabled = !emailOrMobileCheckin.startWithMobile,
+                        keyboardOptions = imeNextAction,
                         label = {
-                            Text(text = "Mobile")
+                            Text(text = mobileLabel)
                         }
                     )
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
                         value = emailOrMobileCheckin.email,
-                        onValueChange = {},
-                        enabled = startWithMobile,
+                        onValueChange = {
+                            onChange(
+                                emailOrMobileCheckin.copy(
+                                    email = it
+                                )
+                            )
+                        },
+                        enabled = emailOrMobileCheckin.startWithMobile,
                         label = {
-                            Text(text = "Email")
-                        }
+                            Text(text = emailLabel)
+                        },
+                        keyboardOptions = imeNextAction
                     )
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
                         value = emailOrMobileCheckin.dormOrBerthAllocation,
-                        onValueChange = {},
+                        onValueChange = {
+                            onChange(
+                                emailOrMobileCheckin.copy(
+                                    dormOrBerthAllocation = it
+                                )
+                            )
+                        },
                         label = {
                             Text(text = "Dorm and Berth Allocation")
-                        }
+                        },
+                        keyboardOptions = if(emailOrMobileCheckin.isValid) imeDoneAction else imeNoneAction
                     )
                 }
             }
         }
         item {
             CheckinAndCancelButtons(
+                isCheckinValid = emailOrMobileCheckin.isValid,
                 onClickCancel = onClickCancel,
                 onClickCheckin = onClickCheckin
             )
@@ -149,28 +222,65 @@ fun EmailWithMobileOrEmailScreen(
 @Preview
 @Composable
 fun EmailWithMobileOrEmailScreenPreview() {
+    var emailOrCheckin by remember {
+        mutableStateOf(
+            EmailOrMobileCheckin(
+                gender = "",
+                timestamp = 0,
+                fullName = "",
+                ageGroup = "",
+                mobile = "",
+                email = "abc@def.com",
+                dormOrBerthAllocation = "",
+                city = "",
+                state = "",
+                country = "",
+                isValid = false,
+                startWithMobile = false
+            )
+        )
+    }
     HFNCheckinsTheme() {
         Scaffold() {
             EmailWithMobileOrEmailScreen(
-                startWithMobile = true,
                 modifier = Modifier
                     .padding(it)
                     .padding(16.dp),
-                emailOrMobileCheckin = EmailOrMobileCheckin(
-                    gender = "",
-                    timestamp = 0,
-                    fullName = "John Doe",
-                    ageGroup = "",
-                    mobile = "+911234567890",
-                    email = "johndoe@hfn",
-                    dormOrBerthAllocation = "Dorm",
-                    city = "New York",
-                    state = "NY",
-                    country = "USA"
-                ),
+                emailOrMobileCheckin = emailOrCheckin,
                 onClickCheckin = {},
-                onClickCancel = {}
+                onClickCancel = {},
+                onChange = {
+                    emailOrCheckin = validateAndUpdate(it)
+                }
             )
         }
     }
+}
+
+fun validateAndUpdate(it: EmailOrMobileCheckin): EmailOrMobileCheckin {
+    var isValid = false;
+    val isFullNameValid = it.fullName.isNotBlank()
+    val isAgeValid = it.ageGroup.isNotBlank()
+    val isGenderValid = it.ageGroup.isNotBlank()
+    val isCityValid = it.city.isNotBlank()
+    val isStateValid = it.state.isNotBlank()
+    val isCountryValid = it.country.isNotBlank()
+    val isMobileValid = it.mobile.isEmpty() || isValidPhoneNumber(it.mobile)
+    val isEmailValid = it.email.isEmpty() || isEmailValid(it.email)
+    if (isFullNameValid && isAgeValid && isGenderValid && isCityValid && isStateValid && isCountryValid && isMobileValid && isEmailValid) {
+        isValid = true;
+    }
+    return it.copy(
+        fullName = it.fullName,
+        ageGroup = it.ageGroup,
+        gender = it.gender,
+        city = it.city,
+        state = it.state,
+        country = it.country,
+        mobile = it.mobile,
+        email = it.email,
+        dormOrBerthAllocation = it.dormOrBerthAllocation,
+        timestamp = System.currentTimeMillis(),
+        isValid = isValid
+    )
 }

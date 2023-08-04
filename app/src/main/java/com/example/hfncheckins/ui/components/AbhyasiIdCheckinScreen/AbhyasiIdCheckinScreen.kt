@@ -70,6 +70,7 @@ fun AbhyasiIdCheckinScreen(
                     }
                 )
                 CheckinAndCancelButtons(
+                    isCheckinValid = true,
                     onClickCancel = {},
                     onClickCheckin = {}
                 )

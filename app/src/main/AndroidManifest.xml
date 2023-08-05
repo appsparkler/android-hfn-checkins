@@ -4,6 +4,9 @@
     package="com.example.hfncheckins"
 >
 
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -16,9 +19,12 @@
         android:screenOrientation="portrait"
     >
 
-        <meta-data
-            android:name="com.google.mlkit.vision.DEPENDENCIES"
-            android:value="barcode_ui" />
+        <activity
+            android:name="com.example.hfncheckins.codescanner.LiveBarcodeScanningActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.CodeScanner"
+        />
 
         <activity
             android:name=".MainActivity"

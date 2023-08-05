@@ -2,4 +2,14 @@
 <resources>
     <color name="light_primaryContainer">#D2E4FF</color>
     <color name="dark_primaryContainer">#00497E</color>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="home_page_mode_item_subtitle">#CCFFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="reticle_ripple">#9AFFFFFF</color>
+    <color name="barcode_reticle_background">#99000000</color>
+    <color name="barcode_reticle_stroke">#40000000</color>
+    <color name="barcode_field_value">#797979</color>
+    <color name="barcode_field_box_stroke">#757575</color>
 </resources>

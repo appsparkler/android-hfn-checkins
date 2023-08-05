@@ -4,9 +4,6 @@ import com.example.hfncheckins.model.HFNEvent
 import java.util.*
 
 fun getSampleEvent() = HFNEvent(
-    description = "Chariji's Birth Anniversary",
     title = "Chariji Maharaj's 95th Birth Anniversary Celebration",
-    endDate = Date(),
-    startDate = Date(),
     id = "1234"
 )

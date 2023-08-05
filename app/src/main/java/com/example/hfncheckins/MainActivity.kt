@@ -18,6 +18,8 @@ import com.example.hfncheckins.data.sample.getSampleEvent
 import com.example.hfncheckins.ui.components.App
 import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.ui.components.MainScreen.MainScreen
+import com.example.hfncheckins.ui.components.Routes
+import com.example.hfncheckins.utils.isValidAbhyasiId
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -39,8 +41,10 @@ class MainActivity : ComponentActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == REQUEST_CODE_SCAN){
             if(resultCode == Activity.RESULT_OK) {
-                val resultData = data?.getStringExtra("SCAN_RESULT_KEY")
-                navController.navigate("TestRoute?code=$resultData")
+                val resultData = data?.getStringExtra("SCAN_RESULT_KEY").toString()
+                if(isValidAbhyasiId(resultData)) {
+                    navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}?code=$resultData")
+                }
             }
         }
     }

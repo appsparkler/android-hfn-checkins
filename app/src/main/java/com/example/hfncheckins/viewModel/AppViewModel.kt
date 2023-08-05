@@ -38,9 +38,8 @@ data class QRCodeCheckinInfo(
 
 data class AbhyasiIdCheckin (
     val abhyasiId: String,
-    val dormAndBerthAllocation: String? = null,
+    val dormAndBerthAllocation: String,
     val timestamp: Long? = null,
-    val eventName: String,
 )
 
 data class MobileOrEmailCheckin(
@@ -85,7 +84,7 @@ class AppViewModel:ViewModel() {
             checkinType = CheckinTypesEnum.AbhyasiId,
             abhyasiIdCheckin = AbhyasiIdCheckin(
                 abhyasiId,
-                eventName = event.title
+                dormAndBerthAllocation = ""
             )
         )}
     }

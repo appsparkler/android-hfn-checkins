@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -20,10 +21,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
 import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
+import com.example.hfncheckins.viewModel.AbhyasiIdCheckin
 
 @Composable
 fun AbhyasiIdCheckinScreen(
+    abhyasiIdCheckin: AbhyasiIdCheckin,
     modifier: Modifier = Modifier,
+    onClickCheckin: () -> Unit,
+    onClickCancel: () -> Unit,
+    onChangeDormAndBerthAllocation: (String) -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxSize()
@@ -42,7 +48,10 @@ fun AbhyasiIdCheckinScreen(
         ElevatedCard(
             modifier= Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 16.dp),
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer
+            )
         ) {
             Column(
                 modifier= Modifier
@@ -60,19 +69,20 @@ fun AbhyasiIdCheckinScreen(
                         text = "Abhyasi Id:",
                         fontWeight = FontWeight.Bold
                     )
-                    Text(text = "INAAAE338")
+                    Text(text = abhyasiIdCheckin.abhyasiId)
                 }
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = "", onValueChange = {},
+                    value = abhyasiIdCheckin.dormAndBerthAllocation,
+                    onValueChange = onChangeDormAndBerthAllocation,
                     label = {
                         Text(text = "Dorm and Berth Allocation:")
                     }
                 )
                 CheckinAndCancelButtons(
                     isCheckinValid = true,
-                    onClickCancel = {},
-                    onClickCheckin = {}
+                    onClickCancel = onClickCancel,
+                    onClickCheckin = onClickCheckin
                 )
             }
         }
@@ -85,7 +95,16 @@ fun AbhyasiIdCheckinScreenPreview() {
     HFNCheckinsTheme {
         Scaffold {
             AbhyasiIdCheckinScreen(
-                modifier = Modifier.padding(it)
+                modifier = Modifier.padding(it),
+                onClickCheckin = {},
+                onClickCancel = {},
+                onChangeDormAndBerthAllocation = {
+
+                },
+                abhyasiIdCheckin = AbhyasiIdCheckin(
+                    abhyasiId = "INAAAE282",
+                    dormAndBerthAllocation = "B1"
+                )
             )
         }
     }

@@ -15,7 +15,7 @@ data class SeekerInfoFieldState(
 )
 
 class SeekerInfoFieldViewModel:ViewModel() {
-    private val _uiState = MutableStateFlow<SeekerInfoFieldState>(SeekerInfoFieldState())
+    private val _uiState = MutableStateFlow(SeekerInfoFieldState())
     val uiState = _uiState.asStateFlow()
 
     fun updateValue(updatedValue: String) {

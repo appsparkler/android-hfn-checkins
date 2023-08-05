@@ -18,6 +18,8 @@ package com.example.hfncheckins.codescanner
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
+import android.app.Activity
+import android.content.Intent
 import android.hardware.Camera
 import android.os.Bundle
 import android.util.Log
@@ -200,7 +202,11 @@ class LiveBarcodeScanningActivity : AppCompatActivity(), OnClickListener {
             if (barcode != null) {
                 val barcodeFieldList = ArrayList<BarcodeField>()
                 barcodeFieldList.add(BarcodeField("Raw Value", barcode.rawValue ?: ""))
-                BarcodeResultFragment.show(supportFragmentManager, barcodeFieldList)
+                val resultIntent = Intent()
+                resultIntent.putExtra("SCAN_RESULT_KEY", barcode.rawValue)
+                setResult(Activity.RESULT_OK, resultIntent)
+                finish()
+//                BarcodeResultFragment.show(supportFragmentManager, barcodeFieldList)
             }
         })
     }

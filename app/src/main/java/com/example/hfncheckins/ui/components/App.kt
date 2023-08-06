@@ -42,7 +42,9 @@ fun App(
                 composable(Routes.MAIN_SCREEN.name) {
                     MainScreen(
                         event = getSampleEvent(),
-                        onStartCheckin = {},
+                        onStartCheckin = { inputValue, type ->
+
+                        },
                         onClickScan = {
                             onClickScan(navController)
                         }

@@ -10,10 +10,15 @@ import kotlinx.coroutines.flow.update
 
 data class SeekerInfoFieldState(
     val value: String = "",
-    val isValid:Boolean = false
-
+    val isValid:Boolean = false,
+    val type: InputValueType? = null
 )
 
+enum class InputValueType {
+    ABHYASI_ID,
+    PHONE_NUMBER,
+    EMAIL
+}
 class SeekerInfoFieldViewModel:ViewModel() {
     private val _uiState = MutableStateFlow(SeekerInfoFieldState())
     val uiState = _uiState.asStateFlow()
@@ -21,13 +26,32 @@ class SeekerInfoFieldViewModel:ViewModel() {
     fun updateValue(updatedValue: String) {
         val isValid =
             isValidAbhyasiId(updatedValue) ||
-            isValidPhoneNumber(updatedValue) ||
-            isEmailValid(updatedValue)
+                    isValidPhoneNumber(updatedValue) ||
+                    isEmailValid(updatedValue)
         _uiState.update {
             it.copy(
                 value = updatedValue,
                 isValid = isValid
             )
         }
+        setType()
+    }
+
+    fun setType() {
+        var type = if(isValidAbhyasiId(_uiState.value.value)) {
+            InputValueType.ABHYASI_ID
+        } else if (isValidPhoneNumber(_uiState.value.value)) {
+            InputValueType.PHONE_NUMBER
+        } else if(isEmailValid(_uiState.value.value)) {
+            InputValueType.EMAIL
+        } else {
+            null
+        }
+        _uiState.update {
+            it.copy(
+                type = type
+            )
+        }
     }
 }
+

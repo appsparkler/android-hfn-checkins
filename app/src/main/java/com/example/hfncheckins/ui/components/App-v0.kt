@@ -61,7 +61,7 @@ fun App(
                 composable(Routes.MAIN_SCREEN.name) {
                     MainScreen(
                         event = event,
-                        onStartCheckin = {
+                        onStartCheckin = { it, type ->
                             handleClickStartCheckin(
                                 it,
                                 event,

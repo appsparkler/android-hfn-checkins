@@ -4,13 +4,12 @@ import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
 import com.example.hfncheckins.ui.components.common.CustomLazyColumn
 import com.example.hfncheckins.ui.components.common.Heading
@@ -20,13 +19,11 @@ import com.example.hfncheckins.viewModel.QRCodeCheckinInfo
 @Composable
 fun QRCheckinScreen(
     modifier: Modifier = Modifier,
-    qrCheckinItems: List<QRCodeCheckinInfo>,
+    qrCheckinviewModel: QRCheckinScreenViewModel = viewModel(),
     onClickCheckin: (List<QRCodeCheckinInfo>) -> Unit,
     onClickCancel: () -> Unit,
 ) {
-    var qrCheckins by remember {
-        mutableStateOf(qrCheckinItems)
-    }
+    val qrCheckins by qrCheckinviewModel.uiState.collectAsState()
     CustomLazyColumn(modifier = modifier) {
         item {
             Heading(
@@ -37,15 +34,12 @@ fun QRCheckinScreen(
             QRCheckinItem(
                 checkinInfo = qrCheckins[it],
                 onChange = {
-                    qrCheckins = qrCheckins.map { qrCheckinItem ->
-                        if (it.regId === qrCheckinItem.regId) it
-                        else qrCheckinItem
-                    }
+                    qrCheckinviewModel.update(it)
                 })
         }
         item {
             CheckinAndCancelButtons(
-                isCheckinValid = false,
+                isCheckinValid = qrCheckinviewModel.isValid(),
                 onClickCancel = onClickCancel,
                 onClickCheckin = {
                     onClickCheckin(qrCheckins)
@@ -58,6 +52,8 @@ fun QRCheckinScreen(
 @Preview
 @Composable
 fun QRCheckinScreenPreview() {
+    val qrCheckinScreenViewModel = QRCheckinScreenViewModel()
+
     var qrCheckinItems = listOf(
         QRCodeCheckinInfo(
             checkin = false,
@@ -99,6 +95,7 @@ fun QRCheckinScreenPreview() {
             dormAndBerthAllocation = ""
         )
     )
+    qrCheckinScreenViewModel.setupList(qrCheckinItems)
     HFNCheckinsTheme {
         Scaffold {
             QRCheckinScreen(
@@ -112,7 +109,7 @@ fun QRCheckinScreenPreview() {
                     }
                     Log.d("QRCheckinScreen", checkedInList.size.toString())
                 },
-                qrCheckinItems = qrCheckinItems
+                qrCheckinviewModel = qrCheckinScreenViewModel
             )
         }
     }

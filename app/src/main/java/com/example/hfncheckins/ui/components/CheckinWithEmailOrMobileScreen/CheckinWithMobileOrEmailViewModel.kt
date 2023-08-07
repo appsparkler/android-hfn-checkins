@@ -1,4 +1,4 @@
-package com.example.hfncheckins.ui.components.EmailWithMobileOrEmailScreen
+package com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen
 
 import androidx.lifecycle.ViewModel
 import com.example.hfncheckins.utils.isEmailValid

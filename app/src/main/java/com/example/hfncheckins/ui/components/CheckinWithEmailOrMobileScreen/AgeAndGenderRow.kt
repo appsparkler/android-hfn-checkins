@@ -1,4 +1,4 @@
-package com.example.hfncheckins.ui.components.EmailWithMobileOrEmailScreen
+package com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement

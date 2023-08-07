@@ -1,4 +1,4 @@
-package com.example.hfncheckins.ui.components.EmailWithMobileOrEmailScreen
+package com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,9 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,7 +45,7 @@ data class EmailOrMobileCheckin(
 fun EmailWithMobileOrEmailScreen(
     modifier: Modifier = Modifier,
     checkinWithMobileOrEmailViewModel: CheckinWithMobileOrEmailViewModel= viewModel(),
-    onClickCheckin: () -> Unit,
+    onClickCheckin: (EmailOrMobileCheckin) -> Unit,
     onClickCancel: () -> Unit
 ) {
     val emailOrMobileCheckin by checkinWithMobileOrEmailViewModel.uiState.collectAsState()
@@ -180,7 +177,9 @@ fun EmailWithMobileOrEmailScreen(
             CheckinAndCancelButtons(
                 isCheckinValid = emailOrMobileCheckin.isValid,
                 onClickCancel = onClickCancel,
-                onClickCheckin = onClickCheckin
+                onClickCheckin = {
+                    onClickCheckin(emailOrMobileCheckin)
+                }
             )
         }
     }

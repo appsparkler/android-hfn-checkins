@@ -1,4 +1,4 @@
-package com.example.hfncheckins.ui.components.EmailWithMobileOrEmailScreen
+package com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

@@ -12,7 +12,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -45,11 +47,11 @@ data class EmailOrMobileCheckin(
 @Composable
 fun EmailWithMobileOrEmailScreen(
     modifier: Modifier = Modifier,
-    emailOrMobileCheckin: EmailOrMobileCheckin,
+    checkinWithMobileOrEmailViewModel: CheckinWithMobileOrEmailViewModel= viewModel(),
     onClickCheckin: () -> Unit,
-    onClickCancel: () -> Unit,
-    onChange: (EmailOrMobileCheckin) -> Unit
+    onClickCancel: () -> Unit
 ) {
+    val emailOrMobileCheckin by checkinWithMobileOrEmailViewModel.uiState.collectAsState()
     val imeDoneAction = KeyboardOptions.Default.copy(
         imeAction = ImeAction.Done
     )
@@ -88,11 +90,7 @@ fun EmailWithMobileOrEmailScreen(
                             .fillMaxWidth(),
                         value = emailOrMobileCheckin.fullName,
                         onValueChange = {
-                            onChange(
-                                emailOrMobileCheckin.copy(
-                                    fullName = it
-                                )
-                            )
+                            checkinWithMobileOrEmailViewModel.update(fullName = it)
                         },
                         label = {
                             Text(text = "Full Name")
@@ -101,29 +99,17 @@ fun EmailWithMobileOrEmailScreen(
                     )
                     AgeAndGenderRow(
                         age = emailOrMobileCheckin.ageGroup, onChangeAge = {
-                            onChange(
-                                emailOrMobileCheckin.copy(
-                                    ageGroup = it
-                                )
-                            )
+                            checkinWithMobileOrEmailViewModel.update(ageGroup = it)
                         },
                         gender = emailOrMobileCheckin.gender, onChangeGender = {
-                            onChange(
-                                emailOrMobileCheckin.copy(
-                                    gender = it
-                                )
-                            )
+                            checkinWithMobileOrEmailViewModel.update(gender = it)
                         }
                     )
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
                         value = emailOrMobileCheckin.city,
                         onValueChange = {
-                            onChange(
-                                emailOrMobileCheckin.copy(
-                                    city = it
-                                )
-                            )
+                            checkinWithMobileOrEmailViewModel.update(city = it)
                         },
                         label = {
                             Text(text = "City")
@@ -134,11 +120,7 @@ fun EmailWithMobileOrEmailScreen(
                         modifier = Modifier.fillMaxWidth(),
                         value = emailOrMobileCheckin.state,
                         onValueChange = {
-                            onChange(
-                                emailOrMobileCheckin.copy(
-                                    state = it
-                                )
-                            )
+                            checkinWithMobileOrEmailViewModel.update(state = it)
                         },
                         label = {
                             Text(text = "State")
@@ -149,11 +131,7 @@ fun EmailWithMobileOrEmailScreen(
                         modifier = Modifier.fillMaxWidth(),
                         value = emailOrMobileCheckin.country,
                         onValueChange = {
-                            onChange(
-                                emailOrMobileCheckin.copy(
-                                    country = it
-                                )
-                            )
+                            checkinWithMobileOrEmailViewModel.update(country = it)
                         },
                         label = {
                             Text(text = "Country")
@@ -164,11 +142,7 @@ fun EmailWithMobileOrEmailScreen(
                         modifier = Modifier.fillMaxWidth(),
                         value = emailOrMobileCheckin.mobile,
                         onValueChange = {
-                            onChange(
-                                emailOrMobileCheckin.copy(
-                                    mobile = it
-                                )
-                            )
+                            checkinWithMobileOrEmailViewModel.update(mobile = it)
                         },
                         enabled = !emailOrMobileCheckin.startWithMobile,
                         keyboardOptions = imeNextAction,
@@ -180,11 +154,7 @@ fun EmailWithMobileOrEmailScreen(
                         modifier = Modifier.fillMaxWidth(),
                         value = emailOrMobileCheckin.email,
                         onValueChange = {
-                            onChange(
-                                emailOrMobileCheckin.copy(
-                                    email = it
-                                )
-                            )
+                            checkinWithMobileOrEmailViewModel.update(email = it)
                         },
                         enabled = emailOrMobileCheckin.startWithMobile,
                         label = {
@@ -196,11 +166,7 @@ fun EmailWithMobileOrEmailScreen(
                         modifier = Modifier.fillMaxWidth(),
                         value = emailOrMobileCheckin.dormOrBerthAllocation,
                         onValueChange = {
-                            onChange(
-                                emailOrMobileCheckin.copy(
-                                    dormOrBerthAllocation = it
-                                )
-                            )
+                            checkinWithMobileOrEmailViewModel.update(dormOrBerthAllocation = it)
                         },
                         label = {
                             Text(text = "Dorm and Berth Allocation")
@@ -223,36 +189,20 @@ fun EmailWithMobileOrEmailScreen(
 @Preview
 @Composable
 fun EmailWithMobileOrEmailScreenPreview() {
-    var emailOrCheckin by remember {
-        mutableStateOf(
-            EmailOrMobileCheckin(
-                gender = "",
-                timestamp = 0,
-                fullName = "",
-                ageGroup = "",
-                mobile = "",
-                email = "abc@def.com",
-                dormOrBerthAllocation = "",
-                city = "",
-                state = "",
-                country = "",
-                isValid = false,
-                startWithMobile = false
-            )
-        )
-    }
+    val checkinWithMobileOrEmailViewModel = CheckinWithMobileOrEmailViewModel()
+    checkinWithMobileOrEmailViewModel.update(
+        email = "abc@def.com",
+        startWithMobile = false
+    )
     HFNCheckinsTheme() {
         Scaffold() {
             EmailWithMobileOrEmailScreen(
                 modifier = Modifier
                     .padding(it)
                     .padding(8.dp),
-                emailOrMobileCheckin = emailOrCheckin,
+                checkinWithMobileOrEmailViewModel = checkinWithMobileOrEmailViewModel,
                 onClickCheckin = {},
                 onClickCancel = {},
-                onChange = {
-                    emailOrCheckin = validateAndUpdate(it)
-                }
             )
         }
     }

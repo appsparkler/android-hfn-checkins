@@ -42,7 +42,7 @@ fun QRCheckinScreen(
                 isCheckinValid = qrCheckinviewModel.isValid(),
                 onClickCancel = onClickCancel,
                 onClickCheckin = {
-                    onClickCheckin(qrCheckins)
+                    onClickCheckin(qrCheckinviewModel.getCheckedInItems())
                 }
             )
         }

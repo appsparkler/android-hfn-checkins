@@ -20,6 +20,10 @@ class QRCheckinScreenViewModel:ViewModel() {
         }
     }
 
+    fun getCheckedInItems():List<QRCodeCheckinInfo>{
+        return uiState.value.filter { it.checkin }
+    }
+
     fun update(
         updatedQRCheckinItem: QRCodeCheckinInfo,
     ) {

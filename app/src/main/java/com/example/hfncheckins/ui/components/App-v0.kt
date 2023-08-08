@@ -37,7 +37,7 @@ enum class Routes {
 }
 
 @Composable
-fun App(
+fun AppWithNav(
     modifier: Modifier = Modifier,
     appViewModel: AppViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
@@ -306,5 +306,5 @@ private fun startAbhyasiidCheckin(
 @Preview
 @Composable
 fun AppV0Preview() {
-    App()
+    AppWithNav()
 }

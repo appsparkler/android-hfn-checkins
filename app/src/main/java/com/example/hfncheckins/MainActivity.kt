@@ -7,17 +7,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.hfncheckins.codescanner.LiveBarcodeScanningActivity
 import com.example.hfncheckins.codescanner.Utils
-import com.example.hfncheckins.data.sample.getSampleEvent
-import com.example.hfncheckins.ui.components.App
-import com.example.hfncheckins.ui.hfnTheme.HFNTheme
-import com.example.hfncheckins.ui.components.MainScreen.MainScreen
+import com.example.hfncheckins.ui.components.AppWithCodeScannerAndRouter
 import com.example.hfncheckins.ui.components.Routes
 import com.example.hfncheckins.utils.isValidAbhyasiId
 import com.google.firebase.auth.ktx.auth
@@ -60,36 +53,7 @@ class MainActivity : ComponentActivity() {
         val context = this
 
         setContent {
-            val startCodeScannerActivity = rememberLauncherForActivityResult(
-                contract = ActivityResultContracts.StartActivityForResult()
-            ) { result ->
-                // Handle the result, if needed
-            }
-//            App(
-//                onClickScan = {
-//                    navController = it
-//                    val intent = Intent(context, LiveBarcodeScanningActivity::class.java)
-//                    context.startActivityForResult(intent, REQUEST_CODE_SCAN)
-//                },
-//                onCheckinWithAbhyasiId = {
-//                    navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}?code=$it")
-//                }
-//            )
-//            HFNTheme {
-//                Scaffold {
-//                    MainScreen(
-//                        modifier = Modifier
-//                            .padding(it)
-//                            .padding(12.dp),
-//                        event = getSampleEvent(),
-//                        onStartCheckin = {},
-//                        onClickScan =  {
-//                            val intent = Intent(context, LiveBarcodeScanningActivity::class.java)
-//                            context.startActivity(intent)
-//                        }
-//                    )
-//                }
-//            }
+                AppWithCodeScannerAndRouter()
         }
     }
 }

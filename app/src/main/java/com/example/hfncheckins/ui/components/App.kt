@@ -5,19 +5,12 @@ import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,13 +34,12 @@ import com.example.hfncheckins.ui.components.MainScreen.MainScreen
 import com.example.hfncheckins.ui.components.QRCheckinScreen.QRCheckinScreen
 import com.example.hfncheckins.ui.components.QRCheckinScreen.QRCheckinScreenViewModel
 import com.example.hfncheckins.utils.isValidAbhyasiId
-import com.example.hfncheckins.utils.isValidPhoneNumber
 import com.example.hfncheckins.viewModel.AbhyasiIdCheckin
 import com.example.hfncheckins.viewModel.InputValueType
 import com.example.hfncheckins.viewModel.QRCodeCheckin
 
 @Composable
-fun App(
+fun AppWithNav(
   modifier: Modifier = Modifier,
   navController: NavHostController = rememberNavController(),
   onClickScan: () -> Unit,
@@ -201,7 +193,7 @@ private const val SCAN_RESULT_KEY = "SCAN_RESULT_KEY"
 
 @Preview
 @Composable
-fun AppPreview() {
+fun AppWithCodeScannerAndRouter() {
   var navController: NavHostController = rememberNavController()
   val context = LocalContext.current
   if (!Utils.allPermissionsGranted(context)) {
@@ -225,7 +217,7 @@ fun AppPreview() {
     Scaffold(
       containerColor = MaterialTheme.colorScheme.background
     ) {paddingValues ->
-      App(
+      AppWithNav(
         modifier = Modifier
           .padding(paddingValues)
           .padding(horizontal =  18.dp),
@@ -260,7 +252,6 @@ fun isValidQRCode(resultData: String): Boolean {
   val orderId = columnsInFirstRow[2]
   val pnrRegex = "[A-Z]{2}-[A-Z]{4}-[A-Z]{4}".toRegex()
   val isValidPnr = pnr.matches(pnrRegex)
-  val isValid = isValidPnr && firstRowHas3Columns && orderId.isNotEmpty() && eventTitle.isNotEmpty()
 //  line items
   val listOfCheckins = rows.subList(1, rows.size).toList()
   val refinedListOfCheckins = listOfCheckins.filter {
@@ -285,6 +276,12 @@ fun isValidQRCode(resultData: String): Boolean {
       berthPreference = columns[4],
     )
   }
+  val hasAtleastOneCheckin = parsedListOfCheckins.isNotEmpty()
+  val isValid = isValidPnr &&
+          firstRowHas3Columns &&
+          orderId.isNotEmpty() &&
+          eventTitle.isNotEmpty() &&
+          hasAtleastOneCheckin
   return isValid;
 }
 

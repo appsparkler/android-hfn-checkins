@@ -19,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.hfncheckins.data.sample.getSampleEvent
 import com.example.hfncheckins.ui.components.AbhyasiIdCheckinScreen.AbhyasiIdCheckinScreen
+import com.example.hfncheckins.ui.components.AbhyasiIdCheckinScreen.AbhyasiIdCheckinViewModel
 import com.example.hfncheckins.ui.components.CheckinSuccessScreen.CheckinSuccessScreen
 import com.example.hfncheckins.ui.components.MainScreen.MainScreen
 import com.example.hfncheckins.viewModel.AbhyasiIdCheckin
@@ -61,24 +62,15 @@ fun App(
                 ) {
                     it.arguments?.getString("code")?.let {
                         if (it.isNotEmpty()) {
-                            var abhyasiIdCheckin by remember {
-                                mutableStateOf(
-                                    AbhyasiIdCheckin(
-                                        abhyasiId = it,
-                                        dormAndBerthAllocation = "",
-                                        timestamp = System.currentTimeMillis()
-                                    )
-                                )
-                            }
+                            var abhyasiIdCheckinViewModel = AbhyasiIdCheckinViewModel()
+                            abhyasiIdCheckinViewModel.update(
+                                abhyasiId = it,
+                            )
                             AbhyasiIdCheckinScreen(
-                                abhyasiIdCheckin = abhyasiIdCheckin,
+                                abhyasiIdCheckinViewModel = abhyasiIdCheckinViewModel,
                                 onClickCheckin = {
                                     navController.navigate(
                                         Routes.CHECKIN_SUCCESS_SCREEN.name
-                                    )
-                                    abhyasiIdCheckin = abhyasiIdCheckin.copy(
-                                        abhyasiId = "",
-                                        dormAndBerthAllocation = "",
                                     )
                                 },
                                 onClickCancel = {
@@ -87,11 +79,6 @@ fun App(
                                     )
                                     navController.enableOnBackPressed(enabled = false)
                                 },
-                                onChangeDormAndBerthAllocation = {
-                                    abhyasiIdCheckin = abhyasiIdCheckin.copy(
-                                        dormAndBerthAllocation = it
-                                    )
-                                }
                             )
                         } else {
                             Text("Something else")

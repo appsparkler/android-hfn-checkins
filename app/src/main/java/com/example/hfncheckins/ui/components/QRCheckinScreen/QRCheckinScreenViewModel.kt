@@ -28,7 +28,7 @@ class QRCheckinScreenViewModel:ViewModel() {
         updatedQRCheckinItem: QRCodeCheckin,
     ) {
         val qrCheckins = _uiState.value.map { qrCheckinItem ->
-                        if (updatedQRCheckinItem.regId === qrCheckinItem.regId) updatedQRCheckinItem
+                        if (updatedQRCheckinItem.regId == qrCheckinItem.regId) updatedQRCheckinItem
                         else qrCheckinItem
                     }
         _uiState.update {

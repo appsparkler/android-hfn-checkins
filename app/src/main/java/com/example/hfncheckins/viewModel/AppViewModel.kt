@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.update
 //    val orderId: String
 //}
 
-data class QRCodeCheckinInfo(
+data class QRCodeCheckin(
     val eventName: String,
     val regId: String,
     val abhyasiId: String,

@@ -53,8 +53,7 @@ fun AbhyasiIdCheckinScreen(
         )
         ElevatedCard(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+                .fillMaxWidth(),
             colors = CardDefaults.elevatedCardColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer
             )

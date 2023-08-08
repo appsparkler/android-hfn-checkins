@@ -14,13 +14,13 @@ import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
 import com.example.hfncheckins.ui.components.common.CustomLazyColumn
 import com.example.hfncheckins.ui.components.common.Heading
 import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
-import com.example.hfncheckins.viewModel.QRCodeCheckinInfo
+import com.example.hfncheckins.viewModel.QRCodeCheckin
 
 @Composable
 fun QRCheckinScreen(
     modifier: Modifier = Modifier,
     qrCheckinviewModel: QRCheckinScreenViewModel = viewModel(),
-    onClickCheckin: (List<QRCodeCheckinInfo>) -> Unit,
+    onClickCheckin: (List<QRCodeCheckin>) -> Unit,
     onClickCancel: () -> Unit,
 ) {
     val qrCheckins by qrCheckinviewModel.uiState.collectAsState()
@@ -55,7 +55,7 @@ fun QRCheckinScreenPreview() {
     val qrCheckinScreenViewModel = QRCheckinScreenViewModel()
 
     var qrCheckinItems = listOf(
-        QRCodeCheckinInfo(
+        QRCodeCheckin(
             checkin = false,
             orderId = "23433",
             fullName = "James Allen",
@@ -68,7 +68,7 @@ fun QRCheckinScreenPreview() {
             timestamp = 0,
             dormAndBerthAllocation = ""
         ),
-        QRCodeCheckinInfo(
+        QRCodeCheckin(
             checkin = false,
             orderId = "23433",
             fullName = "Warren Buffet",
@@ -81,7 +81,7 @@ fun QRCheckinScreenPreview() {
             timestamp = 0,
             dormAndBerthAllocation = ""
         ),
-        QRCodeCheckinInfo(
+        QRCodeCheckin(
             checkin = false,
             orderId = "23433",
             fullName = "Gaur Gopal Das",

@@ -305,6 +305,6 @@ private fun startAbhyasiidCheckin(
 
 @Preview
 @Composable
-fun AppPreview() {
+fun AppV0Preview() {
     App()
 }

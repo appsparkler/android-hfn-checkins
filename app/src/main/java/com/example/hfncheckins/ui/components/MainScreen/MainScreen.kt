@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.example.hfncheckins.data.sample.getSampleEvent
 import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.model.HFNEvent
+import com.example.hfncheckins.ui.components.common.VerticalSpacer12Dp
 import com.example.hfncheckins.viewModel.InputValueType
 
 @Composable
@@ -40,6 +41,7 @@ fun MainScreen(
         ) {
             ScanButton(onClick = onClickScan)
         }
+        VerticalSpacer12Dp()
     }
 }
 

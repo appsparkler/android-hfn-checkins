@@ -1,8 +1,11 @@
 package com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen
 
+import android.widget.Space
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CardDefaults
@@ -65,6 +68,7 @@ fun EmailWithMobileOrEmailScreen(
         modifier = modifier
     ) {
         item {
+            Spacer(modifier = Modifier.fillMaxWidth().height(12.dp))
             Heading(
                 heading = "Checkin with \n Email or Mobile"
             )
@@ -181,6 +185,7 @@ fun EmailWithMobileOrEmailScreen(
                     onClickCheckin(emailOrMobileCheckin)
                 }
             )
+            Spacer(modifier = Modifier.fillMaxWidth().height(12.dp))
         }
     }
 }

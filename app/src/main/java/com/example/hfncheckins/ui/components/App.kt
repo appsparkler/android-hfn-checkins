@@ -38,6 +38,8 @@ import com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen.Chec
 import com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen.EmailOrMobileCheckin
 import com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen.EmailWithMobileOrEmailScreen
 import com.example.hfncheckins.ui.components.MainScreen.MainScreen
+import com.example.hfncheckins.ui.components.QRCheckinScreen.QRCheckinScreen
+import com.example.hfncheckins.ui.components.QRCheckinScreen.QRCheckinScreenViewModel
 import com.example.hfncheckins.utils.isValidAbhyasiId
 import com.example.hfncheckins.utils.isValidPhoneNumber
 import com.example.hfncheckins.viewModel.AbhyasiIdCheckin
@@ -161,6 +163,29 @@ fun App(
       }
     }
     composable(
+      route = "${Routes.QR_CHECKIN_DETAIL_SCREEN}/{code}",
+      arguments = listOf(
+        navArgument(name="code") {
+          type = NavType.StringType
+        }
+      )
+    ) {
+      it.arguments?.getString( "code")?.let{code ->
+        val qrCheckinViewModel = QRCheckinScreenViewModel()
+        qrCheckinViewModel.setupList(getListOfQRCheckins(code))
+        QRCheckinScreen(
+          qrCheckinviewModel = qrCheckinViewModel,
+          onClickCheckin = {
+            it.forEach(onCheckinWithQRCode)
+            navigateToSuccessScreen()
+          },
+          onClickCancel = {
+            navigateToMainScreen()
+          }
+        )
+      }
+    }
+    composable(
       route = Routes.CHECKIN_SUCCESS_SCREEN.name
     ) {
       CheckinSuccessScreen(
@@ -191,7 +216,7 @@ fun AppPreview() {
       if (isValidAbhyasiId(resultData)) {
         navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}?code=$resultData")
       } else if (isValidQRCode(resultData)) {
-        navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}?code=$resultData")
+        navController.navigate("${Routes.QR_CHECKIN_DETAIL_SCREEN.name}/$resultData")
       }
     }
   }
@@ -225,5 +250,79 @@ fun AppPreview() {
 }
 
 fun isValidQRCode(resultData: String): Boolean {
-  return true
+//  paid accomodation example: 96th Birth Anniversary of Pujya Shri Chariji Maharaj|ME-ICJN-MHVQ|24999;4e0a5913-b77d-4c2f-a4fd-d4554e930ecf|INKKAD166|K. KAILASAM|SouthS2-GF-NonAC|LB;
+  val rows = resultData.split(";")
+  val firstRow = rows[0]
+  val columnsInFirstRow = firstRow.split("|")
+  val firstRowHas3Columns = columnsInFirstRow.size == 3
+  val eventTitle = columnsInFirstRow[0]
+  val pnr = columnsInFirstRow[1]
+  val orderId = columnsInFirstRow[2]
+  val pnrRegex = "[A-Z]{2}-[A-Z]{4}-[A-Z]{4}".toRegex()
+  val isValidPnr = pnr.matches(pnrRegex)
+  val isValid = isValidPnr && firstRowHas3Columns && orderId.isNotEmpty() && eventTitle.isNotEmpty()
+//  line items
+  val listOfCheckins = rows.subList(1, rows.size).toList()
+  val refinedListOfCheckins = listOfCheckins.filter {
+    it.replace("\n", "").isNotEmpty()
+  }
+  val parsedListOfCheckins = refinedListOfCheckins.map {
+    val refinedIt = it.replace("\n", "")
+    val columns = refinedIt.split("|")
+    QRCodeCheckin(
+      dormAndBerthAllocation = "",
+      checkin = false,
+      timestamp = 0,
+      pnr = pnr,
+      eventName = eventTitle,
+      orderId = orderId,
+
+//      checkin-user specific data
+      regId = columns[0],
+      abhyasiId = columns[1],
+      fullName = columns[2],
+      dormPreference = columns[3],
+      berthPreference = columns[4],
+    )
+  }
+  return isValid;
+}
+
+fun getListOfQRCheckins(resultData: String):List<QRCodeCheckin> {
+  //  paid accomodation example: 96th Birth Anniversary of Pujya Shri Chariji Maharaj|ME-ICJN-MHVQ|24999;4e0a5913-b77d-4c2f-a4fd-d4554e930ecf|INKKAD166|K. KAILASAM|SouthS2-GF-NonAC|LB;
+  val rows = resultData.split(";")
+  val firstRow = rows[0]
+  val columnsInFirstRow = firstRow.split("|")
+  val firstRowHas3Columns = columnsInFirstRow.size == 3
+  val eventTitle = columnsInFirstRow[0]
+  val pnr = columnsInFirstRow[1]
+  val orderId = columnsInFirstRow[2]
+  val pnrRegex = "[A-Z]{2}-[A-Z]{4}-[A-Z]{4}".toRegex()
+  val isValidPnr = pnr.matches(pnrRegex)
+  val isValid = isValidPnr && firstRowHas3Columns && orderId.isNotEmpty() && eventTitle.isNotEmpty()
+//  line items
+  val listOfCheckins = rows.subList(1, rows.size).toList()
+  val refinedListOfCheckins = listOfCheckins.filter {
+    it.replace("\n", "").isNotEmpty()
+  }
+  val parsedListOfCheckins = refinedListOfCheckins.map {
+    val refinedIt = it.replace("\n", "")
+    val columns = refinedIt.split("|")
+    QRCodeCheckin(
+      dormAndBerthAllocation = "",
+      checkin = false,
+      timestamp = 0,
+      pnr = pnr,
+      eventName = eventTitle,
+      orderId = orderId,
+
+//      checkin-user specific data
+      regId = columns[0],
+      abhyasiId = columns[1],
+      fullName = columns[2],
+      dormPreference = columns[3],
+      berthPreference = columns[4],
+    )
+  }
+  return parsedListOfCheckins
 }

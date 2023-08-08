@@ -10,12 +10,14 @@ import androidx.compose.ui.unit.dp
 import com.example.hfncheckins.data.sample.getSampleEvent
 import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.model.HFNEvent
+import com.example.hfncheckins.ui.components.common.VerticalSpacer12Dp
+import com.example.hfncheckins.viewModel.InputValueType
 
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
     event: HFNEvent,
-    onStartCheckin: (String) -> Unit,
+    onStartCheckin: (String, InputValueType) -> Unit,
     onClickScan: () -> Unit
 ) {
     Column(
@@ -39,6 +41,7 @@ fun MainScreen(
         ) {
             ScanButton(onClick = onClickScan)
         }
+        VerticalSpacer12Dp()
     }
 }
 
@@ -51,10 +54,13 @@ fun MainScreenPreview() {
     HFNTheme() {
         Scaffold {
             MainScreen(
-                modifier = Modifier.padding(it)
+                modifier = Modifier
+                    .padding(it)
                     .padding(12.dp),
                 event = getSampleEvent(),
-                onStartCheckin = {},
+                onStartCheckin = { inputValue, type ->
+
+                },
                 onClickScan = {}
             )
         }

@@ -24,6 +24,7 @@ import com.example.hfncheckins.model.HFNEvent
 import com.example.hfncheckins.utils.isEmailValid
 import com.example.hfncheckins.utils.isValidAbhyasiId
 import com.example.hfncheckins.utils.isValidPhoneNumber
+import com.example.hfncheckins.viewModel.InputValueType
 import com.example.hfncheckins.viewModel.SeekerInfoFieldViewModel
 
 @Composable
@@ -31,7 +32,7 @@ fun SeekerInfoField(
     modifier: Modifier = Modifier,
     seekerInfoFieldViewModel: SeekerInfoFieldViewModel = viewModel(),
     hfnEvent: HFNEvent,
-    onStartCheckin: (String) -> Unit
+    onStartCheckin: (String, InputValueType) -> Unit
 ) {
     val seekerInfoUiState by seekerInfoFieldViewModel.uiState.collectAsState()
     ElevatedCard(
@@ -72,7 +73,7 @@ fun SeekerInfoField(
                     },
                     keyboardActions = KeyboardActions(
                         onGo = {
-                            onStartCheckin(seekerInfoUiState.value)
+                            onStartCheckin(seekerInfoUiState.value, seekerInfoUiState.type!!)
                         }
                     ),
                     keyboardOptions = KeyboardOptions(
@@ -85,9 +86,9 @@ fun SeekerInfoField(
                 )
             }
 
-            ElevatedButton(
+            Button(
                 onClick = {
-                    onStartCheckin(seekerInfoUiState.value)
+                    onStartCheckin(seekerInfoUiState.value, seekerInfoUiState.type!!)
                 },
                 enabled = seekerInfoUiState.isValid,
             ) {
@@ -113,7 +114,9 @@ fun SeekerInfoFieldPreview() {
                     .padding(it)
                     .padding(12.dp),
                 hfnEvent = getSampleEvent(),
-                onStartCheckin = {}
+                onStartCheckin = {inputValue, type ->
+
+                }
             )
         }
     }

@@ -3,6 +3,7 @@ package com.example.hfncheckins.ui.components.AbhyasiIdCheckinScreen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,32 +14,40 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
+import com.example.hfncheckins.ui.components.common.VerticalSpacer12Dp
 import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
 import com.example.hfncheckins.viewModel.AbhyasiIdCheckin
 
 @Composable
 fun AbhyasiIdCheckinScreen(
-    abhyasiIdCheckin: AbhyasiIdCheckin,
+    abhyasiIdCheckinViewModel: AbhyasiIdCheckinViewModel = viewModel(),
     modifier: Modifier = Modifier,
-    onClickCheckin: () -> Unit,
+    onClickCheckin: (
+        abhyasiIdCheckin: AbhyasiIdCheckin
+    ) -> Unit,
     onClickCancel: () -> Unit,
-    onChangeDormAndBerthAllocation: (String) -> Unit
 ) {
+    val abhyasiIdCheckin by abhyasiIdCheckinViewModel.uiState.collectAsState()
     Column(
-        modifier = modifier.fillMaxSize()
-            .padding(top=100.dp),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(top = 100.dp),
         verticalArrangement = Arrangement.spacedBy(
             12.dp,
         ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        VerticalSpacer12Dp()
         Text(
             modifier = Modifier,
             text = "Checkin With \n Abhyasi ID",
@@ -46,15 +55,14 @@ fun AbhyasiIdCheckinScreen(
             textAlign = TextAlign.Center
         )
         ElevatedCard(
-            modifier= Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+            modifier = Modifier
+                .fillMaxWidth(),
             colors = CardDefaults.elevatedCardColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer
             )
         ) {
             Column(
-                modifier= Modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(
@@ -74,7 +82,11 @@ fun AbhyasiIdCheckinScreen(
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
                     value = abhyasiIdCheckin.dormAndBerthAllocation,
-                    onValueChange = onChangeDormAndBerthAllocation,
+                    onValueChange = {
+                        abhyasiIdCheckinViewModel.update(
+                            dormAndBerthAllocation = it
+                        )
+                    },
                     label = {
                         Text(text = "Dorm and Berth Allocation:")
                     }
@@ -82,7 +94,11 @@ fun AbhyasiIdCheckinScreen(
                 CheckinAndCancelButtons(
                     isCheckinValid = true,
                     onClickCancel = onClickCancel,
-                    onClickCheckin = onClickCheckin
+                    onClickCheckin = {
+                        onClickCheckin(
+                            abhyasiIdCheckin
+                        )
+                    }
                 )
             }
         }
@@ -92,19 +108,19 @@ fun AbhyasiIdCheckinScreen(
 @Preview
 @Composable
 fun AbhyasiIdCheckinScreenPreview() {
+    val abhyasiIdCheckinViewModel = AbhyasiIdCheckinViewModel()
+    abhyasiIdCheckinViewModel.update(
+        abhyasiId = "INUEQS228",
+    )
     HFNCheckinsTheme {
         Scaffold {
             AbhyasiIdCheckinScreen(
                 modifier = Modifier.padding(it),
-                onClickCheckin = {},
-                onClickCancel = {},
-                onChangeDormAndBerthAllocation = {
+                onClickCheckin = {
 
                 },
-                abhyasiIdCheckin = AbhyasiIdCheckin(
-                    abhyasiId = "INAAAE282",
-                    dormAndBerthAllocation = "B1"
-                )
+                onClickCancel = {},
+                abhyasiIdCheckinViewModel = abhyasiIdCheckinViewModel
             )
         }
     }

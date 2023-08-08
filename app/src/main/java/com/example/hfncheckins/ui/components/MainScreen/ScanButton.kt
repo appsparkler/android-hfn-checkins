@@ -18,7 +18,7 @@ fun ScanButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    FloatingActionButton(
+    Button(
         modifier = modifier,
         onClick = onClick
     ) {

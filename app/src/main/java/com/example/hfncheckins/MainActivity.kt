@@ -24,7 +24,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-
 val TAG = "MainActivity"
 class MainActivity : ComponentActivity() {
     lateinit var navController:NavHostController
@@ -66,13 +65,16 @@ class MainActivity : ComponentActivity() {
             ) { result ->
                 // Handle the result, if needed
             }
-            App(
-                onClickScan = {
-                    navController = it
-                    val intent = Intent(context, LiveBarcodeScanningActivity::class.java)
-                    context.startActivityForResult(intent, REQUEST_CODE_SCAN)
-                }
-            )
+//            App(
+//                onClickScan = {
+//                    navController = it
+//                    val intent = Intent(context, LiveBarcodeScanningActivity::class.java)
+//                    context.startActivityForResult(intent, REQUEST_CODE_SCAN)
+//                },
+//                onCheckinWithAbhyasiId = {
+//                    navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}?code=$it")
+//                }
+//            )
 //            HFNTheme {
 //                Scaffold {
 //                    MainScreen(

@@ -61,7 +61,7 @@ fun App(
                 composable(Routes.MAIN_SCREEN.name) {
                     MainScreen(
                         event = event,
-                        onStartCheckin = {
+                        onStartCheckin = { it, type ->
                             handleClickStartCheckin(
                                 it,
                                 event,
@@ -305,6 +305,6 @@ private fun startAbhyasiidCheckin(
 
 @Preview
 @Composable
-fun AppPreview() {
+fun AppV0Preview() {
     App()
 }

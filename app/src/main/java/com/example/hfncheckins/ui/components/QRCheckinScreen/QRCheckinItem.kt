@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
-import com.example.hfncheckins.viewModel.QRCodeCheckinInfo
+import com.example.hfncheckins.viewModel.QRCodeCheckin
 
 @Composable
 fun FieldData(
@@ -44,8 +44,8 @@ fun FieldData(
 @Composable
 fun QRCheckinItem(
     modifier: Modifier = Modifier,
-    checkinInfo: QRCodeCheckinInfo,
-    onChange: (QRCodeCheckinInfo) -> Unit
+    checkinInfo: QRCodeCheckin,
+    onChange: (QRCodeCheckin) -> Unit
 ) {
     val cardContainerColor = if (checkinInfo.checkin) MaterialTheme.colorScheme.primaryContainer
     else MaterialTheme.colorScheme.surfaceContainer
@@ -133,7 +133,7 @@ fun QRCheckinItemPreview() {
                            Toast.makeText(context, it.checkin.toString(), Toast.LENGTH_SHORT)
                                .show()
                 },
-                checkinInfo = QRCodeCheckinInfo(
+                checkinInfo = QRCodeCheckin(
                     abhyasiId = "INWWI281",
                     berthPreference = "LB",
                     dormPreference = "East Comfort Dorm",

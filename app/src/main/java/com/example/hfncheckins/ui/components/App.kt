@@ -208,7 +208,6 @@ fun AppWithCodeScannerAndRouter() {
   ) {
     if (it.resultCode == RESULT_OK) {
       val resultData = it.data?.getStringExtra(SCAN_RESULT_KEY).toString()
-      resultData
       if (isValidAbhyasiId(resultData)) {
         navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}?code=$resultData")
       } else if (isQRValid(resultData)) {

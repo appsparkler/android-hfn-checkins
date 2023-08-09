@@ -1,6 +1,7 @@
 package com.example.hfncheckins.utils
 
 import com.example.hfncheckins.model.EventOrderGeneralDetails
+import com.example.hfncheckins.model.QRType
 import com.example.hfncheckins.viewModel.QRCodeCheckin
 
 fun isQRValid(value: String):Boolean {
@@ -30,8 +31,8 @@ fun getQRCheckins(value: String):List<QRCodeCheckin> {
         regId = columns[0],
         abhyasiId = columns[1],
         fullName = columns[2],
-        dormPreference = columns[3],
-        berthPreference = columns[4],
+        dormPreference = columns.getOrNull(3) ?: "",
+        berthPreference = columns.getOrNull(4) ?: "",
 //    default value
         checkin = false,
         timestamp = 0,
@@ -54,4 +55,23 @@ fun getGeneralDetails(value: String): EventOrderGeneralDetails {
     pnr = columnsInFirstRow[1],
     orderId = columnsInFirstRow[2]
   )
+}
+
+fun getQRType(code: String): QRType {
+  val refinedValue = code.replace("\n", "")
+  val rows = refinedValue.split(";")
+  val firstRow = rows[0]
+  val columnsInFirstRow = firstRow.split("|").map({
+    it.trim()
+  })
+  val isPNR: (String) -> Boolean = {
+    it.matches("[A-Z]{2}-[A-Z]{4}-[A-Z]{4}".toRegex())
+  }
+  if(isPNR(columnsInFirstRow[1])){
+    return QRType.PAID_ACCOMODATION
+  }
+  if(isPNR(columnsInFirstRow[2])){
+    return QRType.OWN_ACCOMODATION
+  }
+  return QRType.NONE
 }

@@ -48,12 +48,20 @@ fun getQRCheckins(value: String):List<QRCodeCheckin> {
 
 fun getGeneralDetails(value: String): EventOrderGeneralDetails {
   val rows = value.split(";")
+  val qrType = getQRType(value)
   val firstRow = rows[0]
   val columnsInFirstRow = firstRow.split("|")
+  if(qrType == QRType.PAID_ACCOMODATION){
+    return EventOrderGeneralDetails(
+      eventTitle = columnsInFirstRow[0].trim(),
+      pnr = columnsInFirstRow[1].trim(),
+      orderId = columnsInFirstRow[2].trim()
+    )
+  }
   return EventOrderGeneralDetails(
-    eventTitle = columnsInFirstRow[0],
-    pnr = columnsInFirstRow[1],
-    orderId = columnsInFirstRow[2]
+    eventTitle = columnsInFirstRow[0].trim(),
+    orderId = columnsInFirstRow[1].trim(),
+    pnr = columnsInFirstRow[2].trim(),
   )
 }
 

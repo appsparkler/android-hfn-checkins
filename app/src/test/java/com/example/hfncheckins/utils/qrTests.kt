@@ -17,7 +17,7 @@ class qrTests {
 
   @Test
   fun test_isValidQRCode() {
-    assertEquals(true, isValid(paidQR))
+    assertEquals(true, isQRValid(paidQR))
   }
 
   @Test

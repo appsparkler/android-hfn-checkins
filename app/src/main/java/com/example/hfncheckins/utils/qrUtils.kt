@@ -3,7 +3,7 @@ package com.example.hfncheckins.utils
 import com.example.hfncheckins.model.EventOrderGeneralDetails
 import com.example.hfncheckins.viewModel.QRCodeCheckin
 
-fun isValid(value: String):Boolean {
+fun isQRValid(value: String):Boolean {
   val refinedValue = value.replace("\n", "")
   val generalDetails = getGeneralDetails(refinedValue)
   val isValidEventTitle = generalDetails.eventTitle.isNotEmpty()
@@ -14,7 +14,8 @@ fun isValid(value: String):Boolean {
   return isValid
 }
 
-fun getQRCheckins(refinedValue: String):List<QRCodeCheckin> {
+fun getQRCheckins(value: String):List<QRCodeCheckin> {
+  val refinedValue = value.replace("\n", "")
   val generalDetails = getGeneralDetails(refinedValue)
   val rows = refinedValue.split(";")
   val checkinRows = rows.subList(1, rows.size).toList()

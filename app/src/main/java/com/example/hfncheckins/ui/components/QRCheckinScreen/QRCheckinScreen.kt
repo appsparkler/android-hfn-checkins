@@ -13,7 +13,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
 import com.example.hfncheckins.ui.components.common.CustomLazyColumn
 import com.example.hfncheckins.ui.components.common.Heading
-import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
+import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.viewModel.QRCodeCheckin
 
 @Composable
@@ -54,7 +54,7 @@ fun QRCheckinScreen(
 fun QRCheckinScreenPreview() {
     val qrCheckinScreenViewModel = QRCheckinScreenViewModel()
 
-    var qrCheckinItems = listOf(
+    val qrCheckinItems = listOf(
         QRCodeCheckin(
             checkin = false,
             orderId = "23433",
@@ -96,7 +96,7 @@ fun QRCheckinScreenPreview() {
         )
     )
     qrCheckinScreenViewModel.setupList(qrCheckinItems)
-    HFNCheckinsTheme {
+    HFNTheme {
         Scaffold {
             QRCheckinScreen(
                 modifier = Modifier

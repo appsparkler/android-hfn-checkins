@@ -31,14 +31,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.example.hfncheckins.R
-import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
+import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 
 @Composable
 fun SelectField(
     modifier: Modifier = Modifier,
     label: String,
     options: List<String>,
-    onChange: (String)->Unit,
+    onChange: (String)-> Unit,
     value: String,
 ) {
     var menuExpanded by remember {
@@ -46,7 +46,6 @@ fun SelectField(
     }
     val scrollState = rememberScrollState()
     Column(modifier = modifier) {
-        val colors = OutlinedTextFieldDefaults.colors()
         OutlinedTextField(
             value = value,
             colors = OutlinedTextFieldDefaults.colors(
@@ -163,7 +162,7 @@ fun SelectFieldPreview() {
         "95-99",
         "100+"
     )
-    HFNCheckinsTheme {
+    HFNTheme {
         Scaffold { padding ->
             ElevatedCard(
                 modifier = Modifier

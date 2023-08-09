@@ -4,14 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.*
 import androidx.navigation.NavHostController
 import com.example.hfncheckins.codescanner.Utils
 import com.example.hfncheckins.ui.components.AppWithCodeScannerAndRouter
-import com.example.hfncheckins.ui.components.Routes
+import com.example.hfncheckins.model.Routes
 import com.example.hfncheckins.utils.isValidAbhyasiId
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore

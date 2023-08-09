@@ -3,7 +3,6 @@ package com.example.hfncheckins.ui.components.AbhyasiIdCheckinScreen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
 import com.example.hfncheckins.ui.components.common.VerticalSpacer12Dp
-import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
+import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.viewModel.AbhyasiIdCheckin
 
 @Composable
@@ -112,7 +111,7 @@ fun AbhyasiIdCheckinScreenPreview() {
     abhyasiIdCheckinViewModel.update(
         abhyasiId = "INUEQS228",
     )
-    HFNCheckinsTheme {
+    HFNTheme() {
         Scaffold {
             AbhyasiIdCheckinScreen(
                 modifier = Modifier.padding(it),

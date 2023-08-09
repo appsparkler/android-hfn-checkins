@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
 import com.example.hfncheckins.ui.components.common.CustomLazyColumn
 import com.example.hfncheckins.ui.components.common.Heading
-import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
+import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.utils.isEmailValid
 import com.example.hfncheckins.utils.isValidPhoneNumber
 
@@ -198,7 +198,7 @@ fun EmailWithMobileOrEmailScreenPreview() {
         email = "abc@def.com",
         startWithMobile = false
     )
-    HFNCheckinsTheme() {
+    HFNTheme() {
         Scaffold() {
             EmailWithMobileOrEmailScreen(
                 modifier = Modifier

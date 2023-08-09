@@ -34,6 +34,7 @@ import com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen.Emai
 import com.example.hfncheckins.ui.components.MainScreen.MainScreen
 import com.example.hfncheckins.ui.components.QRCheckinScreen.QRCheckinScreen
 import com.example.hfncheckins.ui.components.QRCheckinScreen.QRCheckinScreenViewModel
+import com.example.hfncheckins.model.Routes
 import com.example.hfncheckins.utils.getQRCheckins
 import com.example.hfncheckins.utils.isQRValid
 import com.example.hfncheckins.utils.isValidAbhyasiId
@@ -62,12 +63,12 @@ fun AppWithNav(
     startDestination = Routes.MAIN_SCREEN.name
   ) {
     navController.enableOnBackPressed(enabled = false)
-    val navigateToSuccessScreen:() -> Unit = {
+    val navigateToSuccessScreen: () -> Unit = {
       navController.navigate(
         Routes.CHECKIN_SUCCESS_SCREEN.name
       )
     }
-    val navigateToMainScreen:() -> Unit = {
+    val navigateToMainScreen: () -> Unit = {
       navController.navigate(
         Routes.MAIN_SCREEN.name
       )
@@ -110,8 +111,8 @@ fun AppWithNav(
             CheckinWithMobileOrEmailViewModel()
           val isMobile = type == InputValueType.PHONE_NUMBER.name
           checkWithEmailOrMobileCheckinViewModel.update(
-            email = if(type == InputValueType.EMAIL.name) emailOrPhoneNumber else "",
-            mobile = if(isMobile) emailOrPhoneNumber else "",
+            email = if (type == InputValueType.EMAIL.name) emailOrPhoneNumber else "",
+            mobile = if (isMobile) emailOrPhoneNumber else "",
             startWithMobile = isMobile
           )
           EmailWithMobileOrEmailScreen(
@@ -160,12 +161,12 @@ fun AppWithNav(
     composable(
       route = "${Routes.QR_CHECKIN_DETAIL_SCREEN}/{code}",
       arguments = listOf(
-        navArgument(name="code") {
+        navArgument(name = "code") {
           type = NavType.StringType
         }
       )
     ) {
-      it.arguments?.getString( "code")?.let{code ->
+      it.arguments?.getString("code")?.let { code ->
         val qrCheckinViewModel = QRCheckinScreenViewModel()
         val qrCheckins = getQRCheckins(code)
         qrCheckinViewModel.setupList(qrCheckins)
@@ -226,26 +227,20 @@ fun AppWithCodeScannerAndRouter() {
   HFNTheme {
     Scaffold(
       containerColor = MaterialTheme.colorScheme.background
-    ) {paddingValues ->
+    ) { paddingValues ->
       AppWithNav(
         modifier = Modifier
           .padding(paddingValues)
-          .padding(horizontal =  18.dp),
+          .padding(horizontal = 18.dp),
         navController = navController,
         onClickScan = {
           launcher.launch(
             Intent(context, LiveBarcodeScanningActivity::class.java)
           )
         },
-        onCheckinWithAbhyasiId = {
-          it
-        },
-        onCheckinWithEmailOrMobile = {
-          it
-        },
-        onCheckinWithQRCode = {
-          it
-        }
+        onCheckinWithAbhyasiId = {},
+        onCheckinWithEmailOrMobile = {},
+        onCheckinWithQRCode = {}
       )
     }
   }

@@ -17,7 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hfncheckins.R
-import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
+import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
@@ -70,7 +70,7 @@ fun CheckinSuccessScreen(
 @Preview
 @Composable
 fun CheckinSuccessScreenPreview() {
-    HFNCheckinsTheme {
+    HFNTheme() {
         Scaffold {
             CheckinSuccessScreen(
                 modifier = Modifier.padding(it),

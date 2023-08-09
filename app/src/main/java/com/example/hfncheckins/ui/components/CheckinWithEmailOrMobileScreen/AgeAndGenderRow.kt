@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
+import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 
 val ageOptions = listOf(
     "0-4",
@@ -71,7 +71,7 @@ fun AgeAndGenderRow(
 @Preview
 @Composable
 fun AgeAndGenderRowPreview() {
-    HFNCheckinsTheme() {
+    HFNTheme() {
         Scaffold {
             AgeAndGenderRow(
                 modifier = Modifier

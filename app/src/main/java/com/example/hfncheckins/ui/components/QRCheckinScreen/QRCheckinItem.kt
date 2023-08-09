@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.hfncheckins.ui.theme.HFNCheckinsTheme
+import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.viewModel.QRCodeCheckin
 
 @Composable
@@ -123,7 +123,7 @@ fun QRCheckinItem(
 fun QRCheckinItemPreview() {
     val context = LocalContext.current
 
-    HFNCheckinsTheme {
+    HFNTheme {
         Scaffold {
             QRCheckinItem(
                 modifier = Modifier

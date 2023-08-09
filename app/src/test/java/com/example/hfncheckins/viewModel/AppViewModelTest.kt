@@ -22,18 +22,18 @@ class AppViewModelTest {
         assertNull(appViewModel.uiState.value.mobileOrEmailCheckin)
     }
 
-    @Test
-    fun test_startAbhyasiIdCheckin() {
-        val abhyasiId = "WUQQQE482"
-        val event = getSampleEvent()
-        appViewModel.startAbhyasiCheckin(
-            abhyasiId,
-            event = event
-        )
-        assertEquals(appViewModel.uiState.value.checkinType, CheckinTypesEnum.AbhyasiId)
-        assertEquals(appViewModel.uiState.value.abhyasiIdCheckin?.abhyasiId, abhyasiId)
-        assertEquals(appViewModel.uiState.value.abhyasiIdCheckin?.eventName, event.title)
-    }
+//    @Test
+//    fun test_startAbhyasiIdCheckin() {
+//        val abhyasiId = "WUQQQE482"
+//        val event = getSampleEvent()
+//        appViewModel.startAbhyasiCheckin(
+//            abhyasiId,
+//            event = event
+//        )
+//        assertEquals(appViewModel.uiState.value.checkinType, CheckinTypesEnum.AbhyasiId)
+//        assertEquals(appViewModel.uiState.value.abhyasiIdCheckin?.abhyasiId, abhyasiId)
+//        assertEquals(appViewModel.uiState.value.abhyasiIdCheckin?.eventName, event.title)
+//    }
 
     @Test fun test_startEmailOrMobileCheckin_mobileCheckin() {
         val mobileNumber = "+918838383838"

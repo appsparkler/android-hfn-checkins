@@ -1,6 +1,5 @@
 package com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen
 
-import android.widget.Space
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,27 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.hfncheckins.model.EmailOrMobileCheckin
 import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
 import com.example.hfncheckins.ui.components.common.CustomLazyColumn
 import com.example.hfncheckins.ui.components.common.Heading
 import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.utils.isEmailValid
 import com.example.hfncheckins.utils.isValidPhoneNumber
-
-data class EmailOrMobileCheckin(
-    val startWithMobile: Boolean,
-    val email: String,
-    val mobile: String,
-    val fullName: String,
-    val ageGroup: String,
-    val gender: String,
-    val city: String,
-    val state: String,
-    val country: String,
-    val dormOrBerthAllocation: String,
-    val timestamp: Long,
-    val isValid: Boolean
-)
 
 @Composable
 fun EmailWithMobileOrEmailScreen(

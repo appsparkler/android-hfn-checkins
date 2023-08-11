@@ -1,6 +1,7 @@
 package com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen
 
 import androidx.lifecycle.ViewModel
+import com.example.hfncheckins.model.EmailOrMobileCheckin
 import com.example.hfncheckins.utils.isEmailValid
 import com.example.hfncheckins.utils.isValidPhoneNumber
 import kotlinx.coroutines.flow.MutableStateFlow

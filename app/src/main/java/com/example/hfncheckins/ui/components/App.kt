@@ -29,7 +29,7 @@ import com.example.hfncheckins.ui.components.AbhyasiIdCheckinScreen.AbhyasiIdChe
 import com.example.hfncheckins.ui.components.AbhyasiIdCheckinScreen.AbhyasiIdCheckinViewModel
 import com.example.hfncheckins.ui.components.CheckinSuccessScreen.CheckinSuccessScreen
 import com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen.CheckinWithMobileOrEmailViewModel
-import com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen.EmailOrMobileCheckin
+import com.example.hfncheckins.model.EmailOrMobileCheckin
 import com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen.EmailWithMobileOrEmailScreen
 import com.example.hfncheckins.ui.components.MainScreen.MainScreen
 import com.example.hfncheckins.ui.components.QRCheckinScreen.QRCheckinScreen

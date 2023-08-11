@@ -1,11 +1,13 @@
 package com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen
 
+import android.os.Handler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -16,8 +18,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,6 +33,7 @@ import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.utils.isEmailValid
 import com.example.hfncheckins.utils.isValidPhoneNumber
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun EmailWithMobileOrEmailScreen(
     modifier: Modifier = Modifier,
@@ -36,6 +41,7 @@ fun EmailWithMobileOrEmailScreen(
     onClickCheckin: (EmailOrMobileCheckin) -> Unit,
     onClickCancel: () -> Unit
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
     val emailOrMobileCheckin by checkinWithMobileOrEmailViewModel.uiState.collectAsState()
     val imeDoneAction = KeyboardOptions.Default.copy(
         imeAction = ImeAction.Done
@@ -49,6 +55,10 @@ fun EmailWithMobileOrEmailScreen(
     val optionalText = " (optional)"
     val emailLabel = "Email" + if (emailOrMobileCheckin.startWithMobile) optionalText else ""
     val mobileLabel = "Mobile" + if (!emailOrMobileCheckin.startWithMobile) optionalText else ""
+    val handleClickCheckin = {
+        keyboardController?.hide()
+        onClickCheckin(emailOrMobileCheckin)
+    }
     CustomLazyColumn(
         modifier = modifier
     ) {
@@ -157,7 +167,12 @@ fun EmailWithMobileOrEmailScreen(
                         label = {
                             Text(text = "Dorm and Berth Allocation")
                         },
-                        keyboardOptions = if (emailOrMobileCheckin.isValid) imeDoneAction else imeNoneAction
+                        keyboardOptions = if (emailOrMobileCheckin.isValid) imeDoneAction else imeNoneAction,
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                handleClickCheckin()
+                            }
+                        )
                     )
                 }
             }
@@ -167,7 +182,7 @@ fun EmailWithMobileOrEmailScreen(
                 isCheckinValid = emailOrMobileCheckin.isValid,
                 onClickCancel = onClickCancel,
                 onClickCheckin = {
-                    onClickCheckin(emailOrMobileCheckin)
+                    handleClickCheckin()
                 }
             )
             Spacer(modifier = Modifier.fillMaxWidth().height(12.dp))

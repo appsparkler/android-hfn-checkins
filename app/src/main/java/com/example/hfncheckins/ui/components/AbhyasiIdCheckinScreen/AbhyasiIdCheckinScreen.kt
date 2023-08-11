@@ -44,6 +44,10 @@ fun AbhyasiIdCheckinScreen(
 ) {
     val abhyasiIdCheckin by abhyasiIdCheckinViewModel.uiState.collectAsState()
     val localSoftwareKeyboardController = LocalSoftwareKeyboardController.current
+    val handleCheckin = {
+        localSoftwareKeyboardController?.hide()
+        onClickCheckin(abhyasiIdCheckin)
+    }
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -101,8 +105,7 @@ fun AbhyasiIdCheckinScreen(
                     },
                     keyboardActions = KeyboardActions(
                         onDone = {
-                            localSoftwareKeyboardController?.hide()
-                            onClickCheckin(abhyasiIdCheckin)
+                            handleCheckin()
                         }
                     )
                 )
@@ -110,9 +113,7 @@ fun AbhyasiIdCheckinScreen(
                     isCheckinValid = true,
                     onClickCancel = onClickCancel,
                     onClickCheckin = {
-                        onClickCheckin(
-                            abhyasiIdCheckin
-                        )
+                        handleCheckin()
                     }
                 )
             }

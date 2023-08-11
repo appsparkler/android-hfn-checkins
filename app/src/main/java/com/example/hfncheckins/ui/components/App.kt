@@ -214,7 +214,6 @@ fun AppWithCodeScannerAndRouter() {
       } else if (isQRValid(resultData)) {
         navController.navigate("${Routes.QR_CHECKIN_DETAIL_SCREEN.name}/$resultData")
       } else {
-        navController.navigate(Routes.MAIN_SCREEN.name)
         Toast.makeText(
           context,
           "Invalid QR/Barcode: $resultData",

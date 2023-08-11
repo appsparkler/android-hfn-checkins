@@ -6,13 +6,17 @@ import com.example.hfncheckins.viewModel.QRCodeCheckin
 
 fun isQRValid(value: String):Boolean {
   val refinedValue = value.replace("\n", "")
-  val generalDetails = getGeneralDetails(refinedValue)
-  val isValidEventTitle = generalDetails.eventTitle.isNotEmpty()
-  val isValidPnr = generalDetails.pnr.matches("[A-Z]{2}-[A-Z]{4}-[A-Z]{4}".toRegex())
-  val isValidOrderId = generalDetails.orderId.isNotEmpty()
-  val allCheckins = getQRCheckins(refinedValue)
-  val isValid = isValidEventTitle && isValidPnr && isValidOrderId && allCheckins.isNotEmpty()
-  return isValid
+  try {
+    val generalDetails = getGeneralDetails(refinedValue)
+    val isValidEventTitle = generalDetails.eventTitle.isNotEmpty()
+    val isValidPnr = generalDetails.pnr.matches("[A-Z]{2}-[A-Z]{4}-[A-Z]{4}".toRegex())
+    val isValidOrderId = generalDetails.orderId.isNotEmpty()
+    val allCheckins = getQRCheckins(refinedValue)
+    val isValid = isValidEventTitle && isValidPnr && isValidOrderId && allCheckins.isNotEmpty()
+    return isValid
+  } catch ( e: Exception) {
+    return false
+  }
 }
 
 fun getQRCheckins(value: String):List<QRCodeCheckin> {

@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
@@ -16,8 +18,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,6 +32,7 @@ import com.example.hfncheckins.ui.components.common.VerticalSpacer12Dp
 import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.viewModel.AbhyasiIdCheckin
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AbhyasiIdCheckinScreen(
     abhyasiIdCheckinViewModel: AbhyasiIdCheckinViewModel = viewModel(),
@@ -37,6 +43,7 @@ fun AbhyasiIdCheckinScreen(
     onClickCancel: () -> Unit,
 ) {
     val abhyasiIdCheckin by abhyasiIdCheckinViewModel.uiState.collectAsState()
+    val localSoftwareKeyboardController = LocalSoftwareKeyboardController.current
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -81,6 +88,9 @@ fun AbhyasiIdCheckinScreen(
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
                     value = abhyasiIdCheckin.dormAndBerthAllocation,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Done
+                    ),
                     onValueChange = {
                         abhyasiIdCheckinViewModel.update(
                             dormAndBerthAllocation = it
@@ -88,7 +98,13 @@ fun AbhyasiIdCheckinScreen(
                     },
                     label = {
                         Text(text = "Dorm and Berth Allocation:")
-                    }
+                    },
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            localSoftwareKeyboardController?.hide()
+                            onClickCheckin(abhyasiIdCheckin)
+                        }
+                    )
                 )
                 CheckinAndCancelButtons(
                     isCheckinValid = true,

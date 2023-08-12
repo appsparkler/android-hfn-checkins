@@ -21,6 +21,7 @@ import com.example.hfncheckins.data.sample.getSampleEvent
 import com.example.hfncheckins.data.strings
 import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.model.HFNEvent
+import com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen.SelectField
 import com.example.hfncheckins.utils.isEmailValid
 import com.example.hfncheckins.utils.isValidAbhyasiId
 import com.example.hfncheckins.utils.isValidPhoneNumber
@@ -29,73 +30,79 @@ import com.example.hfncheckins.viewModel.SeekerInfoFieldViewModel
 
 @Composable
 fun SeekerInfoField(
-    modifier: Modifier = Modifier,
-    seekerInfoFieldViewModel: SeekerInfoFieldViewModel = viewModel(),
-    hfnEvent: HFNEvent,
-    onStartCheckin: (String, InputValueType) -> Unit
+  modifier: Modifier = Modifier,
+  seekerInfoFieldViewModel: SeekerInfoFieldViewModel = viewModel(),
+  hfnEvent: HFNEvent,
+  onStartCheckin: (String, InputValueType) -> Unit
 ) {
-    val seekerInfoUiState by seekerInfoFieldViewModel.uiState.collectAsState()
-    ElevatedCard(
-        modifier = modifier,
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
-        ),
+  val seekerInfoUiState by seekerInfoFieldViewModel.uiState.collectAsState()
+  ElevatedCard(
+    modifier = modifier,
+    colors = CardDefaults.elevatedCardColors(
+      containerColor = MaterialTheme.colorScheme.primaryContainer
+    ),
+  ) {
+    Column(
+      modifier = Modifier
+        .padding(12.dp),
+      horizontalAlignment = Alignment.CenterHorizontally,
+      verticalArrangement = Arrangement
+        .spacedBy(12.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .padding(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement
-                .spacedBy(12.dp)
-        ) {
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = hfnEvent.title,
-                style = MaterialTheme.typography.displaySmall,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-            )
-            Column {
-                val imeAction = if (isValidInput(seekerInfoUiState.value)) {
-                    ImeAction.Go
-                } else {
-                    ImeAction.None
-                }
-                OutlinedTextField(
-                    modifier = Modifier
-                        .testTag(strings.tag_seeker_input),
-                    value = seekerInfoUiState.value,
-                    onValueChange = {
-                        seekerInfoFieldViewModel.updateValue(it)
-                    },
-                    label = {
-                        Text(text = strings.pleaseEnterInfo)
-                    },
-                    keyboardActions = KeyboardActions(
-                        onGo = {
-                            onStartCheckin(seekerInfoUiState.value, seekerInfoUiState.type!!)
-                        }
-                    ),
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = imeAction,
-                    )
-                )
-                Text(
-                    text = strings.inputInstructions,
-                    style = MaterialTheme.typography.labelSmall
-                )
-            }
-
-            Button(
-                onClick = {
-                    onStartCheckin(seekerInfoUiState.value, seekerInfoUiState.type!!)
-                },
-                enabled = seekerInfoUiState.isValid,
-            ) {
-                Text(text = strings.startCheckin)
-            }
+      Text(
+        modifier = Modifier.fillMaxWidth(),
+        text = hfnEvent.title,
+        style = MaterialTheme.typography.displaySmall,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center,
+      )
+      Column {
+        val imeAction = if (isValidInput(seekerInfoUiState.value)) {
+          ImeAction.Go
+        } else {
+          ImeAction.None
         }
+        SelectField(
+          label = "Batch",
+          options = listOf("batch1, batch2, batch1,batch2"),
+          onChange = {},
+          value = "batch1,batch2"
+        )
+        OutlinedTextField(
+          modifier = Modifier
+            .testTag(strings.tag_seeker_input),
+          value = seekerInfoUiState.value,
+          onValueChange = {
+            seekerInfoFieldViewModel.updateValue(it)
+          },
+          label = {
+            Text(text = strings.pleaseEnterInfo)
+          },
+          keyboardActions = KeyboardActions(
+            onGo = {
+              onStartCheckin(seekerInfoUiState.value, seekerInfoUiState.type!!)
+            }
+          ),
+          keyboardOptions = KeyboardOptions(
+            imeAction = imeAction,
+          )
+        )
+        Text(
+          text = strings.inputInstructions,
+          style = MaterialTheme.typography.labelSmall
+        )
+      }
+
+      Button(
+        onClick = {
+          onStartCheckin(seekerInfoUiState.value, seekerInfoUiState.type!!)
+        },
+        enabled = seekerInfoUiState.isValid,
+      ) {
+        Text(text = strings.startCheckin)
+      }
     }
+  }
 }
 
 private fun isValidInput(inputValue: String) = isValidPhoneNumber(inputValue) ||
@@ -103,21 +110,21 @@ private fun isValidInput(inputValue: String) = isValidPhoneNumber(inputValue) ||
         isValidAbhyasiId(inputValue)
 
 @Preview(
-    uiMode = UI_MODE_NIGHT_YES
+  uiMode = UI_MODE_NIGHT_YES
 )
 @Composable
 fun SeekerInfoFieldPreview() {
-    HFNTheme() {
-        Scaffold {
-            SeekerInfoField(
-                modifier = Modifier
-                    .padding(it)
-                    .padding(12.dp),
-                hfnEvent = getSampleEvent(),
-                onStartCheckin = {inputValue, type ->
+  HFNTheme() {
+    Scaffold {
+      SeekerInfoField(
+        modifier = Modifier
+          .padding(it)
+          .padding(12.dp),
+        hfnEvent = getSampleEvent(),
+        onStartCheckin = { inputValue, type ->
 
-                }
-            )
         }
+      )
     }
+  }
 }

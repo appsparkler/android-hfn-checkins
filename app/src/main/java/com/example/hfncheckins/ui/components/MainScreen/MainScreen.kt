@@ -16,7 +16,7 @@ import com.example.hfncheckins.viewModel.InputValueType
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
-    event: HFNEvent,
+    hfnEvent: HFNEvent,
     onStartCheckin: (String, InputValueType) -> Unit,
     onClickScan: () -> Unit
 ) {
@@ -30,7 +30,7 @@ fun MainScreen(
             verticalArrangement = Arrangement.Center
         ) {
             SeekerInfoField(
-                hfnEvent = event,
+                hfnEvent = hfnEvent,
                 onStartCheckin = onStartCheckin
             )
         }
@@ -57,7 +57,7 @@ fun MainScreenPreview() {
                 modifier = Modifier
                     .padding(it)
                     .padding(12.dp),
-                event = getSampleEvent(),
+                hfnEvent = getSampleEvent(),
                 onStartCheckin = { inputValue, type ->
 
                 },

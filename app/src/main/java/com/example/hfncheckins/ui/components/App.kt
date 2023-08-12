@@ -14,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -25,12 +24,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.hfncheckins.codescanner.LiveBarcodeScanningActivity
 import com.example.hfncheckins.codescanner.Utils
-import com.example.hfncheckins.data.sample.getSampleEvent
 import com.example.hfncheckins.ui.components.AbhyasiIdCheckinScreen.AbhyasiIdCheckinScreen
 import com.example.hfncheckins.ui.components.AbhyasiIdCheckinScreen.AbhyasiIdCheckinViewModel
 import com.example.hfncheckins.ui.components.CheckinSuccessScreen.CheckinSuccessScreen
 import com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen.CheckinWithMobileOrEmailViewModel
 import com.example.hfncheckins.model.EmailOrMobileCheckin
+import com.example.hfncheckins.model.HFNEvent
 import com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen.EmailWithMobileOrEmailScreen
 import com.example.hfncheckins.ui.components.MainScreen.MainScreen
 import com.example.hfncheckins.ui.components.QRCheckinScreen.QRCheckinScreen
@@ -48,6 +47,7 @@ import com.google.firebase.ktx.Firebase
 @Composable
 fun AppWithNav(
   modifier: Modifier = Modifier,
+  hfnEvent: HFNEvent,
   navController: NavHostController = rememberNavController(),
   onClickScan: () -> Unit,
   onCheckinWithAbhyasiId: (
@@ -78,7 +78,7 @@ fun AppWithNav(
     }
     composable(Routes.MAIN_SCREEN.name) {
       MainScreen(
-        event = getSampleEvent(),
+        hfnEvent = hfnEvent,
         onStartCheckin = { inputValue, type ->
           when (type) {
             InputValueType.ABHYASI_ID -> {
@@ -202,6 +202,7 @@ private const val SCAN_RESULT_KEY = "SCAN_RESULT_KEY"
 @Composable
 fun AppWithCodeScannerAndRouter(
   modifier: Modifier = Modifier,
+  hfnEvent: HFNEvent,
   onCheckinWithAbhyasiId: (abhyasiIdCheckin: AbhyasiIdCheckin) -> Unit,
   onCheckinWithEmailOrMobile: (emailOrMobileCheckin: EmailOrMobileCheckin) -> Unit,
   onCheckinWithQRCode: (qrCodeCheckin: QRCodeCheckin) -> Unit
@@ -247,7 +248,8 @@ fun AppWithCodeScannerAndRouter(
         },
         onCheckinWithAbhyasiId = onCheckinWithAbhyasiId,
         onCheckinWithEmailOrMobile = onCheckinWithEmailOrMobile,
-        onCheckinWithQRCode = onCheckinWithQRCode
+        onCheckinWithQRCode = onCheckinWithQRCode,
+        hfnEvent = hfnEvent
       )
     }
   }
@@ -261,6 +263,10 @@ fun AppWithCodeScannerAndRouterAndFirebase() {
   val collection = db.collection("/events/202307_july_bhandara/checkins")
 
   AppWithCodeScannerAndRouter(
+    hfnEvent = HFNEvent(
+      title = "68th Birthday of Pujya Daaji Maharaj",
+      id = "2023_september_bhandara"
+    ),
     onCheckinWithAbhyasiId = {
       collection.document(it.abhyasiId).set(it)
         .addOnSuccessListener {

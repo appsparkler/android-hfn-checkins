@@ -33,7 +33,7 @@ fun SeekerInfoField(
   modifier: Modifier = Modifier,
   seekerInfoFieldViewModel: SeekerInfoFieldViewModel = viewModel(),
   hfnEvent: HFNEvent,
-  onStartCheckin: (String, InputValueType) -> Unit
+  onStartCheckin: (String, InputValueType, batch: String?) -> Unit
 ) {
   val seekerInfoUiState by seekerInfoFieldViewModel.uiState.collectAsState()
   ElevatedCard(
@@ -62,12 +62,14 @@ fun SeekerInfoField(
         } else {
           ImeAction.None
         }
-        SelectField(
-          label = "Batch",
-          options = listOf("batch1, batch2, batch1,batch2"),
-          onChange = {},
-          value = "batch1,batch2"
-        )
+        if(hfnEvent.batches != null) {
+          SelectField(
+            label = "Batch",
+            options = hfnEvent.batches,
+            onChange = {},
+            value = "batch1,batch2"
+          )
+        }
         OutlinedTextField(
           modifier = Modifier
             .testTag(strings.tag_seeker_input),
@@ -80,7 +82,7 @@ fun SeekerInfoField(
           },
           keyboardActions = KeyboardActions(
             onGo = {
-              onStartCheckin(seekerInfoUiState.value, seekerInfoUiState.type!!)
+              onStartCheckin(seekerInfoUiState.value, seekerInfoUiState.type!!, seekerInfoUiState.batch)
             }
           ),
           keyboardOptions = KeyboardOptions(
@@ -95,7 +97,7 @@ fun SeekerInfoField(
 
       Button(
         onClick = {
-          onStartCheckin(seekerInfoUiState.value, seekerInfoUiState.type!!)
+          onStartCheckin(seekerInfoUiState.value, seekerInfoUiState.type!!, seekerInfoUiState.batch)
         },
         enabled = seekerInfoUiState.isValid,
       ) {
@@ -121,7 +123,7 @@ fun SeekerInfoFieldPreview() {
           .padding(it)
           .padding(12.dp),
         hfnEvent = getSampleEvent(),
-        onStartCheckin = { inputValue, type ->
+        onStartCheckin = { inputValue, type, batch ->
 
         }
       )

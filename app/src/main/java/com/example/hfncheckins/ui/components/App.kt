@@ -79,7 +79,7 @@ fun AppWithNav(
     composable(Routes.MAIN_SCREEN.name) {
       MainScreen(
         hfnEvent = hfnEvent,
-        onStartCheckin = { inputValue, type ->
+        onStartCheckin = { inputValue, type, batch ->
           when (type) {
             InputValueType.ABHYASI_ID -> {
               navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}?code=$inputValue")
@@ -261,7 +261,13 @@ fun AppWithCodeScannerAndRouterAndFirebase() {
   val db = Firebase.firestore
   val hfnEvent = HFNEvent(
     title = "68th Birthday of Pujya Daaji Maharaj",
-    id = "2023_september_bhandara"
+    id = "2023_september_bhandara",
+    batches = listOf(
+      "batch-1",
+      "batch-2",
+      "batch-1,batch-2"
+    ),
+    defaultBatch = "batch-1"
   )
   val collection = db.collection("/events/${hfnEvent.id}/checkins")
   AppWithCodeScannerAndRouter(

@@ -11,7 +11,8 @@ import kotlinx.coroutines.flow.update
 data class SeekerInfoFieldState(
     val value: String = "",
     val isValid:Boolean = false,
-    val type: InputValueType? = null
+    val type: InputValueType? = null,
+    val batch: String? = null
 )
 
 enum class InputValueType {

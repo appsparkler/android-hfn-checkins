@@ -17,7 +17,7 @@ import com.example.hfncheckins.viewModel.InputValueType
 fun MainScreen(
     modifier: Modifier = Modifier,
     hfnEvent: HFNEvent,
-    onStartCheckin: (String, InputValueType) -> Unit,
+    onStartCheckin: (String, InputValueType, String?) -> Unit,
     onClickScan: () -> Unit
 ) {
     Column(
@@ -58,7 +58,7 @@ fun MainScreenPreview() {
                     .padding(it)
                     .padding(12.dp),
                 hfnEvent = getSampleEvent(),
-                onStartCheckin = { inputValue, type ->
+                onStartCheckin = { inputValue, type, batch ->
 
                 },
                 onClickScan = {}

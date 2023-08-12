@@ -2,6 +2,7 @@ package com.example.hfncheckins.ui.components
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -41,6 +42,8 @@ import com.example.hfncheckins.utils.isValidAbhyasiId
 import com.example.hfncheckins.viewModel.AbhyasiIdCheckin
 import com.example.hfncheckins.viewModel.InputValueType
 import com.example.hfncheckins.model.QRCodeCheckin
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 @Composable
 fun AppWithNav(
@@ -196,9 +199,13 @@ fun AppWithNav(
 
 private const val SCAN_RESULT_KEY = "SCAN_RESULT_KEY"
 
-@Preview
 @Composable
-fun AppWithCodeScannerAndRouter() {
+fun AppWithCodeScannerAndRouter(
+  modifier: Modifier = Modifier,
+  onCheckinWithAbhyasiId: (abhyasiIdCheckin: AbhyasiIdCheckin) -> Unit,
+  onCheckinWithEmailOrMobile: (emailOrMobileCheckin: EmailOrMobileCheckin) -> Unit,
+  onCheckinWithQRCode: (qrCodeCheckin: QRCodeCheckin) -> Unit
+) {
   var navController: NavHostController = rememberNavController()
   val context = LocalContext.current
   if (!Utils.allPermissionsGranted(context)) {
@@ -225,6 +232,7 @@ fun AppWithCodeScannerAndRouter() {
   }
   HFNTheme {
     Scaffold(
+      modifier = modifier,
       containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
       AppWithNav(
@@ -237,10 +245,40 @@ fun AppWithCodeScannerAndRouter() {
             Intent(context, LiveBarcodeScanningActivity::class.java)
           )
         },
-        onCheckinWithAbhyasiId = {},
-        onCheckinWithEmailOrMobile = {},
-        onCheckinWithQRCode = {}
+        onCheckinWithAbhyasiId = onCheckinWithAbhyasiId,
+        onCheckinWithEmailOrMobile = onCheckinWithEmailOrMobile,
+        onCheckinWithQRCode = onCheckinWithQRCode
       )
     }
   }
+}
+
+val TAG = "AppWithCodeScannerAndRouterAndFirebase"
+@Composable
+fun AppWithCodeScannerAndRouterAndFirebase() {
+  val db = Firebase.firestore
+  val context = LocalContext.current
+  val collection = db.collection("/events/202307_july_bhandara/checkins")
+
+  AppWithCodeScannerAndRouter(
+    onCheckinWithAbhyasiId = {
+      collection.document(it.abhyasiId).set(it)
+        .addOnSuccessListener {
+          Log.d(TAG, "DocumentSnapshot successfully written!")
+        }
+        .addOnFailureListener() {
+          Log.w(TAG, "Error writing document", it)
+        }
+    },
+    onCheckinWithEmailOrMobile = {},
+    onCheckinWithQRCode = {
+      collection.document(it.regId).set(it)
+        .addOnSuccessListener {
+          Log.d(TAG, "DocumentSnapshot successfully written!")
+        }
+        .addOnFailureListener() {
+          Log.w(TAG, "Error writing document", it)
+        }
+    }
+  )
 }

@@ -207,7 +207,7 @@ fun AppWithCodeScannerAndRouter(
   onCheckinWithEmailOrMobile: (emailOrMobileCheckin: EmailOrMobileCheckin) -> Unit,
   onCheckinWithQRCode: (qrCodeCheckin: QRCodeCheckin) -> Unit
 ) {
-  var navController: NavHostController = rememberNavController()
+  val navController: NavHostController = rememberNavController()
   val context = LocalContext.current
   if (!Utils.allPermissionsGranted(context)) {
     Utils.requestRuntimePermissions(context as ComponentActivity)
@@ -259,7 +259,6 @@ val TAG = "AppWithCodeScannerAndRouterAndFirebase"
 @Composable
 fun AppWithCodeScannerAndRouterAndFirebase() {
   val db = Firebase.firestore
-  val context = LocalContext.current
   val hfnEvent = HFNEvent(
     title = "68th Birthday of Pujya Daaji Maharaj",
     id = "2023_september_bhandara"

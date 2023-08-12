@@ -40,7 +40,7 @@ import com.example.hfncheckins.utils.isQRValid
 import com.example.hfncheckins.utils.isValidAbhyasiId
 import com.example.hfncheckins.viewModel.AbhyasiIdCheckin
 import com.example.hfncheckins.viewModel.InputValueType
-import com.example.hfncheckins.viewModel.QRCodeCheckin
+import com.example.hfncheckins.model.QRCodeCheckin
 
 @Composable
 fun AppWithNav(

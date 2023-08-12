@@ -14,7 +14,7 @@ import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
 import com.example.hfncheckins.ui.components.common.CustomLazyColumn
 import com.example.hfncheckins.ui.components.common.Heading
 import com.example.hfncheckins.ui.hfnTheme.HFNTheme
-import com.example.hfncheckins.viewModel.QRCodeCheckin
+import com.example.hfncheckins.model.QRCodeCheckin
 
 @Composable
 fun QRCheckinScreen(
@@ -66,7 +66,8 @@ fun QRCheckinScreenPreview() {
             pnr = "INR-APQ-1234",
             regId = "0",
             timestamp = 0,
-            dormAndBerthAllocation = ""
+            dormAndBerthAllocation = "",
+            batch = "batch1"
         ),
         QRCodeCheckin(
             checkin = false,
@@ -79,7 +80,8 @@ fun QRCheckinScreenPreview() {
             pnr = "INR-APQ-1234",
             regId = "1",
             timestamp = 0,
-            dormAndBerthAllocation = ""
+            dormAndBerthAllocation = "",
+            batch = "batch1"
         ),
         QRCodeCheckin(
             checkin = false,
@@ -92,7 +94,8 @@ fun QRCheckinScreenPreview() {
             pnr = "INR-APQ-1234",
             regId = "2",
             timestamp = 0,
-            dormAndBerthAllocation = ""
+            dormAndBerthAllocation = "",
+            batch = "batch2"
         )
     )
     qrCheckinScreenViewModel.setupList(qrCheckinItems)

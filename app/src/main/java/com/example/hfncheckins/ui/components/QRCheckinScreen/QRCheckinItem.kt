@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hfncheckins.ui.hfnTheme.HFNTheme
-import com.example.hfncheckins.viewModel.QRCodeCheckin
+import com.example.hfncheckins.model.QRCodeCheckin
 
 @Composable
 fun FieldData(
@@ -28,16 +28,18 @@ fun FieldData(
     fieldName: String,
     fieldValue: String
 ) {
-    Row(
-        modifier = modifier
-    ) {
-        Text(
-            text = fieldName,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            text = fieldValue,
-        )
+    if(fieldValue.isNotBlank()) {
+        Row(
+            modifier = modifier
+        ) {
+            Text(
+                text = fieldName,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = fieldValue,
+            )
+        }
     }
 }
 
@@ -77,6 +79,10 @@ fun QRCheckinItem(
             FieldData(
                 fieldName = "Event Name: ",
                 fieldValue = checkinInfo.eventName
+            )
+            FieldData(
+                fieldName = "Batch: ",
+                fieldValue = checkinInfo.batch
             )
             FieldData(
                 fieldName = "Abhyasi ID: ",
@@ -144,7 +150,8 @@ fun QRCheckinItemPreview() {
                     regId = "b366daa6-2960-4a8b-a300-29bb05ae4e46",
                     pnr = "AE-IDDK-IWQ",
                     eventName = "2023 Birth Anniversary Celebrations of Pujya Daaji",
-                    checkin = true
+                    checkin = true,
+                    batch = "batch1"
                 )
             )
         }

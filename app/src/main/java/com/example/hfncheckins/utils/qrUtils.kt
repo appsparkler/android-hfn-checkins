@@ -2,7 +2,7 @@ package com.example.hfncheckins.utils
 
 import com.example.hfncheckins.model.EventOrderGeneralDetails
 import com.example.hfncheckins.model.QRType
-import com.example.hfncheckins.viewModel.QRCodeCheckin
+import com.example.hfncheckins.model.QRCodeCheckin
 
 fun isQRValid(value: String):Boolean {
   val refinedValue = value.replace("\n", "")
@@ -33,10 +33,11 @@ fun getQRCheckins(value: String):List<QRCodeCheckin> {
       QRCodeCheckin(
 //    each checkin detail
         regId = columns[0],
-        abhyasiId = columns[1],
-        fullName = columns[2],
-        dormPreference = columns.getOrNull(3) ?: "",
-        berthPreference = columns.getOrNull(4) ?: "",
+        batch = columns[1],
+        abhyasiId = columns[2],
+        fullName = columns[3],
+        dormPreference = columns.getOrNull(4) ?: "",
+        berthPreference = columns.getOrNull(5) ?: "",
 //    default value
         checkin = false,
         timestamp = 0,

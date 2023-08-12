@@ -1,7 +1,7 @@
 package com.example.hfncheckins.ui.components.QRCheckinScreen
 
 import androidx.lifecycle.ViewModel
-import com.example.hfncheckins.viewModel.QRCodeCheckin
+import com.example.hfncheckins.model.QRCodeCheckin
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -25,7 +25,7 @@ class QRCheckinScreenViewModel:ViewModel() {
     }
 
     fun update(
-        updatedQRCheckinItem: QRCodeCheckin,
+      updatedQRCheckinItem: QRCodeCheckin,
     ) {
         val qrCheckins = _uiState.value.map { qrCheckinItem ->
                         if (updatedQRCheckinItem.regId == qrCheckinItem.regId) updatedQRCheckinItem

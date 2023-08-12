@@ -260,13 +260,13 @@ val TAG = "AppWithCodeScannerAndRouterAndFirebase"
 fun AppWithCodeScannerAndRouterAndFirebase() {
   val db = Firebase.firestore
   val context = LocalContext.current
-  val collection = db.collection("/events/202307_july_bhandara/checkins")
-
+  val hfnEvent = HFNEvent(
+    title = "68th Birthday of Pujya Daaji Maharaj",
+    id = "2023_september_bhandara"
+  )
+  val collection = db.collection("/events/${hfnEvent.id}/checkins")
   AppWithCodeScannerAndRouter(
-    hfnEvent = HFNEvent(
-      title = "68th Birthday of Pujya Daaji Maharaj",
-      id = "2023_september_bhandara"
-    ),
+    hfnEvent = hfnEvent,
     onCheckinWithAbhyasiId = {
       collection.document(it.abhyasiId).set(it)
         .addOnSuccessListener {

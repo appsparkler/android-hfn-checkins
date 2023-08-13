@@ -17,13 +17,15 @@ class AbhyasiIdCheckinViewModel:ViewModel() {
 
     fun update(
         abhyasiId: String? = null,
-        dormAndBerthAllocation: String? = null
+        dormAndBerthAllocation: String? = null,
+        batch: String? = null
     ) {
         _uiState.update {
             it.copy(
                 abhyasiId = abhyasiId ?: _uiState.value.abhyasiId,
                 dormAndBerthAllocation = dormAndBerthAllocation ?: _uiState.value.dormAndBerthAllocation,
-                timestamp = System.currentTimeMillis()
+                timestamp = System.currentTimeMillis(),
+                batch = batch
             )
         }
     }

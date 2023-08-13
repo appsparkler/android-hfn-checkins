@@ -24,6 +24,14 @@ class SeekerInfoFieldViewModel:ViewModel() {
     private val _uiState = MutableStateFlow(SeekerInfoFieldState())
     val uiState = _uiState.asStateFlow()
 
+    fun updateBatch(batch: String?) {
+        _uiState.update {
+            it.copy(
+                batch = batch
+            )
+        }
+    }
+
     fun updateValue(updatedValue: String) {
         val isValid =
             isValidAbhyasiId(updatedValue) ||

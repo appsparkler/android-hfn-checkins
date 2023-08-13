@@ -36,6 +36,8 @@ fun SeekerInfoField(
   onStartCheckin: (String, InputValueType, batch: String?) -> Unit
 ) {
   val seekerInfoUiState by seekerInfoFieldViewModel.uiState.collectAsState()
+  seekerInfoFieldViewModel.updateBatch(hfnEvent.defaultBatch)
+
   ElevatedCard(
     modifier = modifier,
     colors = CardDefaults.elevatedCardColors(
@@ -66,8 +68,10 @@ fun SeekerInfoField(
           SelectField(
             label = "Batch",
             options = hfnEvent.batches,
-            onChange = {},
-            value = "batch1,batch2"
+            onChange = {
+              seekerInfoFieldViewModel.updateBatch(it)
+            },
+            value = seekerInfoUiState.batch.toString()
           )
         }
         OutlinedTextField(

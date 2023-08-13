@@ -82,9 +82,8 @@ fun AppWithNav(
         onStartCheckin = { inputValue, type, batch ->
           when (type) {
             InputValueType.ABHYASI_ID -> {
-              navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}?code=$inputValue")
+              navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$batch")
             }
-
             InputValueType.PHONE_NUMBER -> {
               navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type")
             }
@@ -132,7 +131,7 @@ fun AppWithNav(
       }
     }
     composable(
-      route = "${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}?code={code}",
+      route = "${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/{code}/{batch}",
       arguments = listOf(
         navArgument("code") {
           type = NavType.StringType
@@ -140,24 +139,27 @@ fun AppWithNav(
         }
       )
     ) {
-      it.arguments?.getString("code")?.let {
-        if (it.isNotEmpty()) {
-          val abhyasiIdCheckinViewModel = AbhyasiIdCheckinViewModel()
-          abhyasiIdCheckinViewModel.update(
-            abhyasiId = it,
-          )
-          AbhyasiIdCheckinScreen(
-            abhyasiIdCheckinViewModel = abhyasiIdCheckinViewModel,
-            onClickCheckin = {
-              onCheckinWithAbhyasiId(it)
-              navigateToSuccessScreen()
-            },
-            onClickCancel = {
-              navigateToMainScreen()
-            },
-          )
-        } else {
-          Text("No Abhyasi Id Found!!")
+      it.arguments?.getString("code")?.let { code ->
+        it.arguments?.getString("batch")?.let { batch ->
+          if (code.isNotEmpty()) {
+            val abhyasiIdCheckinViewModel = AbhyasiIdCheckinViewModel()
+            abhyasiIdCheckinViewModel.update(
+              abhyasiId = code,
+              batch = batch
+            )
+            AbhyasiIdCheckinScreen(
+              abhyasiIdCheckinViewModel = abhyasiIdCheckinViewModel,
+              onClickCheckin = {
+                onCheckinWithAbhyasiId(it)
+                navigateToSuccessScreen()
+              },
+              onClickCancel = {
+                navigateToMainScreen()
+              },
+            )
+          } else {
+            Text("No Abhyasi Id Found!!")
+          }
         }
       }
     }
@@ -218,7 +220,7 @@ fun AppWithCodeScannerAndRouter(
     if (it.resultCode == RESULT_OK) {
       val resultData = it.data?.getStringExtra(SCAN_RESULT_KEY).toString()
       if (isValidAbhyasiId(resultData)) {
-        navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}?code=$resultData")
+        navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/$resultData")
       } else if (isQRValid(resultData)) {
         navController.navigate("${Routes.QR_CHECKIN_DETAIL_SCREEN.name}/$resultData")
       } else {

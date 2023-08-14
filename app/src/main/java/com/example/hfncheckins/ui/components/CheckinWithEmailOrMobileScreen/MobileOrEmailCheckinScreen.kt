@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.example.hfncheckins.model.EmailOrMobileCheckin
 import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
 import com.example.hfncheckins.ui.components.common.CustomLazyColumn
+import com.example.hfncheckins.ui.components.common.FieldData
 import com.example.hfncheckins.ui.components.common.Heading
 import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.utils.isEmailValid
@@ -63,7 +64,9 @@ fun EmailWithMobileOrEmailScreen(
         modifier = modifier
     ) {
         item {
-            Spacer(modifier = Modifier.fillMaxWidth().height(12.dp))
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(12.dp))
             Heading(
                 heading = "Checkin with \n Email or Mobile"
             )
@@ -81,6 +84,7 @@ fun EmailWithMobileOrEmailScreen(
                         2.dp
                     )
                 ) {
+                    FieldData(fieldName = "Batch: ", fieldValue = emailOrMobileCheckin.batch)
                     OutlinedTextField(
                         modifier = Modifier
                             .fillMaxWidth(),
@@ -185,7 +189,9 @@ fun EmailWithMobileOrEmailScreen(
                     handleClickCheckin()
                 }
             )
-            Spacer(modifier = Modifier.fillMaxWidth().height(12.dp))
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(12.dp))
         }
     }
 }
@@ -196,7 +202,7 @@ fun EmailWithMobileOrEmailScreenPreview() {
     val checkinWithMobileOrEmailViewModel = CheckinWithMobileOrEmailViewModel()
     checkinWithMobileOrEmailViewModel.update(
         email = "abc@def.com",
-        startWithMobile = false
+        startWithMobile = false,
     )
     HFNTheme() {
         Scaffold() {
@@ -210,32 +216,4 @@ fun EmailWithMobileOrEmailScreenPreview() {
             )
         }
     }
-}
-
-fun validateAndUpdate(it: EmailOrMobileCheckin): EmailOrMobileCheckin {
-    var isValid = false;
-    val isFullNameValid = it.fullName.isNotBlank()
-    val isAgeValid = it.ageGroup.isNotBlank()
-    val isGenderValid = it.ageGroup.isNotBlank()
-    val isCityValid = it.city.isNotBlank()
-    val isStateValid = it.state.isNotBlank()
-    val isCountryValid = it.country.isNotBlank()
-    val isMobileValid = it.mobile.isEmpty() || isValidPhoneNumber(it.mobile)
-    val isEmailValid = it.email.isEmpty() || isEmailValid(it.email)
-    if (isFullNameValid && isAgeValid && isGenderValid && isCityValid && isStateValid && isCountryValid && isMobileValid && isEmailValid) {
-        isValid = true;
-    }
-    return it.copy(
-        fullName = it.fullName,
-        ageGroup = it.ageGroup,
-        gender = it.gender,
-        city = it.city,
-        state = it.state,
-        country = it.country,
-        mobile = it.mobile,
-        email = it.email,
-        dormOrBerthAllocation = it.dormOrBerthAllocation,
-        timestamp = System.currentTimeMillis(),
-        isValid = isValid
-    )
 }

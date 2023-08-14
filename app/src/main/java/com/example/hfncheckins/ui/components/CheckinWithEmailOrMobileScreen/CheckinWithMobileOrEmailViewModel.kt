@@ -22,7 +22,8 @@ class CheckinWithMobileOrEmailViewModel : ViewModel() {
             state = "",
             country = "",
             isValid = false,
-            startWithMobile = true
+            startWithMobile = true,
+            batch = "batch-1,batch-2"
         )
     )
     val uiState = _uiState.asStateFlow()
@@ -47,6 +48,7 @@ class CheckinWithMobileOrEmailViewModel : ViewModel() {
     }
 
     fun update(
+        batch: String? = null,
         email: String? = null,
         gender: String? = null,
         fullName: String? = null,
@@ -73,7 +75,8 @@ class CheckinWithMobileOrEmailViewModel : ViewModel() {
                 state = state ?: currentState.state,
                 country = country ?: currentState.country,
                 isValid = isValid ?: currentState.isValid,
-                startWithMobile = startWithMobile ?: currentState.startWithMobile
+                startWithMobile = startWithMobile ?: currentState.startWithMobile,
+                batch = batch ?: currentState.batch
             )
         }
         validate()

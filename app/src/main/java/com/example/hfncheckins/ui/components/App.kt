@@ -261,8 +261,8 @@ fun AppWithCodeScannerAndRouter(
 }
 
 
-
 val TAG = "AppWithCodeScannerAndRouterAndFirebase"
+
 @Composable
 fun AppWithCodeScannerAndRouterAndFirebase() {
   val db = Firebase.firestore

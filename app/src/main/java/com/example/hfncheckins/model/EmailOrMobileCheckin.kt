@@ -2,6 +2,7 @@ package com.example.hfncheckins.model
 
 data class EmailOrMobileCheckin(
     val startWithMobile: Boolean,
+    val batch: String? = null,
     val email: String,
     val mobile: String,
     val fullName: String,

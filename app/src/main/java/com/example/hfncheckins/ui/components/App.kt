@@ -85,11 +85,11 @@ fun AppWithNav(
               navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$batch")
             }
             InputValueType.PHONE_NUMBER -> {
-              navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type")
+              navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type/$batch")
             }
 
             InputValueType.EMAIL -> {
-              navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type")
+              navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type/$batch")
             }
           }
         },
@@ -97,7 +97,7 @@ fun AppWithNav(
       )
     }
     composable(
-      route = "${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/{emailOrPhoneNumber}/{type}",
+      route = "${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/{emailOrPhoneNumber}/{type}/{batch}",
       arguments = listOf(
         navArgument(name = "emailOrPhoneNumber") {
           type = NavType.StringType
@@ -109,24 +109,27 @@ fun AppWithNav(
     ) { navBackStackEntry ->
       navBackStackEntry.arguments?.getString("emailOrPhoneNumber")?.let { emailOrPhoneNumber ->
         navBackStackEntry.arguments?.getString("type")?.let { type ->
-          val checkWithEmailOrMobileCheckinViewModel =
-            CheckinWithMobileOrEmailViewModel()
-          val isMobile = type == InputValueType.PHONE_NUMBER.name
-          checkWithEmailOrMobileCheckinViewModel.update(
-            email = if (type == InputValueType.EMAIL.name) emailOrPhoneNumber else "",
-            mobile = if (isMobile) emailOrPhoneNumber else "",
-            startWithMobile = isMobile
-          )
-          EmailWithMobileOrEmailScreen(
-            onClickCheckin = {
-              onCheckinWithEmailOrMobile(it)
-              navigateToSuccessScreen()
-            },
-            checkinWithMobileOrEmailViewModel = checkWithEmailOrMobileCheckinViewModel,
-            onClickCancel = {
-              navigateToMainScreen()
-            }
-          )
+          navBackStackEntry.arguments?.getString("batch").let { batch ->
+            val checkWithEmailOrMobileCheckinViewModel =
+              CheckinWithMobileOrEmailViewModel()
+            val isMobile = type == InputValueType.PHONE_NUMBER.name
+            checkWithEmailOrMobileCheckinViewModel.update(
+              email = if (type == InputValueType.EMAIL.name) emailOrPhoneNumber else "",
+              mobile = if (isMobile) emailOrPhoneNumber else "",
+              startWithMobile = isMobile,
+              batch = batch
+            )
+            EmailWithMobileOrEmailScreen(
+              onClickCheckin = {
+                onCheckinWithEmailOrMobile(it)
+                navigateToSuccessScreen()
+              },
+              checkinWithMobileOrEmailViewModel = checkWithEmailOrMobileCheckinViewModel,
+              onClickCancel = {
+                navigateToMainScreen()
+              }
+            )
+          }
         }
       }
     }
@@ -209,7 +212,7 @@ fun AppWithCodeScannerAndRouter(
   onCheckinWithEmailOrMobile: (emailOrMobileCheckin: EmailOrMobileCheckin) -> Unit,
   onCheckinWithQRCode: (qrCodeCheckin: QRCodeCheckin) -> Unit
 ) {
-  var batch:String? = ""
+  var batch: String? = ""
   val navController: NavHostController = rememberNavController()
   val context = LocalContext.current
   if (!Utils.allPermissionsGranted(context)) {

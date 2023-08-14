@@ -77,13 +77,8 @@ fun MainScreenPreview() {
           .padding(it)
           .padding(12.dp),
         hfnEvent = getSampleEvent(),
-        onStartCheckin = { inputValue, type, batch ->
-
-        },
-        onClickScan = {
-          it
-        },
-
+        onStartCheckin = { inputValue, type, batch ->},
+        onClickScan = {},
         )
     }
   }

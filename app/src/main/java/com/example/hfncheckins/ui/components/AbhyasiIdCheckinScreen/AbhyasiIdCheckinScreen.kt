@@ -29,7 +29,7 @@ import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
 import com.example.hfncheckins.ui.components.common.FieldData
 import com.example.hfncheckins.ui.components.common.VerticalSpacer12Dp
 import com.example.hfncheckins.ui.hfnTheme.HFNTheme
-import com.example.hfncheckins.viewModel.AbhyasiIdCheckin
+import com.example.hfncheckins.model.AbhyasiIdCheckin
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

@@ -1,17 +1,19 @@
 package com.example.hfncheckins.ui.components.AbhyasiIdCheckinScreen
 
 import androidx.lifecycle.ViewModel
-import com.example.hfncheckins.viewModel.AbhyasiIdCheckin
+import com.example.hfncheckins.model.AbhyasiIdCheckin
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class AbhyasiIdCheckinViewModel:ViewModel() {
-    val _uiState = MutableStateFlow(AbhyasiIdCheckin(
+    val _uiState = MutableStateFlow(
+        AbhyasiIdCheckin(
         abhyasiId = "",
         dormAndBerthAllocation = "",
         timestamp = 0
-    ))
+    )
+    )
 
     val uiState = _uiState.asStateFlow()
 

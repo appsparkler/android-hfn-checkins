@@ -120,7 +120,6 @@ fun AbhyasiIdCheckinScreenPreview() {
     abhyasiId = "INUEQS228",
     batch = "Batch 1"
   )
-
   HFNTheme() {
     Scaffold {
       AbhyasiIdCheckinScreen(

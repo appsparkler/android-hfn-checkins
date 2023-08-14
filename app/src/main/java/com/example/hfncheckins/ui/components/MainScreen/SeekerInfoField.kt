@@ -26,17 +26,17 @@ import com.example.hfncheckins.utils.isEmailValid
 import com.example.hfncheckins.utils.isValidAbhyasiId
 import com.example.hfncheckins.utils.isValidPhoneNumber
 import com.example.hfncheckins.viewModel.InputValueType
-import com.example.hfncheckins.viewModel.SeekerInfoFieldViewModel
+import com.example.hfncheckins.viewModel.SeekerInfoFieldState
 
 @Composable
 fun SeekerInfoField(
   modifier: Modifier = Modifier,
-  seekerInfoFieldViewModel: SeekerInfoFieldViewModel = viewModel(),
   hfnEvent: HFNEvent,
-  onStartCheckin: (String, InputValueType, batch: String?) -> Unit
+  seekerInfoUiState: SeekerInfoFieldState,
+  onStartCheckin: (String, InputValueType, batch: String?) -> Unit,
+  onChangeValue: (String) -> Unit,
+  onChangeBatch: (String) -> Unit
 ) {
-  val seekerInfoUiState by seekerInfoFieldViewModel.uiState.collectAsState()
-  seekerInfoFieldViewModel.updateBatch(hfnEvent.defaultBatch)
 
   ElevatedCard(
     modifier = modifier,
@@ -64,12 +64,12 @@ fun SeekerInfoField(
         } else {
           ImeAction.None
         }
-        if(hfnEvent.batches != null) {
+        if (hfnEvent.batches != null) {
           SelectField(
             label = "Batch",
             options = hfnEvent.batches,
             onChange = {
-              seekerInfoFieldViewModel.updateBatch(it)
+              onChangeBatch(it)
             },
             value = seekerInfoUiState.batch.toString()
           )
@@ -78,15 +78,17 @@ fun SeekerInfoField(
           modifier = Modifier
             .testTag(strings.tag_seeker_input),
           value = seekerInfoUiState.value,
-          onValueChange = {
-            seekerInfoFieldViewModel.updateValue(it)
-          },
+          onValueChange = onChangeValue,
           label = {
             Text(text = strings.pleaseEnterInfo)
           },
           keyboardActions = KeyboardActions(
             onGo = {
-              onStartCheckin(seekerInfoUiState.value, seekerInfoUiState.type!!, seekerInfoUiState.batch)
+              onStartCheckin(
+                seekerInfoUiState.value,
+                seekerInfoUiState.type!!,
+                seekerInfoUiState.batch
+              )
             }
           ),
           keyboardOptions = KeyboardOptions(
@@ -127,7 +129,19 @@ fun SeekerInfoFieldPreview() {
           .padding(it)
           .padding(12.dp),
         hfnEvent = getSampleEvent(),
+        seekerInfoUiState = SeekerInfoFieldState(
+          batch = null,
+          isValid = false,
+          type = null,
+          value = "",
+        ),
         onStartCheckin = { inputValue, type, batch ->
+
+        },
+        onChangeValue = {
+
+        },
+        onChangeBatch = {
 
         }
       )

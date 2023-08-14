@@ -1,14 +1,5 @@
 package com.example.hfncheckins.ui.components.MainScreen
 
-import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.createComposeRule
-import com.example.hfncheckins.data.sample.getSampleEvent
-import com.example.hfncheckins.data.strings
-import com.example.hfncheckins.viewModel.SeekerInfoFieldViewModel
-import org.junit.Rule
-import org.junit.Test
-import org.junit.Assert.*
-
 class SeekerInfoFieldTest {
 //
 //    @get:Rule

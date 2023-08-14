@@ -49,7 +49,7 @@ fun AppWithNav(
   modifier: Modifier = Modifier,
   hfnEvent: HFNEvent,
   navController: NavHostController = rememberNavController(),
-  onClickScan: () -> Unit,
+  onClickScan: (batch: String?) -> Unit,
   onCheckinWithAbhyasiId: (
     abhyasiIdCheckin: AbhyasiIdCheckin,
   ) -> Unit,
@@ -209,18 +209,20 @@ fun AppWithCodeScannerAndRouter(
   onCheckinWithEmailOrMobile: (emailOrMobileCheckin: EmailOrMobileCheckin) -> Unit,
   onCheckinWithQRCode: (qrCodeCheckin: QRCodeCheckin) -> Unit
 ) {
+  var batch:String? = ""
   val navController: NavHostController = rememberNavController()
   val context = LocalContext.current
   if (!Utils.allPermissionsGranted(context)) {
     Utils.requestRuntimePermissions(context as ComponentActivity)
   }
+
   val launcher = rememberLauncherForActivityResult(
     contract = ActivityResultContracts.StartActivityForResult(),
   ) {
     if (it.resultCode == RESULT_OK) {
       val resultData = it.data?.getStringExtra(SCAN_RESULT_KEY).toString()
       if (isValidAbhyasiId(resultData)) {
-        navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/$resultData")
+        navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/$resultData/$batch")
       } else if (isQRValid(resultData)) {
         navController.navigate("${Routes.QR_CHECKIN_DETAIL_SCREEN.name}/$resultData")
       } else {
@@ -244,6 +246,7 @@ fun AppWithCodeScannerAndRouter(
           .padding(horizontal = 18.dp),
         navController = navController,
         onClickScan = {
+          batch = it
           launcher.launch(
             Intent(context, LiveBarcodeScanningActivity::class.java)
           )
@@ -256,6 +259,8 @@ fun AppWithCodeScannerAndRouter(
     }
   }
 }
+
+
 
 val TAG = "AppWithCodeScannerAndRouterAndFirebase"
 @Composable

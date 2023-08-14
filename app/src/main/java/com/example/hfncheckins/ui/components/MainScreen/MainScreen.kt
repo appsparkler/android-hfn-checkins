@@ -4,9 +4,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.hfncheckins.data.sample.getSampleEvent
 import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.model.HFNEvent
@@ -15,34 +18,48 @@ import com.example.hfncheckins.viewModel.InputValueType
 
 @Composable
 fun MainScreen(
-    modifier: Modifier = Modifier,
-    hfnEvent: HFNEvent,
-    onStartCheckin: (String, InputValueType, String?) -> Unit,
-    onClickScan: () -> Unit
+  modifier: Modifier = Modifier,
+  hfnEvent: HFNEvent,
+  mainScreenViewModel: MainScreenViewModel = viewModel(),
+  onStartCheckin: (String, InputValueType, String?) -> Unit,
+  onClickScan: (batch: String?) -> Unit
 ) {
+  val mainScreenUiState by mainScreenViewModel.uiState.collectAsState()
+  if(hfnEvent.defaultBatch !==null && mainScreenUiState.batch == null) {
+    mainScreenViewModel.updateBatch(hfnEvent.defaultBatch)
+  }
+  Column(
+    modifier = modifier
+      .fillMaxHeight(),
+    verticalArrangement = Arrangement.SpaceBetween
+  ) {
     Column(
-        modifier = modifier
-            .fillMaxHeight(),
-        verticalArrangement = Arrangement.SpaceBetween
+      modifier = Modifier.weight(1f),
+      verticalArrangement = Arrangement.Center
     ) {
-        Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.Center
-        ) {
-            SeekerInfoField(
-                hfnEvent = hfnEvent,
-                onStartCheckin = onStartCheckin
-            )
+      SeekerInfoField(
+        hfnEvent = hfnEvent,
+        onStartCheckin = onStartCheckin,
+        onChangeValue = {
+          mainScreenViewModel.updateValue(it)
+        },
+        seekerInfoUiState = mainScreenUiState,
+        onChangeBatch = {
+          mainScreenViewModel.updateBatch(it)
         }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
-        ) {
-            ScanButton(onClick = onClickScan)
-        }
-        VerticalSpacer12Dp()
+      )
     }
+    Row(
+      modifier = Modifier
+        .fillMaxWidth(),
+      horizontalArrangement = Arrangement.End
+    ) {
+      ScanButton(onClick = {
+        onClickScan(mainScreenUiState.batch)
+      })
+    }
+    VerticalSpacer12Dp()
+  }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,18 +68,21 @@ fun MainScreen(
 )
 @Composable
 fun MainScreenPreview() {
-    HFNTheme() {
-        Scaffold {
-            MainScreen(
-                modifier = Modifier
-                    .padding(it)
-                    .padding(12.dp),
-                hfnEvent = getSampleEvent(),
-                onStartCheckin = { inputValue, type, batch ->
+  HFNTheme() {
+    Scaffold {
+      MainScreen(
+        modifier = Modifier
+          .padding(it)
+          .padding(12.dp),
+        hfnEvent = getSampleEvent(),
+        onStartCheckin = { inputValue, type, batch ->
 
-                },
-                onClickScan = {}
-            )
-        }
+        },
+        onClickScan = {
+          it
+        },
+
+        )
     }
+  }
 }

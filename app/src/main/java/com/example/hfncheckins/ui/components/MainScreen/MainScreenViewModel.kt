@@ -14,29 +14,43 @@ class MainScreenViewModel: ViewModel() {
     private val _uiState = MutableStateFlow(SeekerInfoFieldState())
     val uiState = _uiState.asStateFlow()
 
-    fun updateBatch(batch: String?) {
+    fun update(
+        batch: String? = null,
+        value: String? = null
+    ) {
+        val type = getType()
         _uiState.update {
             it.copy(
-                batch = batch
+                batch = batch ?: it.batch,
+                type = type ?: it.type,
+                value = value ?: it.value
             )
         }
     }
 
-    fun updateValue(updatedValue: String) {
-        val isValid =
-            isValidAbhyasiId(updatedValue) ||
-                    isValidPhoneNumber(updatedValue) ||
-                    isEmailValid(updatedValue)
-        _uiState.update {
-            it.copy(
-                value = updatedValue,
-                isValid = isValid
-            )
-        }
-        setType()
-    }
+//    fun updateBatch(batch: String?) {
+//        _uiState.update {
+//            it.copy(
+//                batch = batch
+//            )
+//        }
+//    }
 
-    fun setType() {
+//    fun updateValue(updatedValue: String) {
+//        val isValid =
+//            isValidAbhyasiId(updatedValue) ||
+//                    isValidPhoneNumber(updatedValue) ||
+//                    isEmailValid(updatedValue)
+//        _uiState.update {
+//            it.copy(
+//                value = updatedValue,
+//                isValid = isValid
+//            )
+//        }
+//        setType()
+//    }
+
+    fun getType(): InputValueType? {
         var type = if(isValidAbhyasiId(_uiState.value.value)) {
             InputValueType.ABHYASI_ID
         } else if (isValidPhoneNumber(_uiState.value.value)) {
@@ -46,10 +60,23 @@ class MainScreenViewModel: ViewModel() {
         } else {
             null
         }
-        _uiState.update {
-            it.copy(
-                type = type
-            )
-        }
+        return type
     }
+
+//    fun setType() {
+//        var type = if(isValidAbhyasiId(_uiState.value.value)) {
+//            InputValueType.ABHYASI_ID
+//        } else if (isValidPhoneNumber(_uiState.value.value)) {
+//            InputValueType.PHONE_NUMBER
+//        } else if(isEmailValid(_uiState.value.value)) {
+//            InputValueType.EMAIL
+//        } else {
+//            null
+//        }
+//        _uiState.update {
+//            it.copy(
+//                type = type
+//            )
+//        }
+//    }
 }

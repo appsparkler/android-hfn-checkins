@@ -25,8 +25,8 @@ fun MainScreen(
   onClickScan: (batch: String?) -> Unit
 ) {
   val mainScreenUiState by mainScreenViewModel.uiState.collectAsState()
-  if(hfnEvent.defaultBatch !==null && mainScreenUiState.batch == null) {
-    mainScreenViewModel.updateBatch(hfnEvent.defaultBatch)
+  if(hfnEvent.defaultBatch != null && mainScreenUiState.batch == null) {
+    mainScreenViewModel.update(batch = hfnEvent.defaultBatch)
   }
   Column(
     modifier = modifier
@@ -41,11 +41,13 @@ fun MainScreen(
         hfnEvent = hfnEvent,
         onStartCheckin = onStartCheckin,
         onChangeValue = {
-          mainScreenViewModel.updateValue(it)
+          mainScreenViewModel.update(
+            value = it
+          )
         },
         seekerInfoUiState = mainScreenUiState,
         onChangeBatch = {
-          mainScreenViewModel.updateBatch(it)
+          mainScreenViewModel.update(batch = it)
         }
       )
     }

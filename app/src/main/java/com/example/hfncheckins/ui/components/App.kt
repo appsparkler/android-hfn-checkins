@@ -87,7 +87,6 @@ fun AppWithNav(
             InputValueType.PHONE_NUMBER -> {
               navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type/$batch")
             }
-
             InputValueType.EMAIL -> {
               navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type/$batch")
             }

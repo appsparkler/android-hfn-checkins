@@ -14,7 +14,7 @@ import com.example.hfncheckins.data.sample.getSampleEvent
 import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.model.HFNEvent
 import com.example.hfncheckins.ui.components.common.VerticalSpacer12Dp
-import com.example.hfncheckins.viewModel.InputValueType
+import com.example.hfncheckins.model.InputValueType
 
 @Composable
 fun MainScreen(

@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import com.example.hfncheckins.utils.isEmailValid
 import com.example.hfncheckins.utils.isValidAbhyasiId
 import com.example.hfncheckins.utils.isValidPhoneNumber
-import com.example.hfncheckins.viewModel.InputValueType
-import com.example.hfncheckins.viewModel.SeekerInfoFieldState
+import com.example.hfncheckins.model.InputValueType
+import com.example.hfncheckins.model.SeekerInfoFieldState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

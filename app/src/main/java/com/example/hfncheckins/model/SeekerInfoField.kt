@@ -1,4 +1,4 @@
-package com.example.hfncheckins.viewModel
+package com.example.hfncheckins.model
 
 data class SeekerInfoFieldState(
     val value: String = "",

@@ -39,7 +39,7 @@ import com.example.hfncheckins.utils.getQRCheckins
 import com.example.hfncheckins.utils.isQRValid
 import com.example.hfncheckins.utils.isValidAbhyasiId
 import com.example.hfncheckins.model.AbhyasiIdCheckin
-import com.example.hfncheckins.viewModel.InputValueType
+import com.example.hfncheckins.model.InputValueType
 import com.example.hfncheckins.model.QRCodeCheckin
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase

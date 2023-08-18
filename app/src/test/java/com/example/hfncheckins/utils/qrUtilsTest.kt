@@ -23,20 +23,25 @@ class qrUtilsTest {
   }
 
   @Test
-  fun test_getQRCheckinsAndMore() {
+  fun test_getQRCheckinsAndMore_PAID_ACCOMODATION() {
     val paidQR =
-      "96th Birth Anniversary of Pujya Shri Chariji Maharaj|ME-ICJN-MHVQ|24999;4e0a5913-b77d-4c2f-a4fd-d4554e930ecf|INKKAD166|K. KAILASAM|SouthS2-GF-NonAC|LB;3 more..."
+      "96th Birth Anniversary of Pujya Shri Chariji Maharaj|ME-ICJN-MHVQ|24999;4e0a5913-b77d-4c2f-a4fd-d4554e930ecf|batch1,batch2|INKKAD166|K. KAILASAM|SouthS2-GF-NonAC|LB;3 more..."
     val result = getQRCheckinsAndMore(paidQR)
     assertEquals("3 more...", result.more)
     assertEquals(1, result.checkins.size)
+    assertEquals("LB", result.checkins[0].berthPreference)
+    assertEquals("batch1,batch2", result.checkins[0].batch)
   }
 
-//  @Test
-//  fun test_isQRValid_PAID_ACCOMODATION_WITH_MORE() {
-//    val paidQR =
-//      "96th Birth Anniversary of Pujya Shri Chariji Maharaj|ME-ICJN-MHVQ|24999;4e0a5913-b77d-4c2f-a4fd-d4554e930ecf|INKKAD166|K. KAILASAM|SouthS2-GF-NonAC|LB;3 more..."
-//    assertEquals(true, isQRValid(paidQR))
-//  }
+  @Test
+  fun test_getQRCheckinsAndMore_OWN_ACCOMODATION() {
+    val paidQR =
+      "96th Birth Anniversary of Pujya Shri Chariji Maharaj|Bhandara|ME-ICJN-MHVQ;4e0a5913-b77d-4c2f-a4fd-d4554e930ecf|batch1,batch2|INKKAD166|K. KAILASAM|SouthS2-GF-NonAC|LB;3 more..."
+    val result = getQRCheckinsAndMore(paidQR)
+    assertEquals("3 more...", result.more)
+    assertEquals(1, result.checkins.size)
+    assertEquals("batch1,batch2", result.checkins[0].batch)
+  }
 
   @Test
   fun test_isQRValid_OWN_ACCOMODATION() {
@@ -54,11 +59,11 @@ class qrUtilsTest {
     assertEquals(1, checkins.size)
 
     assertEquals(firstCheckin.regId, "4e0a5913-b77d-4c2f-a4fd-d4554e930ecf")
-    assertEquals(firstCheckin.abhyasiId, "INKKAD166")
-    assertEquals(firstCheckin.fullName, "K. KAILASAM")
-    assertEquals("batch1", "batch1")
-    assertEquals(firstCheckin.dormPreference, "SouthS2-GF-NonAC")
-    assertEquals(firstCheckin.berthPreference, "LB")
+    assertEquals( "INKKAD166",firstCheckin.abhyasiId)
+    assertEquals( "K. KAILASAM", firstCheckin.fullName,)
+    assertEquals("batch1",firstCheckin.batch,)
+    assertEquals( "SouthS2-GF-NonAC",firstCheckin.dormPreference)
+    assertEquals( "LB",firstCheckin.berthPreference)
 
     assertEquals(false, firstCheckin.checkin)
     assertEquals("", firstCheckin.dormAndBerthAllocation)

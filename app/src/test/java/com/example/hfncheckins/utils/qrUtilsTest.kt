@@ -44,6 +44,16 @@ class qrUtilsTest {
   }
 
   @Test
+  fun test_getQRCheckinsAndMore_NO_MORE_INFo() {
+    val paidQR =
+      "96th Birth Anniversary of Pujya Shri Chariji Maharaj|Bhandara|ME-ICJN-MHVQ;4e0a5913-b77d-4c2f-a4fd-d4554e930ecf|batch1,batch2|INKKAD166|K. KAILASAM|SouthS2-GF-NonAC|LB;"
+    val result = getQRCheckinsAndMore(paidQR)
+    assertEquals("", result.more)
+    assertEquals(1, result.checkins.size)
+    assertEquals("batch1,batch2", result.checkins[0].batch)
+  }
+
+  @Test
   fun test_isQRValid_OWN_ACCOMODATION() {
     val scannedValue = "96th Birth Anniversary of Pujya Shri Chariji Maharaj| Bhandara| SU-ICJQ-VZJK;e1e2da12-4f2f-4c42-b8ee-87df204a3e4e|batch1,batch2|INAUEW392|User 1;633d53fe-443d-4fg4-b3b0-7bd13dabf303|batch1|INLIET292|User 2;"
     assertEquals(true, isQRValid(scannedValue))

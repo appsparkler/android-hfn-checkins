@@ -5,8 +5,30 @@ import com.example.hfncheckins.model.EventOrderGeneralDetails
 import com.example.hfncheckins.model.QRType
 import com.example.hfncheckins.model.QRCodeCheckin
 
-fun isQRValid(value: String):Boolean {
-  val refinedValue = value.replace("\n", "")
+val refineQR: (String) -> String = { it.replace("\n", "") }
+
+
+data class QRCheckinsAndMore(
+  val checkins: List<QRCodeCheckin>,
+  val more: String
+)
+
+fun getQRCheckinsAndMore(rawValue: String): QRCheckinsAndMore {
+  val moreRegex =  Regex("""(\d+\s+more\.\.\.)""")
+  val moreMatch = moreRegex.find(rawValue)
+  val more = if (moreMatch!== null) {
+    moreMatch.groupValues[1]
+  } else {
+    ""
+  }
+  val refinedValue = refineQR(rawValue)
+  val refinedValueWithoutMore = refinedValue.replace(moreRegex, "");
+  val checkins = getQRCheckins(refinedValueWithoutMore)
+  return QRCheckinsAndMore(checkins = checkins, more = more)
+}
+
+fun isQRValid(value: String): Boolean {
+  val refinedValue = refineQR(value)
   try {
     val generalDetails = getGeneralDetails(refinedValue)
     val isValidEventTitle = generalDetails.eventTitle.isNotEmpty()
@@ -15,12 +37,12 @@ fun isQRValid(value: String):Boolean {
     val allCheckins = getQRCheckins(refinedValue)
     val isValid = isValidEventTitle && isValidPnr && isValidOrderId && allCheckins.isNotEmpty()
     return isValid
-  } catch ( e: Exception) {
+  } catch (e: Exception) {
     return false
   }
 }
 
-fun getQRCheckins(value: String):List<QRCodeCheckin> {
+fun getQRCheckins(value: String): List<QRCodeCheckin> {
   val refinedValue = value.replace("\n", "")
   val generalDetails = getGeneralDetails(refinedValue)
   val rows = refinedValue.split(";")
@@ -30,7 +52,7 @@ fun getQRCheckins(value: String):List<QRCodeCheckin> {
       it.isNotEmpty()
     }
     .map {
-    val columns = it.split("|")
+      val columns = it.split("|")
       QRCodeCheckin(
 //    each checkin detail
         regId = columns[0],
@@ -49,7 +71,7 @@ fun getQRCheckins(value: String):List<QRCodeCheckin> {
         orderId = generalDetails.orderId,
         type = CheckinType.QR.name
       )
-  }
+    }
   return checkins
 }
 
@@ -58,7 +80,7 @@ fun getGeneralDetails(value: String): EventOrderGeneralDetails {
   val qrType = getQRType(value)
   val firstRow = rows[0]
   val columnsInFirstRow = firstRow.split("|")
-  if(qrType == QRType.PAID_ACCOMODATION){
+  if (qrType == QRType.PAID_ACCOMODATION) {
     return EventOrderGeneralDetails(
       eventTitle = columnsInFirstRow[0].trim(),
       pnr = columnsInFirstRow[1].trim(),
@@ -82,10 +104,10 @@ fun getQRType(code: String): QRType {
   val isPNR: (String) -> Boolean = {
     it.matches("[A-Z]{2}-[A-Z]{4}-[A-Z]{4}".toRegex())
   }
-  if(isPNR(columnsInFirstRow[1])){
+  if (isPNR(columnsInFirstRow[1])) {
     return QRType.PAID_ACCOMODATION
   }
-  if(isPNR(columnsInFirstRow[2])){
+  if (isPNR(columnsInFirstRow[2])) {
     return QRType.OWN_ACCOMODATION
   }
   return QRType.NONE

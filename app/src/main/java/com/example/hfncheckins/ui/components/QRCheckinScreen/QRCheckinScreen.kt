@@ -100,7 +100,6 @@ fun QRCheckinScreenPreview() {
             dormAndBerthAllocation = "",
             batch = "batch1",
             type = CheckinType.QR.name
-
         ),
         QRCodeCheckin(
             checkin = false,

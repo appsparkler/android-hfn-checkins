@@ -11,7 +11,7 @@ class MainScreenViewModelTest {
         val mainScreenViewModel = MainScreenViewModel()
         assertEquals("", mainScreenViewModel.uiState.value.value)
         val updatedValue = "Hello World"
-        mainScreenViewModel.updateValue(updatedValue)
+        mainScreenViewModel.update(updatedValue)
         assertEquals(updatedValue, mainScreenViewModel.uiState.value.value)
         assertEquals(false, mainScreenViewModel.uiState.value.isValid)
     }
@@ -21,7 +21,7 @@ class MainScreenViewModelTest {
         val mainScreenViewModel = MainScreenViewModel()
         assertEquals("", mainScreenViewModel.uiState.value.value)
         val updatedValue = "UEWWWE837"
-        mainScreenViewModel.updateValue(updatedValue)
+        mainScreenViewModel.update(updatedValue)
         assertEquals(updatedValue, mainScreenViewModel.uiState.value.value)
         assertEquals(true, mainScreenViewModel.uiState.value.isValid)
     }
@@ -31,7 +31,7 @@ class MainScreenViewModelTest {
         assertEquals("", mainScreenViewModel.uiState.value.value)
         assertEquals(false, mainScreenViewModel.uiState.value.isValid)
         val updatedValue = "+918383838473"
-        mainScreenViewModel.updateValue(updatedValue)
+        mainScreenViewModel.update(updatedValue)
         assertEquals(updatedValue, mainScreenViewModel.uiState.value.value)
         assertEquals(true, mainScreenViewModel.uiState.value.isValid)
     }
@@ -41,7 +41,7 @@ class MainScreenViewModelTest {
         assertEquals("", mainScreenViewModel.uiState.value.value)
         assertEquals(false, mainScreenViewModel.uiState.value.isValid)
         val updatedValue = "abc@def.com"
-        mainScreenViewModel.updateValue(updatedValue)
+        mainScreenViewModel.update(updatedValue)
         assertEquals(updatedValue, mainScreenViewModel.uiState.value.value)
         assertEquals(true, mainScreenViewModel.uiState.value.isValid)
     }

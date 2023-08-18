@@ -91,4 +91,11 @@ class qrUtilsTest {
     assertEquals(generalDetails.orderId, "Bhandara")
   }
 
+  @Test
+  fun test_getQRType_OWN_ACCOMODATION_WITH_MORE() {
+    val scannedValue = "96th Birth Anniversary of Pujya Shri Chariji Maharaj| Bhandara| SU-ICJQ-VZJK;e1e2da12-4f2f-4c42-b8ee-87df204a3e4e|INAUEW392|User 1;633d53fe-443d-4fg4-b3b0-7bd13dabf303|batch1|INLIET292|User 2;"
+    assertEquals(QRType.OWN_ACCOMODATION, getQRType(scannedValue))
+  }
+
+
 }

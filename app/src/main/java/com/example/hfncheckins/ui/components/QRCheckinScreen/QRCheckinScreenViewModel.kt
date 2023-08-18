@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.update
 
 class QRCheckinScreenViewModel:ViewModel() {
     val _uiState = MutableStateFlow(listOf<QRCodeCheckin>())
+    val _more = MutableStateFlow<String>("")
+    val more = _more.asStateFlow()
     val uiState = _uiState.asStateFlow()
 
     fun isValid():Boolean {
@@ -33,6 +35,14 @@ class QRCheckinScreenViewModel:ViewModel() {
                     }
         _uiState.update {
             qrCheckins
+        }
+    }
+
+    fun updateMore(
+        value: String
+    ) {
+        _more.update {
+            value
         }
     }
 }

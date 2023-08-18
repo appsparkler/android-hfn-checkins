@@ -2,11 +2,14 @@ package com.example.hfncheckins.ui.components.QRCheckinScreen
 
 import android.util.Log
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,6 +28,7 @@ fun QRCheckinScreen(
     onClickCancel: () -> Unit,
 ) {
     val qrCheckins by qrCheckinviewModel.uiState.collectAsState()
+    val more by qrCheckinviewModel.more.collectAsState()
     CustomLazyColumn(modifier = modifier) {
         item {
             Heading(
@@ -37,6 +41,16 @@ fun QRCheckinScreen(
                 onChange = {
                     qrCheckinviewModel.update(it)
                 })
+        }
+        if(more.isNotBlank()) {
+            item {
+                Text(
+                    text = "+ $more (please checkin separately)",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.secondary,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
         item {
             CheckinAndCancelButtons(
@@ -54,6 +68,7 @@ fun QRCheckinScreen(
 @Composable
 fun QRCheckinScreenPreview() {
     val qrCheckinScreenViewModel = QRCheckinScreenViewModel()
+    qrCheckinScreenViewModel.updateMore("2 more")
 
     val qrCheckinItems = listOf(
         QRCodeCheckin(

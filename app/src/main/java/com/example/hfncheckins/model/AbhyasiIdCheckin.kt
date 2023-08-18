@@ -5,4 +5,5 @@ data class AbhyasiIdCheckin (
     val dormAndBerthAllocation: String,
     val batch: String? = null,
     val timestamp: Long? = null,
+    val type: String
 )

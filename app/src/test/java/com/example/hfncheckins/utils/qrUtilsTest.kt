@@ -4,7 +4,7 @@ import com.example.hfncheckins.model.QRType
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
-class qrTests {
+class qrUtilsTest {
   val paidQR =
     "96th Birth Anniversary of Pujya Shri Chariji Maharaj|ME-ICJN-MHVQ|24999;4e0a5913-b77d-4c2f-a4fd-d4554e930ecf|INKKAD166|K. KAILASAM|SouthS2-GF-NonAC|LB;"
 

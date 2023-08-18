@@ -12,5 +12,6 @@ data class QRCodeCheckin(
     val berthPreference: String,
     val dormAndBerthAllocation: String,
     val timestamp: Long,
-    val checkin: Boolean
+    val checkin: Boolean,
+    val type: String,
 )

@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.hfncheckins.model.CheckinType
 import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.model.QRCodeCheckin
 import com.example.hfncheckins.ui.components.common.FieldData
@@ -135,7 +136,8 @@ fun QRCheckinItemPreview() {
                     pnr = "AE-IDDK-IWQ",
                     eventName = "2023 Birth Anniversary Celebrations of Pujya Daaji",
                     checkin = true,
-                    batch = "batch1"
+                    batch = "batch1",
+                    type = CheckinType.QR.name
                 )
             )
         }

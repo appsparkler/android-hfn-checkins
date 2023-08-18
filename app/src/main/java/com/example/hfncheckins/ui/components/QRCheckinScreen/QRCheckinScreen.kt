@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.hfncheckins.model.CheckinType
 import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
 import com.example.hfncheckins.ui.components.common.CustomLazyColumn
 import com.example.hfncheckins.ui.components.common.Heading
@@ -67,7 +68,8 @@ fun QRCheckinScreenPreview() {
             regId = "0",
             timestamp = 0,
             dormAndBerthAllocation = "",
-            batch = "batch1"
+            batch = "batch1",
+            type = CheckinType.QR.name
         ),
         QRCodeCheckin(
             checkin = false,
@@ -81,7 +83,9 @@ fun QRCheckinScreenPreview() {
             regId = "1",
             timestamp = 0,
             dormAndBerthAllocation = "",
-            batch = "batch1"
+            batch = "batch1",
+            type = CheckinType.QR.name
+
         ),
         QRCodeCheckin(
             checkin = false,
@@ -95,7 +99,9 @@ fun QRCheckinScreenPreview() {
             regId = "2",
             timestamp = 0,
             dormAndBerthAllocation = "",
-            batch = "batch2"
+            batch = "batch2",
+            type = CheckinType.QR.name
+
         )
     )
     qrCheckinScreenViewModel.setupList(qrCheckinItems)

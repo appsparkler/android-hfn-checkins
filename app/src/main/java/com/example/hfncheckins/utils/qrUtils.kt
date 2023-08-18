@@ -1,5 +1,6 @@
 package com.example.hfncheckins.utils
 
+import com.example.hfncheckins.model.CheckinType
 import com.example.hfncheckins.model.EventOrderGeneralDetails
 import com.example.hfncheckins.model.QRType
 import com.example.hfncheckins.model.QRCodeCheckin
@@ -45,7 +46,8 @@ fun getQRCheckins(value: String):List<QRCodeCheckin> {
 //    general details
         pnr = generalDetails.pnr,
         eventName = generalDetails.eventTitle,
-        orderId = generalDetails.orderId
+        orderId = generalDetails.orderId,
+        type = CheckinType.QR.name
       )
   }
   return checkins

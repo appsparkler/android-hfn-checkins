@@ -13,5 +13,6 @@ data class EmailOrMobileCheckin(
     val country: String,
     val dormOrBerthAllocation: String,
     val timestamp: Long,
-    val isValid: Boolean
+    val isValid: Boolean,
+    val type: String,
 )

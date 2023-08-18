@@ -1,6 +1,7 @@
 package com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen
 
 import androidx.lifecycle.ViewModel
+import com.example.hfncheckins.model.CheckinType
 import com.example.hfncheckins.model.EmailOrMobileCheckin
 import com.example.hfncheckins.utils.isEmailValid
 import com.example.hfncheckins.utils.isValidPhoneNumber
@@ -23,7 +24,8 @@ class CheckinWithMobileOrEmailViewModel : ViewModel() {
             country = "",
             isValid = false,
             startWithMobile = true,
-            batch = "batch-1,batch-2"
+            batch = null,
+            type = CheckinType.MOBILE_OR_EMAIL.name
         )
     )
     val uiState = _uiState.asStateFlow()

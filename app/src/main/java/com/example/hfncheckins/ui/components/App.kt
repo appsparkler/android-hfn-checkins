@@ -2,11 +2,13 @@ package com.example.hfncheckins.ui.components
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -41,6 +43,8 @@ import com.example.hfncheckins.utils.isValidAbhyasiId
 import com.example.hfncheckins.model.AbhyasiIdCheckin
 import com.example.hfncheckins.model.InputValueType
 import com.example.hfncheckins.model.QRCodeCheckin
+import com.example.hfncheckins.utils.getDefaultBatch
+import com.example.hfncheckins.utils.getQRCheckinsAndMore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -84,9 +88,11 @@ fun AppWithNav(
             InputValueType.ABHYASI_ID -> {
               navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$batch")
             }
+
             InputValueType.PHONE_NUMBER -> {
               navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type/$batch")
             }
+
             InputValueType.EMAIL -> {
               navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type/$batch")
             }
@@ -175,8 +181,9 @@ fun AppWithNav(
     ) {
       it.arguments?.getString("code")?.let { code ->
         val qrCheckinViewModel = QRCheckinScreenViewModel()
-        val qrCheckins = getQRCheckins(code)
-        qrCheckinViewModel.setupList(qrCheckins)
+        val qrCheckins = getQRCheckinsAndMore(code)
+        qrCheckinViewModel.setupList(qrCheckins.checkins)
+        qrCheckinViewModel.updateMore((qrCheckins.more))
         QRCheckinScreen(
           qrCheckinviewModel = qrCheckinViewModel,
           onClickCheckin = {
@@ -265,9 +272,11 @@ fun AppWithCodeScannerAndRouter(
 
 val TAG = "AppWithCodeScannerAndRouterAndFirebase"
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppWithCodeScannerAndRouterAndFirebase() {
   val db = Firebase.firestore
+  val defaultBatch = getDefaultBatch()
   val hfnEvent = HFNEvent(
     title = "68th Birthday of Pujya Daaji Maharaj",
     id = "2023_september_bhandara",
@@ -276,7 +285,7 @@ fun AppWithCodeScannerAndRouterAndFirebase() {
       "batch-2",
       "batch-1,batch-2"
     ),
-    defaultBatch = "batch-1"
+    defaultBatch = defaultBatch
   )
   val collection = db.collection("/events/${hfnEvent.id}/checkins")
   AppWithCodeScannerAndRouter(
@@ -290,7 +299,15 @@ fun AppWithCodeScannerAndRouterAndFirebase() {
           Log.w(TAG, "Error writing document", it)
         }
     },
-    onCheckinWithEmailOrMobile = {},
+    onCheckinWithEmailOrMobile = {
+      collection.document("em-${it.email}-${it.mobile}-${it.fullName}").set(it)
+        .addOnSuccessListener {
+          Log.d(TAG, "DocumentSnapshot successfully written!")
+        }
+        .addOnFailureListener() {
+          Log.w(TAG, "Error writing document", it)
+        }
+    },
     onCheckinWithQRCode = {
       collection.document(it.regId).set(it)
         .addOnSuccessListener {

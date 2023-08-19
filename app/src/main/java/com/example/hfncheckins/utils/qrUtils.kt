@@ -34,8 +34,8 @@ fun isQRValid(value: String): Boolean {
     val isValidEventTitle = generalDetails.eventTitle.isNotEmpty()
     val isValidPnr = generalDetails.pnr.matches("[A-Z]{2}-[A-Z]{4}-[A-Z]{4}".toRegex())
     val isValidOrderId = generalDetails.orderId.isNotEmpty()
-    val allCheckins = getQRCheckins(refinedValue)
-    val isValid = isValidEventTitle && isValidPnr && isValidOrderId && allCheckins.isNotEmpty()
+    val allCheckins = getQRCheckinsAndMore(refinedValue)
+    val isValid = isValidEventTitle && isValidPnr && isValidOrderId && allCheckins.checkins.isNotEmpty()
     return isValid
   } catch (e: Exception) {
     return false

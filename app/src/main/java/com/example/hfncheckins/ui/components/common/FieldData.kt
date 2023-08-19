@@ -16,7 +16,7 @@ fun FieldData(
   fieldName: String,
   fieldValue: String? = null
 ) {
-    if(fieldValue?.isNotBlank() != null) {
+    if(!fieldValue.isNullOrBlank()){
       Row(
         modifier = modifier
       ) {

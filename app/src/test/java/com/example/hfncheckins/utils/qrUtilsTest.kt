@@ -4,7 +4,7 @@ import com.example.hfncheckins.model.QRType
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
-class qrUtilsTest {
+class QRUtilsTest {
   @Test
   fun test_getGeneralDetails_PAID_ACCOMODATION() {
     val refinedValue =
@@ -20,6 +20,12 @@ class qrUtilsTest {
     val paidQR =
       "96th Birth Anniversary of Pujya Shri Chariji Maharaj|ME-ICJN-MHVQ|24999;4e0a5913-b77d-4c2f-a4fd-d4554e930ecf|INKKAD166|K. KAILASAM|SouthS2-GF-NonAC|LB;"
     assertEquals(true, isQRValid(paidQR))
+  }
+
+  @Test
+  fun test_isQRValid_OWN_ACCOMODATION_WITH_MORE() {
+    val qrRawValue = "68th Birthday of Pujya Daaji Maharaj| Bhandara| MA-ICQK-ZTQH;aa037594-6276-45c2-b57e-714b154fa9a3|batch-2|INJSAB136|Karan Crowston;d4ab8ca1-29ec-4ef6-910b-731a6ed1751a|batch-1|INKJAB106|Petronila Rouzer;57d4f9d1-1712-4a86-a859-f6c40ae8169f|batch-2, batch-1|INVGAD114|Osvaldo Hons;671a7fd6-6cd4-4762-8d46-6bb71d21d0bf|batch-2|INCKAE027|Denyse Sanz;0baa6bcd-2358-4435-bf40-5145c59a7d17|batch-1|INKAAE326|Nigel Mikles;3 more..."
+    assertEquals(true, isQRValid(qrRawValue))
   }
 
   @Test
@@ -60,7 +66,7 @@ class qrUtilsTest {
   }
 
   @Test
-  fun test_getCheckins_paid_accomodation() {
+  fun test_getQRCheckins_paid_accomodation() {
     val refinedValue =
       "96th Birth Anniversary of Pujya Shri Chariji Maharaj|ME-ICJN-MHVQ|24999;4e0a5913-b77d-4c2f-a4fd-d4554e930ecf|batch1|INKKAD166|K. KAILASAM|SouthS2-GF-NonAC|LB;"
     val checkins = getQRCheckins(refinedValue)
@@ -85,7 +91,7 @@ class qrUtilsTest {
   }
 
   @Test
-  fun test_getCheckins_own_accomodation() {
+  fun test_getQRCheckins_own_accomodation() {
     val code =
       "96th Birth Anniversary of Pujya Shri Chariji Maharaj| Bhandara| SU-ICJQ-VZJK;e1e2da12-4f2f-4c42-b8ee-87df204a3e4e|batch1|INAUEW392|User 1;633d53fe-443d-4fg4-b3b0-7bd13dabf303|batch1|INLIET292|User 2;"
     val checkins = getQRCheckins(code)
@@ -117,7 +123,6 @@ class qrUtilsTest {
     val scannedValue = "96th Birth Anniversary of Pujya Shri Chariji Maharaj|ME-ICJN-MHVQ|24999;4e0a5913-b77d-4c2f-a4fd-d4554e930ecf|INKKAD166|K. KAILASAM|SouthS2-GF-NonAC|LB;"
     assertEquals(QRType.PAID_ACCOMODATION, getQRType(scannedValue))
   }
-
 
   @Test
   fun test_getGeneralDetails_OWN_ACCOMODATION() {

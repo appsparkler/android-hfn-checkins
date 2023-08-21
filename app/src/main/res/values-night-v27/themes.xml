@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Theme.HFNCheckins" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/dark_primaryContainer</item>
         <item name="android:windowLightStatusBar">false</item>
 
         <item name="android:navigationBarColor">@color/dark_primaryContainer</item>
         <item name="android:windowLightNavigationBar">false</item>
+
+        <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/dark_primaryContainer</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@mipmap/ic_launcher_round</item>
     </style>
 </resources>

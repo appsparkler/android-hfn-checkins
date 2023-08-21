@@ -9,5 +9,6 @@
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
 
         <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/dark_primaryContainer</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@mipmap/ic_launcher_round</item>
     </style>
 </resources>

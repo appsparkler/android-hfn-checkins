@@ -8,9 +8,8 @@
         <item name="android:navigationBarColor">@color/light_primaryContainer</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
 
-        <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/dark_primaryContainer</item>
-
-        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@drawable/ic_launcher_foreground</item>
+        <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/light_primaryContainer</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@mipmap/ic_launcher_round</item>
 
     </style>
 </resources>

@@ -2,10 +2,13 @@ package com.example.hfncheckins
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.material3.*
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
 import com.example.hfncheckins.codescanner.Utils
 import com.example.hfncheckins.ui.components.AppWithCodeScannerAndRouter
@@ -45,7 +48,9 @@ class MainActivity : ComponentActivity() {
     }
   }
 
+  @RequiresApi(Build.VERSION_CODES.O)
   override fun onCreate(savedInstanceState: Bundle?) {
+    installSplashScreen()
     super.onCreate(savedInstanceState)
     val auth = Firebase.auth
 

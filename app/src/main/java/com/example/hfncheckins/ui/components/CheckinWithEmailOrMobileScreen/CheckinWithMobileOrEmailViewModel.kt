@@ -25,7 +25,8 @@ class CheckinWithMobileOrEmailViewModel : ViewModel() {
             isValid = false,
             startWithMobile = true,
             batch = null,
-            type = CheckinType.MOBILE_OR_EMAIL.name
+            type = CheckinType.MOBILE_OR_EMAIL.name,
+            event = ""
         )
     )
     val uiState = _uiState.asStateFlow()
@@ -61,7 +62,8 @@ class CheckinWithMobileOrEmailViewModel : ViewModel() {
         state: String? = null,
         country: String? = null,
         isValid: Boolean? = null,
-        startWithMobile: Boolean? = null
+        startWithMobile: Boolean? = null,
+        event: String? = null
     ) {
         val currentState = _uiState.value
         _uiState.update {
@@ -78,7 +80,8 @@ class CheckinWithMobileOrEmailViewModel : ViewModel() {
                 country = country ?: currentState.country,
                 isValid = isValid ?: currentState.isValid,
                 startWithMobile = startWithMobile ?: currentState.startWithMobile,
-                batch = batch ?: currentState.batch
+                batch = batch ?: currentState.batch,
+                event = event ?: currentState.event,
             )
         }
         validate()

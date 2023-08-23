@@ -119,7 +119,8 @@ fun AppWithNav(
               email = if (type == InputValueType.EMAIL.name) emailOrPhoneNumber else "",
               mobile = if (isMobile) emailOrPhoneNumber else "",
               startWithMobile = isMobile,
-              batch = batch
+              batch = batch,
+              event = hfnEvent.title
             )
             EmailWithMobileOrEmailScreen(
               onClickCheckin = {

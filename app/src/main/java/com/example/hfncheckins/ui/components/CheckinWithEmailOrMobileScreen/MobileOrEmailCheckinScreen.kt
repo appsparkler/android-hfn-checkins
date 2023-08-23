@@ -24,15 +24,12 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.hfncheckins.model.EmailOrMobileCheckin
 import com.example.hfncheckins.model.MobileOrEmailCheckinDBModel
 import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
 import com.example.hfncheckins.ui.components.common.CustomLazyColumn
 import com.example.hfncheckins.ui.components.common.FieldData
 import com.example.hfncheckins.ui.components.common.Heading
 import com.example.hfncheckins.ui.hfnTheme.HFNTheme
-import com.example.hfncheckins.utils.isEmailValid
-import com.example.hfncheckins.utils.isValidPhoneNumber
 
 fun extractAge(input: String?): String? {
   if (!input.isNullOrBlank()) {
@@ -95,6 +92,7 @@ fun EmailWithMobileOrEmailScreen(
         city = emailOrMobileCheckin.city.uppercase(),
         state = emailOrMobileCheckin.state.uppercase(),
         country = emailOrMobileCheckin.country.uppercase(),
+        event = emailOrMobileCheckin.event
       )
     )
   }

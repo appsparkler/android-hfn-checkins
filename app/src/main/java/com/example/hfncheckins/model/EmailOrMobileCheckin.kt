@@ -2,6 +2,7 @@ package com.example.hfncheckins.model
 
 data class EmailOrMobileCheckin(
     val startWithMobile: Boolean,
+    val event: String,
     val batch: String? = null,
     val email: String,
     val mobile: String,
@@ -19,6 +20,7 @@ data class EmailOrMobileCheckin(
 
 data class MobileOrEmailCheckinDBModel(
     val timestamp: Long,
+    val event: String,
     val type: String,
     val batch: String,
     val email: String,

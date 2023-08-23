@@ -85,7 +85,7 @@ fun AppWithNav(
         onStartCheckin = { inputValue, type, batch ->
           when (type) {
             InputValueType.ABHYASI_ID -> {
-              navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type/$batch")
+              navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$batch")
             }
             InputValueType.PHONE_NUMBER -> {
               navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type/$batch")
@@ -136,7 +136,7 @@ fun AppWithNav(
       }
     }
     composable(
-      route = "${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/{code}/{type}/{batch}",
+      route = "${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/{code}/{batch}",
       arguments = listOf(
         navArgument("code") {
           type = NavType.StringType
@@ -150,7 +150,7 @@ fun AppWithNav(
             val abhyasiIdCheckinViewModel = AbhyasiIdCheckinViewModel()
             abhyasiIdCheckinViewModel.update(
               abhyasiId = code,
-              batch = batch
+              batch = batch,
             )
             AbhyasiIdCheckinScreen(
               abhyasiIdCheckinViewModel = abhyasiIdCheckinViewModel,

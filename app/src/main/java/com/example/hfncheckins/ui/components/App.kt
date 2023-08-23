@@ -37,7 +37,6 @@ import com.example.hfncheckins.ui.components.MainScreen.MainScreen
 import com.example.hfncheckins.ui.components.QRCheckinScreen.QRCheckinScreen
 import com.example.hfncheckins.ui.components.QRCheckinScreen.QRCheckinScreenViewModel
 import com.example.hfncheckins.model.Routes
-import com.example.hfncheckins.utils.getQRCheckins
 import com.example.hfncheckins.utils.isQRValid
 import com.example.hfncheckins.utils.isValidAbhyasiId
 import com.example.hfncheckins.model.AbhyasiIdCheckin
@@ -86,13 +85,11 @@ fun AppWithNav(
         onStartCheckin = { inputValue, type, batch ->
           when (type) {
             InputValueType.ABHYASI_ID -> {
-              navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$batch")
+              navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type/$batch")
             }
-
             InputValueType.PHONE_NUMBER -> {
               navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type/$batch")
             }
-
             InputValueType.EMAIL -> {
               navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type/$batch")
             }
@@ -139,7 +136,7 @@ fun AppWithNav(
       }
     }
     composable(
-      route = "${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/{code}/{batch}",
+      route = "${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/{code}/{type}/{batch}",
       arguments = listOf(
         navArgument("code") {
           type = NavType.StringType

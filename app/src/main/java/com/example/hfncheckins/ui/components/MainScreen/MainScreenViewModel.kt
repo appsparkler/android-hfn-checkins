@@ -18,7 +18,7 @@ class MainScreenViewModel : ViewModel() {
     batch: String? = null,
     value: String? = null
   ) {
-    val type = getType()
+    val type = getType(value)
     val isValid = if (value != null) {
       isValidAbhyasiId(value) ||
               isValidPhoneNumber(value) ||
@@ -36,12 +36,14 @@ class MainScreenViewModel : ViewModel() {
     }
   }
 
-  fun getType(): InputValueType? {
-    val type = if (isValidAbhyasiId(_uiState.value.value)) {
+  fun getType(value: String?): InputValueType? {
+    val type = if(value == null){
+      null
+    } else if(isValidAbhyasiId(value)) {
       InputValueType.ABHYASI_ID
-    } else if (isValidPhoneNumber(_uiState.value.value)) {
+    } else if (isValidPhoneNumber(value)) {
       InputValueType.PHONE_NUMBER
-    } else if (isEmailValid(_uiState.value.value)) {
+    } else if (isEmailValid(value)) {
       InputValueType.EMAIL
     } else {
       null

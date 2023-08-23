@@ -37,7 +37,6 @@ import com.example.hfncheckins.ui.components.MainScreen.MainScreen
 import com.example.hfncheckins.ui.components.QRCheckinScreen.QRCheckinScreen
 import com.example.hfncheckins.ui.components.QRCheckinScreen.QRCheckinScreenViewModel
 import com.example.hfncheckins.model.Routes
-import com.example.hfncheckins.utils.getQRCheckins
 import com.example.hfncheckins.utils.isQRValid
 import com.example.hfncheckins.utils.isValidAbhyasiId
 import com.example.hfncheckins.model.AbhyasiIdCheckin

@@ -16,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -31,7 +30,6 @@ import com.example.hfncheckins.ui.components.AbhyasiIdCheckinScreen.AbhyasiIdChe
 import com.example.hfncheckins.ui.components.AbhyasiIdCheckinScreen.AbhyasiIdCheckinViewModel
 import com.example.hfncheckins.ui.components.CheckinSuccessScreen.CheckinSuccessScreen
 import com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen.CheckinWithMobileOrEmailViewModel
-import com.example.hfncheckins.model.EmailOrMobileCheckin
 import com.example.hfncheckins.model.HFNEvent
 import com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen.EmailWithMobileOrEmailScreen
 import com.example.hfncheckins.ui.components.MainScreen.MainScreen
@@ -42,12 +40,12 @@ import com.example.hfncheckins.utils.isQRValid
 import com.example.hfncheckins.utils.isValidAbhyasiId
 import com.example.hfncheckins.model.AbhyasiIdCheckin
 import com.example.hfncheckins.model.InputValueType
+import com.example.hfncheckins.model.MobileOrEmailCheckinDBModel
 import com.example.hfncheckins.model.QRCodeCheckin
 import com.example.hfncheckins.utils.getDefaultBatch
 import com.example.hfncheckins.utils.getQRCheckinsAndMore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.util.Locale
 
 @Composable
 fun AppWithNav(
@@ -59,7 +57,7 @@ fun AppWithNav(
     abhyasiIdCheckin: AbhyasiIdCheckin,
   ) -> Unit,
   onCheckinWithEmailOrMobile: (
-    emailOrMobileCheckin: EmailOrMobileCheckin,
+    emailOrMobileCheckin: MobileOrEmailCheckinDBModel,
   ) -> Unit,
   onCheckinWithQRCode: (
     qrCodeCheckin: QRCodeCheckin,
@@ -218,7 +216,7 @@ fun AppWithCodeScannerAndRouter(
   modifier: Modifier = Modifier,
   hfnEvent: HFNEvent,
   onCheckinWithAbhyasiId: (abhyasiIdCheckin: AbhyasiIdCheckin) -> Unit,
-  onCheckinWithEmailOrMobile: (emailOrMobileCheckin: EmailOrMobileCheckin) -> Unit,
+  onCheckinWithEmailOrMobile: (emailOrMobileCheckin: MobileOrEmailCheckinDBModel) -> Unit,
   onCheckinWithQRCode: (qrCodeCheckin: QRCodeCheckin) -> Unit
 ) {
   var batch: String? = ""

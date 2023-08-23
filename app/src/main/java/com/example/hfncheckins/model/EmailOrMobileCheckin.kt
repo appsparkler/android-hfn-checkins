@@ -16,3 +16,18 @@ data class EmailOrMobileCheckin(
     val isValid: Boolean,
     val type: String,
 )
+
+data class MobileOrEmailCheckinDBModel(
+    val timestamp: Long,
+    val type: String,
+    val batch: String,
+    val email: String,
+    val fullName: String,
+    val ageGroup: String,
+    val mobile: String,
+    val dormOrBerthAllocation: String,
+    val gender: String,
+    val city: String,
+    val state: String,
+    val country: String
+)

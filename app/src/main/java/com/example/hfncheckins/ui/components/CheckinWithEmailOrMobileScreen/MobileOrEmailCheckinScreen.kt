@@ -1,6 +1,5 @@
 package com.example.hfncheckins.ui.components.CheckinWithEmailOrMobileScreen
 
-import android.os.Handler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,6 +25,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hfncheckins.model.EmailOrMobileCheckin
+import com.example.hfncheckins.model.MobileOrEmailCheckinDBModel
 import com.example.hfncheckins.ui.components.common.CheckinAndCancelButtons
 import com.example.hfncheckins.ui.components.common.CustomLazyColumn
 import com.example.hfncheckins.ui.components.common.FieldData
@@ -34,186 +34,228 @@ import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.utils.isEmailValid
 import com.example.hfncheckins.utils.isValidPhoneNumber
 
+fun extractAge(input: String?): String? {
+  if (!input.isNullOrBlank()) {
+    val pattern = Regex("\\d+-(\\d+)")
+    val matchResult = pattern.find(input)
+
+    return matchResult?.groupValues?.get(1)
+  } else {
+    return null
+  }
+}
+
+fun extractGender(input: String?): String? {
+  if (!input.isNullOrBlank()) {
+    when (input) {
+      "Male" -> return "M"
+      "Female" -> return "F"
+      "Unspecified" -> return "U"
+      else -> return null
+    }
+  }
+  return null
+}
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun EmailWithMobileOrEmailScreen(
-    modifier: Modifier = Modifier,
-    checkinWithMobileOrEmailViewModel: CheckinWithMobileOrEmailViewModel= viewModel(),
-    onClickCheckin: (EmailOrMobileCheckin) -> Unit,
-    onClickCancel: () -> Unit
+  modifier: Modifier = Modifier,
+  checkinWithMobileOrEmailViewModel: CheckinWithMobileOrEmailViewModel = viewModel(),
+  onClickCheckin: (MobileOrEmailCheckinDBModel) -> Unit,
+  onClickCancel: () -> Unit
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val emailOrMobileCheckin by checkinWithMobileOrEmailViewModel.uiState.collectAsState()
-    val imeDoneAction = KeyboardOptions.Default.copy(
-        imeAction = ImeAction.Done
+  val keyboardController = LocalSoftwareKeyboardController.current
+  val emailOrMobileCheckin by checkinWithMobileOrEmailViewModel.uiState.collectAsState()
+  val imeDoneAction = KeyboardOptions.Default.copy(
+    imeAction = ImeAction.Done
+  )
+  val imeNoneAction = KeyboardOptions.Default.copy(
+    imeAction = ImeAction.None
+  )
+  val imeNextAction = KeyboardOptions.Default.copy(
+    imeAction = ImeAction.Next
+  )
+  val optionalText = " (optional)"
+  val emailLabel = "Email" + if (emailOrMobileCheckin.startWithMobile) optionalText else ""
+  val mobileLabel = "Mobile" + if (!emailOrMobileCheckin.startWithMobile) optionalText else ""
+  val handleClickCheckin = {
+    keyboardController?.hide()
+    onClickCheckin(
+      MobileOrEmailCheckinDBModel(
+        timestamp = System.currentTimeMillis(),
+        type = emailOrMobileCheckin.type,
+        batch = emailOrMobileCheckin.batch ?: "",
+        email = emailOrMobileCheckin.email.uppercase(),
+        fullName = emailOrMobileCheckin.fullName.uppercase(),
+        ageGroup = extractAge(emailOrMobileCheckin.ageGroup) ?: "",
+        mobile = emailOrMobileCheckin.mobile,
+        dormOrBerthAllocation = emailOrMobileCheckin.dormOrBerthAllocation,
+        gender = extractGender(emailOrMobileCheckin.gender) ?: "",
+        city = emailOrMobileCheckin.city.uppercase(),
+        state = emailOrMobileCheckin.state.uppercase(),
+        country = emailOrMobileCheckin.country.uppercase(),
+      )
     )
-    val imeNoneAction = KeyboardOptions.Default.copy(
-        imeAction = ImeAction.None
-    )
-    val imeNextAction = KeyboardOptions.Default.copy(
-        imeAction = ImeAction.Next
-    )
-    val optionalText = " (optional)"
-    val emailLabel = "Email" + if (emailOrMobileCheckin.startWithMobile) optionalText else ""
-    val mobileLabel = "Mobile" + if (!emailOrMobileCheckin.startWithMobile) optionalText else ""
-    val handleClickCheckin = {
-        keyboardController?.hide()
-        onClickCheckin(emailOrMobileCheckin)
+  }
+  CustomLazyColumn(
+    modifier = modifier
+  ) {
+    item {
+      Spacer(
+        modifier = Modifier
+          .fillMaxWidth()
+          .height(12.dp)
+      )
+      Heading(
+        heading = "Checkin with \n Email or Mobile"
+      )
     }
-    CustomLazyColumn(
-        modifier = modifier
-    ) {
-        item {
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .height(12.dp))
-            Heading(
-                heading = "Checkin with \n Email or Mobile"
-            )
-        }
-        item {
-            ElevatedCard(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.elevatedCardColors(
-                    containerColor = if (emailOrMobileCheckin.isValid) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainer
-                )
-            ) {
-                Column(
-                    modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(
-                        2.dp
-                    )
-                ) {
-                    FieldData(fieldName = "Batch: ", fieldValue = emailOrMobileCheckin.batch)
-                    OutlinedTextField(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        value = emailOrMobileCheckin.fullName,
-                        onValueChange = {
-                            checkinWithMobileOrEmailViewModel.update(fullName = it)
-                        },
-                        label = {
-                            Text(text = "Full Name")
-                        },
-                        keyboardOptions = imeDoneAction
-                    )
-                    AgeAndGenderRow(
-                        age = emailOrMobileCheckin.ageGroup, onChangeAge = {
-                            checkinWithMobileOrEmailViewModel.update(ageGroup = it)
-                        },
-                        gender = emailOrMobileCheckin.gender, onChangeGender = {
-                            checkinWithMobileOrEmailViewModel.update(gender = it)
-                        }
-                    )
-                    OutlinedTextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        value = emailOrMobileCheckin.city,
-                        onValueChange = {
-                            checkinWithMobileOrEmailViewModel.update(city = it)
-                        },
-                        label = {
-                            Text(text = "City")
-                        },
-                        keyboardOptions = imeNextAction
-                    )
-                    OutlinedTextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        value = emailOrMobileCheckin.state,
-                        onValueChange = {
-                            checkinWithMobileOrEmailViewModel.update(state = it)
-                        },
-                        label = {
-                            Text(text = "State")
-                        },
-                        keyboardOptions = imeNextAction
-                    )
-                    OutlinedTextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        value = emailOrMobileCheckin.country,
-                        onValueChange = {
-                            checkinWithMobileOrEmailViewModel.update(country = it)
-                        },
-                        label = {
-                            Text(text = "Country")
-                        },
-                        keyboardOptions = imeNextAction
-                    )
-                    OutlinedTextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        value = emailOrMobileCheckin.mobile,
-                        onValueChange = {
-                            checkinWithMobileOrEmailViewModel.update(mobile = it)
-                        },
-                        enabled = !emailOrMobileCheckin.startWithMobile,
-                        keyboardOptions = imeNextAction,
-                        label = {
-                            Text(text = mobileLabel)
-                        }
-                    )
-                    OutlinedTextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        value = emailOrMobileCheckin.email,
-                        onValueChange = {
-                            checkinWithMobileOrEmailViewModel.update(email = it)
-                        },
-                        enabled = emailOrMobileCheckin.startWithMobile,
-                        label = {
-                            Text(text = emailLabel)
-                        },
-                        keyboardOptions = imeNextAction
-                    )
-                    OutlinedTextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        value = emailOrMobileCheckin.dormOrBerthAllocation,
-                        onValueChange = {
-                            checkinWithMobileOrEmailViewModel.update(dormOrBerthAllocation = it)
-                        },
-                        label = {
-                            Text(text = "Dorm and Berth Allocation")
-                        },
-                        keyboardOptions = if (emailOrMobileCheckin.isValid) imeDoneAction else imeNoneAction,
-                        keyboardActions = KeyboardActions(
-                            onDone = {
-                                handleClickCheckin()
-                            }
-                        )
-                    )
-                }
+    item {
+      ElevatedCard(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.elevatedCardColors(
+          containerColor = if (emailOrMobileCheckin.isValid) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainer
+        )
+      ) {
+        Column(
+          modifier = Modifier.padding(16.dp),
+          verticalArrangement = Arrangement.spacedBy(
+            2.dp
+          )
+        ) {
+          FieldData(fieldName = "Batch: ", fieldValue = emailOrMobileCheckin.batch)
+          OutlinedTextField(
+            modifier = Modifier
+              .fillMaxWidth(),
+            value = emailOrMobileCheckin.fullName,
+            onValueChange = {
+              checkinWithMobileOrEmailViewModel.update(fullName = it)
+            },
+            label = {
+              Text(text = "Full Name")
+            },
+            keyboardOptions = imeDoneAction
+          )
+          AgeAndGenderRow(
+            age = emailOrMobileCheckin.ageGroup, onChangeAge = {
+              checkinWithMobileOrEmailViewModel.update(ageGroup = it)
+            },
+            gender = emailOrMobileCheckin.gender, onChangeGender = {
+              checkinWithMobileOrEmailViewModel.update(gender = it)
             }
-        }
-        item {
-            CheckinAndCancelButtons(
-                isCheckinValid = emailOrMobileCheckin.isValid,
-                onClickCancel = onClickCancel,
-                onClickCheckin = {
-                    handleClickCheckin()
-                }
+          )
+          OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = emailOrMobileCheckin.city,
+            onValueChange = {
+              checkinWithMobileOrEmailViewModel.update(city = it)
+            },
+            label = {
+              Text(text = "City")
+            },
+            keyboardOptions = imeNextAction
+          )
+          OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = emailOrMobileCheckin.state,
+            onValueChange = {
+              checkinWithMobileOrEmailViewModel.update(state = it)
+            },
+            label = {
+              Text(text = "State")
+            },
+            keyboardOptions = imeNextAction
+          )
+          OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = emailOrMobileCheckin.country,
+            onValueChange = {
+              checkinWithMobileOrEmailViewModel.update(country = it)
+            },
+            label = {
+              Text(text = "Country")
+            },
+            keyboardOptions = imeNextAction
+          )
+          OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = emailOrMobileCheckin.mobile,
+            onValueChange = {
+              checkinWithMobileOrEmailViewModel.update(mobile = it)
+            },
+            enabled = !emailOrMobileCheckin.startWithMobile,
+            keyboardOptions = imeNextAction,
+            label = {
+              Text(text = mobileLabel)
+            }
+          )
+          OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = emailOrMobileCheckin.email,
+            onValueChange = {
+              checkinWithMobileOrEmailViewModel.update(email = it)
+            },
+            enabled = emailOrMobileCheckin.startWithMobile,
+            label = {
+              Text(text = emailLabel)
+            },
+            keyboardOptions = imeNextAction
+          )
+          OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = emailOrMobileCheckin.dormOrBerthAllocation,
+            onValueChange = {
+              checkinWithMobileOrEmailViewModel.update(dormOrBerthAllocation = it)
+            },
+            label = {
+              Text(text = "Dorm and Berth Allocation")
+            },
+            keyboardOptions = if (emailOrMobileCheckin.isValid) imeDoneAction else imeNoneAction,
+            keyboardActions = KeyboardActions(
+              onDone = {
+                handleClickCheckin()
+              }
             )
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .height(12.dp))
+          )
         }
+      }
     }
+    item {
+      CheckinAndCancelButtons(
+        isCheckinValid = emailOrMobileCheckin.isValid,
+        onClickCancel = onClickCancel,
+        onClickCheckin = {
+          handleClickCheckin()
+        }
+      )
+      Spacer(
+        modifier = Modifier
+          .fillMaxWidth()
+          .height(12.dp)
+      )
+    }
+  }
 }
 
 @Preview
 @Composable
 fun EmailWithMobileOrEmailScreenPreview() {
-    val checkinWithMobileOrEmailViewModel = CheckinWithMobileOrEmailViewModel()
-    checkinWithMobileOrEmailViewModel.update(
-        email = "abc@def.com",
-        startWithMobile = false,
-    )
-    HFNTheme() {
-        Scaffold() {
-            EmailWithMobileOrEmailScreen(
-                modifier = Modifier
-                    .padding(it)
-                    .padding(8.dp),
-                checkinWithMobileOrEmailViewModel = checkinWithMobileOrEmailViewModel,
-                onClickCheckin = {},
-                onClickCancel = {},
-            )
-        }
+  val checkinWithMobileOrEmailViewModel = CheckinWithMobileOrEmailViewModel()
+  checkinWithMobileOrEmailViewModel.update(
+    email = "abc@def.com",
+    startWithMobile = false,
+  )
+  HFNTheme() {
+    Scaffold() {
+      EmailWithMobileOrEmailScreen(
+        modifier = Modifier
+          .padding(it)
+          .padding(8.dp),
+        checkinWithMobileOrEmailViewModel = checkinWithMobileOrEmailViewModel,
+        onClickCheckin = {},
+        onClickCancel = {},
+      )
     }
+  }
 }

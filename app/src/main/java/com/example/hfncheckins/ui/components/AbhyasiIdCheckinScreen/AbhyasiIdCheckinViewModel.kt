@@ -29,7 +29,7 @@ class AbhyasiIdCheckinViewModel : ViewModel() {
         abhyasiId = abhyasiId ?: _uiState.value.abhyasiId,
         dormAndBerthAllocation = dormAndBerthAllocation ?: _uiState.value.dormAndBerthAllocation,
         timestamp = System.currentTimeMillis(),
-        batch = batch
+        batch = batch ?: _uiState.value.batch
       )
     }
   }

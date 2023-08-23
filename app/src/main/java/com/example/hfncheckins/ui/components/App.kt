@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -46,6 +47,7 @@ import com.example.hfncheckins.utils.getDefaultBatch
 import com.example.hfncheckins.utils.getQRCheckinsAndMore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.util.Locale
 
 @Composable
 fun AppWithNav(
@@ -140,7 +142,9 @@ fun AppWithNav(
       arguments = listOf(
         navArgument("code") {
           type = NavType.StringType
-          defaultValue = "Default"
+        },
+        navArgument("batch") {
+          type = NavType.StringType
         }
       )
     ) {
@@ -149,13 +153,15 @@ fun AppWithNav(
           if (code.isNotEmpty()) {
             val abhyasiIdCheckinViewModel = AbhyasiIdCheckinViewModel()
             abhyasiIdCheckinViewModel.update(
-              abhyasiId = code,
+              abhyasiId = code.uppercase(),
               batch = batch,
             )
             AbhyasiIdCheckinScreen(
               abhyasiIdCheckinViewModel = abhyasiIdCheckinViewModel,
               onClickCheckin = {
-                onCheckinWithAbhyasiId(it)
+                onCheckinWithAbhyasiId(it.copy(
+                  timestamp = System.currentTimeMillis()
+                ))
                 navigateToSuccessScreen()
               },
               onClickCancel = {

@@ -14,7 +14,7 @@ data class QRCheckinsAndMore(
 )
 
 fun getQRCheckinsAndMore(rawValue: String): QRCheckinsAndMore {
-  val moreRegex =  Regex("""(\d+\s+more\.\.\.)""")
+  val moreRegex =  Regex("""(\d+\s+more\.\.)""")
   val moreMatch = moreRegex.find(rawValue)
   val more = if (moreMatch!== null) {
     moreMatch.groupValues[1]

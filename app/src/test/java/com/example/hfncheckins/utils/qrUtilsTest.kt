@@ -31,7 +31,7 @@ class QRUtilsTest {
   @Test
   fun test_getQRCheckinsAndMore_PAID_ACCOMODATION() {
     val paidQR =
-      "96th Birth Anniversary of Pujya Shri Chariji Maharaj|ME-ICJN-MHVQ|24999;4e0a5913-b77d-4c2f-a4fd-d4554e930ecf|batch1,batch2|INKKAD166|K. KAILASAM|SouthS2-GF-NonAC|LB;3 more..."
+      "96th Birth Anniversary of Pujya Shri Chariji Maharaj|ME-ICJN-MHVQ|24999;4e0a5913-b77d-4c2f-a4fd-d4554e930ecf|batch1,batch2|INKKAD166|K. KAILASAM|SouthS2-GF-NonAC|LB;3 more.."
     val result = getQRCheckinsAndMore(paidQR)
     assertEquals("3 more...", result.more)
     assertEquals(1, result.checkins.size)
@@ -42,7 +42,7 @@ class QRUtilsTest {
   @Test
   fun test_getQRCheckinsAndMore_OWN_ACCOMODATION() {
     val paidQR =
-      "96th Birth Anniversary of Pujya Shri Chariji Maharaj|Bhandara|ME-ICJN-MHVQ;4e0a5913-b77d-4c2f-a4fd-d4554e930ecf|batch1,batch2|INKKAD166|K. KAILASAM|SouthS2-GF-NonAC|LB;3 more..."
+      "96th Birth Anniversary of Pujya Shri Chariji Maharaj|Bhandara|ME-ICJN-MHVQ;4e0a5913-b77d-4c2f-a4fd-d4554e930ecf|batch1,batch2|INKKAD166|K. KAILASAM|SouthS2-GF-NonAC|LB;3 more.."
     val result = getQRCheckinsAndMore(paidQR)
     assertEquals("3 more...", result.more)
     assertEquals(1, result.checkins.size)

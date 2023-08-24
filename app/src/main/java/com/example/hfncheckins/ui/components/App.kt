@@ -42,6 +42,7 @@ import com.example.hfncheckins.model.AbhyasiIdCheckin
 import com.example.hfncheckins.model.InputValueType
 import com.example.hfncheckins.model.MobileOrEmailCheckinDBModel
 import com.example.hfncheckins.model.QRCodeCheckin
+import com.example.hfncheckins.model.QRCodeCheckinDBModel
 import com.example.hfncheckins.utils.getDefaultBatch
 import com.example.hfncheckins.utils.getQRCheckinsAndMore
 import com.google.firebase.firestore.ktx.firestore
@@ -60,7 +61,7 @@ fun AppWithNav(
     emailOrMobileCheckin: MobileOrEmailCheckinDBModel,
   ) -> Unit,
   onCheckinWithQRCode: (
-    qrCodeCheckin: QRCodeCheckin,
+    qrCodeCheckin: QRCodeCheckinDBModel,
   ) -> Unit
 ) {
   NavHost(
@@ -218,7 +219,7 @@ fun AppWithCodeScannerAndRouter(
   hfnEvent: HFNEvent,
   onCheckinWithAbhyasiId: (abhyasiIdCheckin: AbhyasiIdCheckin) -> Unit,
   onCheckinWithEmailOrMobile: (emailOrMobileCheckin: MobileOrEmailCheckinDBModel) -> Unit,
-  onCheckinWithQRCode: (qrCodeCheckin: QRCodeCheckin) -> Unit
+  onCheckinWithQRCode: (qrCodeCheckin: QRCodeCheckinDBModel) -> Unit
 ) {
   var batch: String? = ""
   val navController: NavHostController = rememberNavController()

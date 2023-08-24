@@ -19,12 +19,13 @@ import com.example.hfncheckins.ui.components.common.CustomLazyColumn
 import com.example.hfncheckins.ui.components.common.Heading
 import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.model.QRCodeCheckin
+import com.example.hfncheckins.model.QRCodeCheckinDBModel
 
 @Composable
 fun QRCheckinScreen(
     modifier: Modifier = Modifier,
     qrCheckinviewModel: QRCheckinScreenViewModel = viewModel(),
-    onClickCheckin: (List<QRCodeCheckin>) -> Unit,
+    onClickCheckin: (List<QRCodeCheckinDBModel>) -> Unit,
     onClickCancel: () -> Unit,
 ) {
     val qrCheckins by qrCheckinviewModel.uiState.collectAsState()
@@ -127,10 +128,7 @@ fun QRCheckinScreenPreview() {
                     .padding(16.dp),
                 onClickCancel = {},
                 onClickCheckin = {
-                    val checkedInList = it.filter {
-                        it.checkin
-                    }
-                    Log.d("QRCheckinScreen", checkedInList.size.toString())
+                    Log.d("QRCheckinScreen", it.size.toString())
                 },
                 qrCheckinviewModel = qrCheckinScreenViewModel
             )

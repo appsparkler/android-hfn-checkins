@@ -39,8 +39,6 @@ class QRUtilsTest {
     assertEquals("batch1,batch2", result.checkins[0].batch)
   }
 
-
-
   @Test
   fun test_getQRCheckinsAndMore_OWN_ACCOMODATION() {
     val paidQR =

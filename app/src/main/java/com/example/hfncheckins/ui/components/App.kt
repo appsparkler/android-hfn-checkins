@@ -71,15 +71,20 @@ fun AppWithNav(
   ) {
     navController.enableOnBackPressed(enabled = false)
     val navigateToSuccessScreen: () -> Unit = {
+      navController.popBackStack(Routes.MAIN_SCREEN.name, true)
       navController.navigate(
         Routes.CHECKIN_SUCCESS_SCREEN.name
       )
     }
     val navigateToMainScreen: () -> Unit = {
-      navController.popBackStack(Routes.MAIN_SCREEN.name, true)
+      navController.popBackStack()
       navController.navigate(
         Routes.MAIN_SCREEN.name
       )
+    }
+    val handleCancel:() -> Unit = {
+      navController.popBackStack(Routes.MAIN_SCREEN.name, true)
+      navigateToMainScreen()
     }
     composable(Routes.MAIN_SCREEN.name) {
       MainScreen(
@@ -130,7 +135,7 @@ fun AppWithNav(
                 navigateToSuccessScreen()
               },
               checkinWithMobileOrEmailViewModel = checkWithEmailOrMobileCheckinViewModel,
-              onClickCancel = navigateToMainScreen
+              onClickCancel = handleCancel
             )
           }
         }
@@ -161,9 +166,10 @@ fun AppWithNav(
                 onCheckinWithAbhyasiId(it.copy(
                   timestamp = System.currentTimeMillis()
                 ))
+//                popBackStackUptoMainScreen()
                 navigateToSuccessScreen()
               },
-              onClickCancel = navigateToMainScreen,
+              onClickCancel = handleCancel,
             )
           } else {
             Text("No Abhyasi Id Found!!")
@@ -188,9 +194,10 @@ fun AppWithNav(
           qrCheckinviewModel = qrCheckinViewModel,
           onClickCheckin = {
             it.forEach(onCheckinWithQRCode)
+//            popBackStackUptoMainScreen()
             navigateToSuccessScreen()
           },
-          onClickCancel = navigateToMainScreen
+          onClickCancel = handleCancel
         )
       }
     }

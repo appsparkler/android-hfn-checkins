@@ -40,6 +40,7 @@ class QRUtilsTest {
   }
 
 
+
   @Test
   fun test_getQRCheckinsAndMore_OWN_ACCOMODATION() {
     val paidQR =

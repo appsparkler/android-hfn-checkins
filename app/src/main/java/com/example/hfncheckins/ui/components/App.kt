@@ -76,6 +76,7 @@ fun AppWithNav(
       )
     }
     val navigateToMainScreen: () -> Unit = {
+      navController.popBackStack(Routes.MAIN_SCREEN.name, true)
       navController.navigate(
         Routes.MAIN_SCREEN.name
       )
@@ -129,9 +130,7 @@ fun AppWithNav(
                 navigateToSuccessScreen()
               },
               checkinWithMobileOrEmailViewModel = checkWithEmailOrMobileCheckinViewModel,
-              onClickCancel = {
-                navigateToMainScreen()
-              }
+              onClickCancel = navigateToMainScreen
             )
           }
         }
@@ -164,9 +163,7 @@ fun AppWithNav(
                 ))
                 navigateToSuccessScreen()
               },
-              onClickCancel = {
-                navigateToMainScreen()
-              },
+              onClickCancel = navigateToMainScreen,
             )
           } else {
             Text("No Abhyasi Id Found!!")
@@ -193,9 +190,7 @@ fun AppWithNav(
             it.forEach(onCheckinWithQRCode)
             navigateToSuccessScreen()
           },
-          onClickCancel = {
-            navigateToMainScreen()
-          }
+          onClickCancel = navigateToMainScreen
         )
       }
     }
@@ -204,7 +199,7 @@ fun AppWithNav(
     ) {
       CheckinSuccessScreen(
         onClickReturnToMain = {
-          navController.navigate(Routes.MAIN_SCREEN.name)
+          navigateToMainScreen()
         }
       )
     }

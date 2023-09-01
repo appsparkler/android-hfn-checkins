@@ -1,5 +1,6 @@
 package com.example.hfncheckins.ui.components.MainScreen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -7,9 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.hfncheckins.R
 import com.example.hfncheckins.data.sample.getSampleEvent
 import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import com.example.hfncheckins.model.HFNEvent
@@ -25,7 +29,7 @@ fun MainScreen(
   onClickScan: (batch: String?) -> Unit
 ) {
   val mainScreenUiState by mainScreenViewModel.uiState.collectAsState()
-  if(hfnEvent.defaultBatch != null && mainScreenUiState.batch == null) {
+  if (hfnEvent.defaultBatch != null && mainScreenUiState.batch == null) {
     mainScreenViewModel.update(batch = hfnEvent.defaultBatch)
   }
   Column(
@@ -71,15 +75,24 @@ fun MainScreen(
 @Composable
 fun MainScreenPreview() {
   HFNTheme() {
+    val backgroundImage =
+      painterResource(id = R.drawable.bg_light) // Replace with your image resource
     Scaffold {
+      Image(
+        modifier = Modifier
+          .fillMaxSize(),
+        painter = backgroundImage,
+        contentDescription = "background image",
+        contentScale = ContentScale.Crop
+      )
       MainScreen(
         modifier = Modifier
           .padding(it)
           .padding(12.dp),
         hfnEvent = getSampleEvent(),
-        onStartCheckin = { inputValue, type, batch ->},
+        onStartCheckin = { inputValue, type, batch -> },
         onClickScan = {},
-        )
+      )
     }
   }
 }

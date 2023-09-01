@@ -7,12 +7,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,7 +35,11 @@ fun CheckinSuccessScreen(
         maxSpeed = 30f,
         damping = 0.9f,
         spread = 360,
-        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
+        colors = listOf(
+            MaterialTheme.colorScheme.primary.toArgb(),
+            MaterialTheme.colorScheme.secondary.toArgb(),
+            MaterialTheme.colorScheme.tertiary.toArgb(),
+        ),
         position = Position.Relative(0.5, 0.3),
         emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100)
     )
@@ -57,7 +62,7 @@ fun CheckinSuccessScreen(
             ),
             modifier = Modifier.size(150.dp),
             contentDescription = "Checkin success",
-            tint = Color(0xFF4BB543)
+            tint = MaterialTheme.colorScheme.tertiary
         )
         Button(onClick = onClickReturnToMain) {
             Text(

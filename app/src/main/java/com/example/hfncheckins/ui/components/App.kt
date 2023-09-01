@@ -9,13 +9,18 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -24,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hfncheckins.ui.hfnTheme.HFNTheme
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.hfncheckins.R
 import com.example.hfncheckins.codescanner.LiveBarcodeScanningActivity
 import com.example.hfncheckins.codescanner.Utils
 import com.example.hfncheckins.ui.components.AbhyasiIdCheckinScreen.AbhyasiIdCheckinScreen
@@ -254,6 +260,15 @@ fun AppWithCodeScannerAndRouter(
       modifier = modifier,
       containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
+      val backgroundImage = if(isSystemInDarkTheme()) painterResource(id = R.drawable.bg_dark) else
+        painterResource(id = R.drawable.bg_light) // Replace with your image resource
+      Image(
+        modifier = Modifier
+          .fillMaxSize(),
+        painter = backgroundImage,
+        contentDescription = "background image",
+        contentScale = ContentScale.Crop
+      )
       AppWithNav(
         modifier = Modifier
           .padding(paddingValues)

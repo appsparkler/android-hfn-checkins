@@ -9,6 +9,7 @@ jobs:
   build_and_release:
 
     runs-on: ubuntu-latest
+    continue-on-error: true
 
     steps:
       - name: Checkout branch
@@ -27,7 +28,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: app/release/*.apk
+          file: app/**/*.apk
           tag: ${{ github.ref }}
           overwrite: true
           file_glob: true
@@ -36,7 +37,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: app/release/*.aab
+          file: app/**/*.aab
           tag: ${{ github.ref }}
           overwrite: true
           file_glob: true

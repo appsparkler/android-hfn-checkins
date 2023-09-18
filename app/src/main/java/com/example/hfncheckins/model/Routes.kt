@@ -1,9 +1,0 @@
-package com.example.hfncheckins.model
-
-enum class Routes {
-  MAIN_SCREEN,
-  ABHYASI_CHECKIN_DETAIL_SCREEN,
-  MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN,
-  QR_CHECKIN_DETAIL_SCREEN,
-  CHECKIN_SUCCESS_SCREEN
-}

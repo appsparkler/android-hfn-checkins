@@ -171,7 +171,6 @@ fun AppWithNav(
                 onCheckinWithAbhyasiId(it.copy(
                   timestamp = System.currentTimeMillis()
                 ))
-//                popBackStackUptoMainScreen()
                 navigateToSuccessScreen()
               },
               onClickCancel = handleCancel,
@@ -199,7 +198,6 @@ fun AppWithNav(
           qrCheckinviewModel = qrCheckinViewModel,
           onClickCheckin = {
             it.forEach(onCheckinWithQRCode)
-//            popBackStackUptoMainScreen()
             navigateToSuccessScreen()
           },
           onClickCancel = handleCancel
@@ -297,12 +295,13 @@ fun AppWithCodeScannerAndRouterAndFirebase() {
   val db = Firebase.firestore
   val defaultBatch = getDefaultBatch()
   val hfnEvent = HFNEvent(
-    title = "68th Birthday of Pujya Daaji Maharaj",
-    id = "2023_september_bhandara",
+    title = "2023 October Retreat",
+    id = "202310_october_retreat",
     batches = listOf(
-      "batch-1",
-      "batch-2",
-      "batch-1,batch-2"
+      "checkin",
+      "Day 1",
+      "Day 2",
+      "Day 3"
     ),
     defaultBatch = defaultBatch
   )

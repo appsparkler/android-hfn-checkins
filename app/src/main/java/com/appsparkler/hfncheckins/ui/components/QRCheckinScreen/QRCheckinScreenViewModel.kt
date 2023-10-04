@@ -48,12 +48,12 @@ class QRCheckinScreenViewModel : ViewModel() {
   fun update(
     updatedQRCheckinItem: QRCodeCheckin,
   ) {
-    val qrCheckins = _uiState.value.map { qrCheckinItem ->
+    val updatedQRCheckins = _uiState.value.map { qrCheckinItem ->
       if (updatedQRCheckinItem.regId == qrCheckinItem.regId) updatedQRCheckinItem
       else qrCheckinItem
     }
     _uiState.update {
-      qrCheckins
+      updatedQRCheckins
     }
   }
 

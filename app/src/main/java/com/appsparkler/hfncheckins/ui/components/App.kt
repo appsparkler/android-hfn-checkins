@@ -182,26 +182,33 @@ fun AppWithNav(
       }
     }
     composable(
-      route = "${Routes.QR_CHECKIN_DETAIL_SCREEN}/{code}",
+      route = "${Routes.QR_CHECKIN_DETAIL_SCREEN}/{code}/{batch}",
       arguments = listOf(
         navArgument(name = "code") {
+          type = NavType.StringType
+        },
+        navArgument(name = "batch") {
           type = NavType.StringType
         }
       )
     ) {
       it.arguments?.getString("code")?.let { code ->
-        val qrCheckinViewModel = QRCheckinScreenViewModel()
-        val qrCheckins = getQRCheckinsAndMore(code)
-        qrCheckinViewModel.setupList(qrCheckins.checkins)
-        qrCheckinViewModel.updateMore((qrCheckins.more))
-        QRCheckinScreen(
-          qrCheckinviewModel = qrCheckinViewModel,
-          onClickCheckin = {
-            it.forEach(onCheckinWithQRCode)
-            navigateToSuccessScreen()
-          },
-          onClickCancel = handleCancel
-        )
+        it.arguments?.getString("batch")?.let { batch ->
+          val qrCheckinViewModel = QRCheckinScreenViewModel()
+          val qrCheckins = getQRCheckinsAndMore(code)
+          qrCheckinViewModel.setupList(qrCheckins.checkins.map {
+            it.copy(batch = batch)
+          })
+          qrCheckinViewModel.updateMore((qrCheckins.more))
+          QRCheckinScreen(
+            qrCheckinviewModel = qrCheckinViewModel,
+            onClickCheckin = {
+              it.forEach(onCheckinWithQRCode)
+              navigateToSuccessScreen()
+            },
+            onClickCancel = handleCancel
+          )
+        }
       }
     }
     composable(
@@ -241,7 +248,7 @@ fun AppWithCodeScannerAndRouter(
       if (isValidAbhyasiId(resultData)) {
         navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/$resultData/$batch")
       } else if (isQRValid(resultData)) {
-        navController.navigate("${Routes.QR_CHECKIN_DETAIL_SCREEN.name}/$resultData")
+        navController.navigate("${Routes.QR_CHECKIN_DETAIL_SCREEN.name}/$resultData/$batch")
       } else {
         Toast.makeText(
           context,
@@ -309,7 +316,7 @@ fun AppWithCodeScannerAndRouterAndFirebase() {
   AppWithCodeScannerAndRouter(
     hfnEvent = hfnEvent,
     onCheckinWithAbhyasiId = {
-      collection.document(it.abhyasiId).set(it)
+      collection.document("${it.abhyasiId}-${it.batch}").set(it)
         .addOnSuccessListener {
           Log.d(TAG, "DocumentSnapshot successfully written!")
         }
@@ -318,7 +325,7 @@ fun AppWithCodeScannerAndRouterAndFirebase() {
         }
     },
     onCheckinWithEmailOrMobile = {
-      collection.document("em-${it.email}-${it.mobile}-${it.fullName}").set(it)
+      collection.document("em-${it.email}-${it.mobile}-${it.fullName}-${it.batch}").set(it)
         .addOnSuccessListener {
           Log.d(TAG, "DocumentSnapshot successfully written!")
         }
@@ -327,7 +334,7 @@ fun AppWithCodeScannerAndRouterAndFirebase() {
         }
     },
     onCheckinWithQRCode = {
-      collection.document(it.regId).set(it)
+      collection.document("${it.regId}-${it.batch}").set(it)
         .addOnSuccessListener {
           Log.d(TAG, "DocumentSnapshot successfully written!")
         }

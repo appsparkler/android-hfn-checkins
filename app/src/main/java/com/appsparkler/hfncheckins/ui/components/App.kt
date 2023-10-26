@@ -303,7 +303,7 @@ fun AppWithCodeScannerAndRouterAndFirebase() {
   val defaultBatch = getDefaultBatch()
   val hfnEvent = HFNEvent(
     title = "2023 October Retreat",
-    id = "202310_october_retreat",
+    id = "20231027_october_retreat",
     batches = listOf(
       "checkin",
       "Day 1",

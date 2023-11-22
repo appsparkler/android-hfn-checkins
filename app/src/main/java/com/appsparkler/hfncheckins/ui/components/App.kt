@@ -111,7 +111,7 @@ fun AppWithNav(
       )
     }
     composable(
-      route = "${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/{emailOrPhoneNumber}/{type}/{batch}",
+      route = "${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/{emailOrPhoneNumber}/{type}",
       arguments = listOf(
         navArgument(name = "emailOrPhoneNumber") {
           type = NavType.StringType
@@ -123,90 +123,76 @@ fun AppWithNav(
     ) { navBackStackEntry ->
       navBackStackEntry.arguments?.getString("emailOrPhoneNumber")?.let { emailOrPhoneNumber ->
         navBackStackEntry.arguments?.getString("type")?.let { type ->
-          navBackStackEntry.arguments?.getString("batch").let { batch ->
-            val checkWithEmailOrMobileCheckinViewModel =
-              CheckinWithMobileOrEmailViewModel()
-            val isMobile = type == InputValueType.PHONE_NUMBER.name
-            checkWithEmailOrMobileCheckinViewModel.update(
-              email = if (type == InputValueType.EMAIL.name) emailOrPhoneNumber else "",
-              mobile = if (isMobile) emailOrPhoneNumber else "",
-              startWithMobile = isMobile,
-              batch = batch,
-              event = hfnEvent.title
-            )
-            EmailWithMobileOrEmailScreen(
-              onClickCheckin = {
-                onCheckinWithEmailOrMobile(it)
-                navigateToSuccessScreen()
-              },
-              checkinWithMobileOrEmailViewModel = checkWithEmailOrMobileCheckinViewModel,
-              onClickCancel = handleCancel
-            )
-          }
-        }
-      }
-    }
-    composable(
-      route = "${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/{code}/{batch}",
-      arguments = listOf(
-        navArgument("code") {
-          type = NavType.StringType
-        },
-        navArgument("batch") {
-          type = NavType.StringType
-        }
-      )
-    ) {
-      it.arguments?.getString("code")?.let { code ->
-        it.arguments?.getString("batch")?.let { batch ->
-          if (code.isNotEmpty()) {
-            val abhyasiIdCheckinViewModel = AbhyasiIdCheckinViewModel()
-            abhyasiIdCheckinViewModel.update(
-              abhyasiId = code.uppercase(),
-              batch = batch,
-            )
-            AbhyasiIdCheckinScreen(
-              abhyasiIdCheckinViewModel = abhyasiIdCheckinViewModel,
-              onClickCheckin = {
-                onCheckinWithAbhyasiId(it.copy(
-                  timestamp = System.currentTimeMillis()
-                ))
-                navigateToSuccessScreen()
-              },
-              onClickCancel = handleCancel,
-            )
-          } else {
-            Text("No Abhyasi Id Found!!")
-          }
-        }
-      }
-    }
-    composable(
-      route = "${Routes.QR_CHECKIN_DETAIL_SCREEN}/{code}/{batch}",
-      arguments = listOf(
-        navArgument(name = "code") {
-          type = NavType.StringType
-        },
-        navArgument(name = "batch") {
-          type = NavType.StringType
-        }
-      )
-    ) {
-      it.arguments?.getString("code")?.let { code ->
-        it.arguments?.getString("batch")?.let { batch ->
-          val qrCheckinViewModel = QRCheckinScreenViewModel()
-          val qrCheckins = getQRCheckinsAndMore(code)
-          qrCheckinViewModel.setupList(qrCheckins.checkins)
-          qrCheckinViewModel.updateMore((qrCheckins.more))
-          QRCheckinScreen(
-            qrCheckinviewModel = qrCheckinViewModel,
+          val checkWithEmailOrMobileCheckinViewModel =
+            CheckinWithMobileOrEmailViewModel()
+          val isMobile = type == InputValueType.PHONE_NUMBER.name
+          checkWithEmailOrMobileCheckinViewModel.update(
+            email = if (type == InputValueType.EMAIL.name) emailOrPhoneNumber else "",
+            mobile = if (isMobile) emailOrPhoneNumber else "",
+            startWithMobile = isMobile,
+            event = hfnEvent.title
+          )
+          EmailWithMobileOrEmailScreen(
             onClickCheckin = {
-              it.forEach(onCheckinWithQRCode)
+              onCheckinWithEmailOrMobile(it)
               navigateToSuccessScreen()
             },
+            checkinWithMobileOrEmailViewModel = checkWithEmailOrMobileCheckinViewModel,
             onClickCancel = handleCancel
           )
         }
+      }
+    }
+    composable(
+      route = "${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/{code}",
+      arguments = listOf(
+        navArgument("code") {
+          type = NavType.StringType
+        }
+      )
+    ) {
+      it.arguments?.getString("code")?.let { code ->
+        if (code.isNotEmpty()) {
+          val abhyasiIdCheckinViewModel = AbhyasiIdCheckinViewModel()
+          abhyasiIdCheckinViewModel.update(
+            abhyasiId = code.uppercase(),
+          )
+          AbhyasiIdCheckinScreen(
+            abhyasiIdCheckinViewModel = abhyasiIdCheckinViewModel,
+            onClickCheckin = {
+              onCheckinWithAbhyasiId(it.copy(
+                timestamp = System.currentTimeMillis()
+              ))
+              navigateToSuccessScreen()
+            },
+            onClickCancel = handleCancel,
+          )
+        } else {
+          Text("No Abhyasi Id Found!!")
+        }
+      }
+    }
+    composable(
+      route = "${Routes.QR_CHECKIN_DETAIL_SCREEN}/{code}",
+      arguments = listOf(
+        navArgument(name = "code") {
+          type = NavType.StringType
+        }
+      )
+    ) {
+      it.arguments?.getString("code")?.let { code ->
+        val qrCheckinViewModel = QRCheckinScreenViewModel()
+        val qrCheckins = getQRCheckinsAndMore(code)
+        qrCheckinViewModel.setupList(qrCheckins.checkins)
+        qrCheckinViewModel.updateMore((qrCheckins.more))
+        QRCheckinScreen(
+          qrCheckinviewModel = qrCheckinViewModel,
+          onClickCheckin = {
+            it.forEach(onCheckinWithQRCode)
+            navigateToSuccessScreen()
+          },
+          onClickCancel = handleCancel
+        )
       }
     }
     composable(
@@ -231,7 +217,6 @@ fun AppWithCodeScannerAndRouter(
   onCheckinWithEmailOrMobile: (emailOrMobileCheckin: MobileOrEmailCheckinDBModel) -> Unit,
   onCheckinWithQRCode: (qrCodeCheckin: QRCodeCheckinDBModel) -> Unit
 ) {
-  var batch: String? = ""
   val navController: NavHostController = rememberNavController()
   val context = LocalContext.current
   if (!Utils.allPermissionsGranted(context)) {
@@ -244,9 +229,9 @@ fun AppWithCodeScannerAndRouter(
     if (it.resultCode == RESULT_OK) {
       val resultData = it.data?.getStringExtra(SCAN_RESULT_KEY).toString()
       if (isValidAbhyasiId(resultData)) {
-        navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/$resultData/$batch")
+        navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/$resultData")
       } else if (isQRValid(resultData)) {
-        navController.navigate("${Routes.QR_CHECKIN_DETAIL_SCREEN.name}/$resultData/$batch")
+        navController.navigate("${Routes.QR_CHECKIN_DETAIL_SCREEN.name}/$resultData")
       } else {
         Toast.makeText(
           context,
@@ -277,7 +262,6 @@ fun AppWithCodeScannerAndRouter(
           .padding(horizontal = 18.dp),
         navController = navController,
         onClickScan = {
-          batch = it
           launcher.launch(
             Intent(context, LiveBarcodeScanningActivity::class.java)
           )
@@ -291,7 +275,6 @@ fun AppWithCodeScannerAndRouter(
   }
 }
 
-
 val TAG = "AppWithCodeScannerAndRouterAndFirebase"
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -300,15 +283,8 @@ fun AppWithCodeScannerAndRouterAndFirebase() {
   val db = Firebase.firestore
   val defaultBatch = getDefaultBatch()
   val hfnEvent = HFNEvent(
-    title = "2023 October Retreat",
-    id = "20231027_october_retreat",
-    batches = listOf(
-      "checkin",
-      "Day 1",
-      "Day 2",
-      "Day 3"
-    ),
-    defaultBatch = defaultBatch
+    title = "Meditate with Shri Modiji and Daaji",
+    id = "202311_PM_visit",
   )
   val collection = db.collection("/events/${hfnEvent.id}/checkins")
   AppWithCodeScannerAndRouter(
@@ -332,13 +308,13 @@ fun AppWithCodeScannerAndRouterAndFirebase() {
         }
     },
     onCheckinWithQRCode = {
-//      collection.document("${it.regId}-${it.batch}").set(it)
-//        .addOnSuccessListener {
-//          Log.d(TAG, "DocumentSnapshot successfully written!")
-//        }
-//        .addOnFailureListener() {
-//          Log.w(TAG, "Error writing document", it)
-//        }
+      collection.document("${it.regId}").set(it)
+        .addOnSuccessListener {
+          Log.d(TAG, "DocumentSnapshot successfully written!")
+        }
+        .addOnFailureListener() {
+          Log.w(TAG, "Error writing document", it)
+        }
     }
   )
 }

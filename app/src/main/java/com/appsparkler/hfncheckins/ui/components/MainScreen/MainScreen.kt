@@ -76,7 +76,7 @@ fun MainScreen(
 fun MainScreenPreview() {
   HFNTheme() {
     val backgroundImage =
-      painterResource(id = R.drawable.nov_bg) // Replace with your image resource
+      painterResource(id = R.drawable.bg_light) // Replace with your image resource
     Scaffold {
       Image(
         modifier = Modifier

@@ -1,5 +1,6 @@
 package com.appsparkler.hfncheckins.ui.components.CheckinSuccessScreen
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,16 +31,24 @@ fun CheckinSuccessScreen(
     modifier: Modifier = Modifier,
     onClickReturnToMain: () -> Unit
 ) {
+    val colors = if(isSystemInDarkTheme()) {
+        listOf(
+            MaterialTheme.colorScheme.inversePrimary.toArgb(),
+            MaterialTheme.colorScheme.inverseOnSurface.toArgb()
+        )
+    } else {
+        listOf(
+            MaterialTheme.colorScheme.primary.toArgb(),
+            MaterialTheme.colorScheme.secondary.toArgb(),
+            MaterialTheme.colorScheme.tertiary.toArgb(),
+        )
+    }
     val party = Party(
         speed = 0f,
         maxSpeed = 30f,
         damping = 0.9f,
         spread = 360,
-        colors = listOf(
-            MaterialTheme.colorScheme.primary.toArgb(),
-            MaterialTheme.colorScheme.secondary.toArgb(),
-            MaterialTheme.colorScheme.tertiary.toArgb(),
-        ),
+        colors = colors,
         position = Position.Relative(0.5, 0.3),
         emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100)
     )
@@ -62,7 +71,7 @@ fun CheckinSuccessScreen(
             ),
             modifier = Modifier.size(150.dp),
             contentDescription = "Checkin success",
-            tint = MaterialTheme.colorScheme.tertiary
+            tint = MaterialTheme.colorScheme.inversePrimary
         )
         Button(onClick = onClickReturnToMain) {
             Text(

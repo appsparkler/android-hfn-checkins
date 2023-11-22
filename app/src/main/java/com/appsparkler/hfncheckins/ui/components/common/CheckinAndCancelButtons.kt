@@ -40,7 +40,7 @@ fun CheckinAndCancelButtons(
             enabled = isCheckinValid,
             colors =  ButtonDefaults
                 .filledTonalButtonColors(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
                     disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer
             )
         ) {

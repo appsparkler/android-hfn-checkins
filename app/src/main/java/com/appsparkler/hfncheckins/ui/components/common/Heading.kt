@@ -12,6 +12,7 @@ fun Heading(
     Text(
         text = heading,
         textAlign = TextAlign.Center,
+        color = MaterialTheme.colorScheme.secondaryContainer,
         style = MaterialTheme.typography.headlineLarge
     )
 }

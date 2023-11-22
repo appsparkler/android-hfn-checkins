@@ -33,7 +33,7 @@ fun QRCheckinScreen(
     CustomLazyColumn(modifier = modifier) {
         item {
             Heading(
-                heading = "Checkin with \n QR"
+                heading = "Checkin with \n QR",
             )
         }
         items(qrCheckins.size) {

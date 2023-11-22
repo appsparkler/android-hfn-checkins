@@ -30,6 +30,7 @@ import com.appsparkler.hfncheckins.ui.components.common.FieldData
 import com.appsparkler.hfncheckins.ui.components.common.VerticalSpacer12Dp
 import com.appsparkler.hfncheckins.ui.hfnTheme.HFNTheme
 import com.appsparkler.hfncheckins.model.AbhyasiIdCheckin
+import com.appsparkler.hfncheckins.ui.components.common.Heading
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -57,12 +58,13 @@ fun AbhyasiIdCheckinScreen(
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
     VerticalSpacer12Dp()
-    Text(
-      modifier = Modifier,
-      text = "Checkin With \n Abhyasi ID",
-      style = MaterialTheme.typography.headlineLarge,
-      textAlign = TextAlign.Center
-    )
+//    Text(
+//      modifier = Modifier,
+//      text = "Checkin With \n Abhyasi ID",
+//      style = MaterialTheme.typography.headlineLarge,
+//      textAlign = TextAlign.Center
+//    )
+    Heading(heading = "Checkin With \n Abhyasi ID" )
     ElevatedCard(
       modifier = Modifier
         .fillMaxWidth(),
@@ -100,15 +102,16 @@ fun AbhyasiIdCheckinScreen(
             }
           )
         )
-        CheckinAndCancelButtons(
-          isCheckinValid = true,
-          onClickCancel = onClickCancel,
-          onClickCheckin = {
-            handleCheckin()
-          }
-        )
       }
     }
+
+    CheckinAndCancelButtons(
+      isCheckinValid = true,
+      onClickCancel = onClickCancel,
+      onClickCheckin = {
+        handleCheckin()
+      }
+    )
   }
 }
 

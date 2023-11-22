@@ -4,5 +4,5 @@ import com.appsparkler.hfncheckins.model.HFNEvent
 
 fun getSampleEvent() = HFNEvent(
     title = "Chariji Maharaj's 95th Birth Anniversary Celebration",
-    id = "1234"
+    id = "1234",
 )

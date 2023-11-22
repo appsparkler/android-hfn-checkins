@@ -1,6 +1,5 @@
 package com.appsparkler.hfncheckins.utils
 
-import com.appsparkler.hfncheckins.model.QRType
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 

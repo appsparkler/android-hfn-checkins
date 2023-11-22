@@ -94,16 +94,16 @@ fun AppWithNav(
     composable(Routes.MAIN_SCREEN.name) {
       MainScreen(
         hfnEvent = hfnEvent,
-        onStartCheckin = { inputValue, type, batch ->
+        onStartCheckin = { inputValue, type ->
           when (type) {
             InputValueType.ABHYASI_ID -> {
-              navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$batch")
+              navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/$inputValue")
             }
             InputValueType.PHONE_NUMBER -> {
-              navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type/$batch")
+              navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type")
             }
             InputValueType.EMAIL -> {
-              navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type/$batch")
+              navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type")
             }
           }
         },
@@ -281,7 +281,6 @@ val TAG = "AppWithCodeScannerAndRouterAndFirebase"
 @Composable
 fun AppWithCodeScannerAndRouterAndFirebase() {
   val db = Firebase.firestore
-  val defaultBatch = getDefaultBatch()
   val hfnEvent = HFNEvent(
     title = "Meditate with Shri Modiji and Daaji",
     id = "202311_PM_visit",
@@ -290,7 +289,7 @@ fun AppWithCodeScannerAndRouterAndFirebase() {
   AppWithCodeScannerAndRouter(
     hfnEvent = hfnEvent,
     onCheckinWithAbhyasiId = {
-      collection.document("${it.abhyasiId}-${it.batch}").set(it)
+      collection.document("${it.abhyasiId}").set(it)
         .addOnSuccessListener {
           Log.d(TAG, "DocumentSnapshot successfully written!")
         }
@@ -299,7 +298,7 @@ fun AppWithCodeScannerAndRouterAndFirebase() {
         }
     },
     onCheckinWithEmailOrMobile = {
-      collection.document("em-${it.email}-${it.mobile}-${it.fullName}-${it.batch}").set(it)
+      collection.document("em-${it.email}-${it.mobile}-${it.fullName}").set(it)
         .addOnSuccessListener {
           Log.d(TAG, "DocumentSnapshot successfully written!")
         }

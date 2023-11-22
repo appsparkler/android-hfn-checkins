@@ -25,7 +25,7 @@ fun MainScreen(
   modifier: Modifier = Modifier,
   hfnEvent: HFNEvent,
   mainScreenViewModel: MainScreenViewModel = viewModel(),
-  onStartCheckin: (String, InputValueType, String?) -> Unit,
+  onStartCheckin: (String, InputValueType) -> Unit,
   onClickScan: (batch: String?) -> Unit
 ) {
   val mainScreenUiState by mainScreenViewModel.uiState.collectAsState()
@@ -90,7 +90,7 @@ fun MainScreenPreview() {
           .padding(it)
           .padding(12.dp),
         hfnEvent = getSampleEvent(),
-        onStartCheckin = { inputValue, type, batch -> },
+        onStartCheckin = { inputValue, type -> },
         onClickScan = {},
       )
     }

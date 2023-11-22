@@ -30,7 +30,7 @@ fun SeekerInfoField(
   modifier: Modifier = Modifier,
   hfnEvent: HFNEvent,
   seekerInfoUiState: SeekerInfoFieldState,
-  onStartCheckin: (String, InputValueType, batch: String?) -> Unit,
+  onStartCheckin: (String, InputValueType) -> Unit,
   onChangeValue: (String) -> Unit,
   onChangeBatch: (String) -> Unit
 ) {
@@ -84,7 +84,6 @@ fun SeekerInfoField(
               onStartCheckin(
                 seekerInfoUiState.value,
                 seekerInfoUiState.type!!,
-                seekerInfoUiState.batch
               )
             }
           ),
@@ -100,7 +99,7 @@ fun SeekerInfoField(
 
       Button(
         onClick = {
-          onStartCheckin(seekerInfoUiState.value, seekerInfoUiState.type!!, seekerInfoUiState.batch)
+          onStartCheckin(seekerInfoUiState.value, seekerInfoUiState.type!!)
         },
         enabled = seekerInfoUiState.isValid,
       ) {
@@ -132,7 +131,7 @@ fun SeekerInfoFieldPreview() {
           type = null,
           value = "",
         ),
-        onStartCheckin = { inputValue, type, batch ->
+        onStartCheckin = { inputValue, type->
 
         },
         onChangeValue = {

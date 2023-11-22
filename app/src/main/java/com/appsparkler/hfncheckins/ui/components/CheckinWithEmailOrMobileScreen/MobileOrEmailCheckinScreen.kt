@@ -243,6 +243,7 @@ fun EmailWithMobileOrEmailScreenPreview() {
   checkinWithMobileOrEmailViewModel.update(
     email = "abc@def.com",
     startWithMobile = false,
+    batch = "day 3"
   )
   HFNTheme() {
     Scaffold() {

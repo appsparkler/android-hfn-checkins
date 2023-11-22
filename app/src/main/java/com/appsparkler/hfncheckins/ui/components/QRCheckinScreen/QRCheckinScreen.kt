@@ -84,7 +84,7 @@ fun QRCheckinScreenPreview() {
             regId = "0",
             timestamp = 0,
             dormAndBerthAllocation = "",
-            batch = "batch1",
+//            batch = "batch1",
             type = CheckinType.QR.name
         ),
         QRCodeCheckin(
@@ -99,7 +99,7 @@ fun QRCheckinScreenPreview() {
             regId = "1",
             timestamp = 0,
             dormAndBerthAllocation = "",
-            batch = "batch1",
+//            batch = "batch1",
             type = CheckinType.QR.name
         ),
         QRCodeCheckin(
@@ -114,7 +114,7 @@ fun QRCheckinScreenPreview() {
             regId = "2",
             timestamp = 0,
             dormAndBerthAllocation = "",
-            batch = "batch2",
+//            batch = "batch2",
             type = CheckinType.QR.name
 
         )

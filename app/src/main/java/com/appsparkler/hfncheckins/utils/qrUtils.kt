@@ -56,11 +56,11 @@ fun getQRCheckins(value: String): List<QRCodeCheckin> {
       QRCodeCheckin(
 //    each checkin detail
         regId = columns[0],
-        batch = columns[1],
-        abhyasiId = columns[2],
-        fullName = columns[3],
-        dormPreference = columns.getOrNull(4) ?: "",
-        berthPreference = columns.getOrNull(5) ?: "",
+//        batch = columns[1],
+        abhyasiId = columns[1].trim(),
+        fullName = columns[2].trim(),
+        dormPreference = columns.getOrNull(4)?.trim() ?: "",
+        berthPreference = columns.getOrNull(5)?.trim() ?: "",
 //    default value
         checkin = false,
         timestamp = 0,

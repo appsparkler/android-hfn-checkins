@@ -196,9 +196,7 @@ fun AppWithNav(
         it.arguments?.getString("batch")?.let { batch ->
           val qrCheckinViewModel = QRCheckinScreenViewModel()
           val qrCheckins = getQRCheckinsAndMore(code)
-          qrCheckinViewModel.setupList(qrCheckins.checkins.map {
-            it.copy(batch = batch)
-          })
+          qrCheckinViewModel.setupList(qrCheckins.checkins)
           qrCheckinViewModel.updateMore((qrCheckins.more))
           QRCheckinScreen(
             qrCheckinviewModel = qrCheckinViewModel,
@@ -334,13 +332,13 @@ fun AppWithCodeScannerAndRouterAndFirebase() {
         }
     },
     onCheckinWithQRCode = {
-      collection.document("${it.regId}-${it.batch}").set(it)
-        .addOnSuccessListener {
-          Log.d(TAG, "DocumentSnapshot successfully written!")
-        }
-        .addOnFailureListener() {
-          Log.w(TAG, "Error writing document", it)
-        }
+//      collection.document("${it.regId}-${it.batch}").set(it)
+//        .addOnSuccessListener {
+//          Log.d(TAG, "DocumentSnapshot successfully written!")
+//        }
+//        .addOnFailureListener() {
+//          Log.w(TAG, "Error writing document", it)
+//        }
     }
   )
 }

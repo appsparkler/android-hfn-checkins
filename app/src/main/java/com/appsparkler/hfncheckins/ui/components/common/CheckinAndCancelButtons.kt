@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -35,14 +34,13 @@ fun CheckinAndCancelButtons(
         ) {
             Text(text = "Cancel")
         }
-        FilledTonalButton(
+        Button(
             onClick = onClickCheckin,
             enabled = isCheckinValid,
             colors =  ButtonDefaults
-                .filledTonalButtonColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer
-            )
+                .buttonColors(
+                    disabledContainerColor = MaterialTheme.colorScheme.primaryContainer
+                )
         ) {
             Text(
                 text = "Checkin",

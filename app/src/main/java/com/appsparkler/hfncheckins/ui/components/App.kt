@@ -1,12 +1,7 @@
 package com.appsparkler.hfncheckins.ui.components
 
 import android.app.Activity.RESULT_OK
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
@@ -14,6 +9,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,8 +19,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -56,14 +50,10 @@ import com.appsparkler.hfncheckins.model.AbhyasiIdCheckin
 import com.appsparkler.hfncheckins.model.InputValueType
 import com.appsparkler.hfncheckins.model.MobileOrEmailCheckinDBModel
 import com.appsparkler.hfncheckins.model.QRCodeCheckinDBModel
-import com.appsparkler.hfncheckins.utils.getDefaultBatch
+import com.appsparkler.hfncheckins.ui.components.VerticalEllipsisPopupMenu.OverlayButton
 import com.appsparkler.hfncheckins.utils.getQRCheckinsAndMore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import org.json.JSONArray
-import org.json.JSONObject
-import java.io.File
-import java.io.FileOutputStream
 
 @Composable
 fun AppWithNav(
@@ -221,6 +211,7 @@ fun AppWithNav(
 
 private const val SCAN_RESULT_KEY = "SCAN_RESULT_KEY"
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AppWithCodeScannerAndRouter(
   modifier: Modifier = Modifier,
@@ -261,6 +252,7 @@ fun AppWithCodeScannerAndRouter(
     ) { paddingValues ->
       val backgroundImage = if(isSystemInDarkTheme()) painterResource(id = R.drawable.bg_dark) else
         painterResource(id = R.drawable.bg_light) // Replace with your image resource
+
       Image(
         modifier = Modifier
           .fillMaxSize(),
@@ -283,6 +275,7 @@ fun AppWithCodeScannerAndRouter(
         onCheckinWithQRCode = onCheckinWithQRCode,
         hfnEvent = hfnEvent
       )
+      OverlayButton()
     }
   }
 }
@@ -301,7 +294,7 @@ fun AppWithCodeScannerAndRouterAndFirebase() {
   AppWithCodeScannerAndRouter(
     hfnEvent = hfnEvent,
     onCheckinWithAbhyasiId = {
-      collection.document("${it.abhyasiId}").set(it)
+      collection.document(it.abhyasiId).set(it)
         .addOnSuccessListener {
           Log.d(TAG, "DocumentSnapshot successfully written!")
         }
@@ -319,7 +312,7 @@ fun AppWithCodeScannerAndRouterAndFirebase() {
         }
     },
     onCheckinWithQRCode = {
-      collection.document("${it.regId}").set(it)
+      collection.document(it.regId).set(it)
         .addOnSuccessListener {
           Log.d(TAG, "DocumentSnapshot successfully written!")
         }

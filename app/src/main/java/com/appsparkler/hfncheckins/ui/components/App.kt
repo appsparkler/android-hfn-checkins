@@ -1,7 +1,12 @@
 package com.appsparkler.hfncheckins.ui.components
 
 import android.app.Activity.RESULT_OK
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
@@ -13,10 +18,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -52,6 +60,10 @@ import com.appsparkler.hfncheckins.utils.getDefaultBatch
 import com.appsparkler.hfncheckins.utils.getQRCheckinsAndMore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.File
+import java.io.FileOutputStream
 
 @Composable
 fun AppWithNav(
@@ -317,3 +329,55 @@ fun AppWithCodeScannerAndRouterAndFirebase() {
     }
   )
 }
+
+
+/**
+ *
+//  val context = LocalContext.current
+//
+//  val check = {
+//    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+//    val isOnline = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//      val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+//      capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
+//    } else {
+//      connectivityManager.activeNetworkInfo?.isConnectedOrConnecting ?: false
+//    }
+//    isOnline
+//  }
+//
+//  val isOnlineState = remember { mutableStateOf(check()) }
+//
+//  // Use a BroadcastReceiver or a library for network state observation
+//  val connectivityReceiver = object : BroadcastReceiver() {
+//    override fun onReceive(context: Context, intent: Intent) {
+//      isOnlineState.value = check()
+//    }
+//  }
+//
+//// Register and unregister the receiver appropriately
+//  context.registerReceiver(connectivityReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+//// ...
+////  context.unregisterReceiver(connectivityReceiver)
+//
+//
+//  val handleClick = {
+//    val file = File(context.filesDir, "my_data.json")
+//    val data = mapOf(
+//      "name" to "John Doe",
+//      "age" to 30,
+//      "city" to "New York"
+//    )
+//    val jsonData = JSONObject(data).toString()
+//    try {
+//      FileOutputStream(file).use {
+//        it.write(jsonData.toByteArray())
+//      }
+//    } catch (e: Exception) {
+//      // Handle errors
+//    }
+//  }
+//  Button(onClick = handleClick) {
+//    Text(if (isOnlineState.value) "Online" else "Offline")
+//  }
+ */

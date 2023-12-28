@@ -23,7 +23,7 @@ import com.appsparkler.hfncheckins.model.HFNEvent
 @Composable
 fun SelectEventDialog(
   events: Array<HFNEvent>,
-  selectedEvent: String,
+  selectedEvent: String? = null,
   onEventSelected: (HFNEvent) -> Unit,
   onDismissRequest: () -> Unit
 ) {
@@ -65,7 +65,7 @@ fun SelectEventDialog(
 @Composable
 fun SelectEventDialogPreview() {
   Scaffold {
-    it
+    it.toString()
     val events = arrayOf(
       HFNEvent(id = "evt_1", title = "Event 1"),
       HFNEvent(id = "evt_2", title = "Event 2"),

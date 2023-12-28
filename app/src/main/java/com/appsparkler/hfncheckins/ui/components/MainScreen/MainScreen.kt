@@ -19,6 +19,7 @@ import com.appsparkler.hfncheckins.ui.hfnTheme.HFNTheme
 import com.appsparkler.hfncheckins.model.HFNEvent
 import com.appsparkler.hfncheckins.ui.components.common.VerticalSpacer12Dp
 import com.appsparkler.hfncheckins.model.InputValueType
+import com.appsparkler.hfncheckins.ui.components.VerticalEllipsisMenu.VerticalEllipsisMenuWithSelectDialog
 
 @Composable
 fun MainScreen(
@@ -37,10 +38,15 @@ fun MainScreen(
       .fillMaxHeight(),
     verticalArrangement = Arrangement.SpaceBetween
   ) {
+    VerticalEllipsisMenuWithSelectDialog(
+      events = arrayOf(),
+      selectedEvent = null,
+      onSelectEvent = {})
     Column(
       modifier = Modifier.weight(1f),
       verticalArrangement = Arrangement.Center
     ) {
+
       SeekerInfoField(
         hfnEvent = hfnEvent,
         onStartCheckin = onStartCheckin,

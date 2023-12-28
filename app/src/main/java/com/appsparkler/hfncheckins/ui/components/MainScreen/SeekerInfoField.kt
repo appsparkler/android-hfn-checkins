@@ -34,7 +34,6 @@ fun SeekerInfoField(
   onChangeValue: (String) -> Unit,
   onChangeBatch: (String) -> Unit
 ) {
-
   ElevatedCard(
     modifier = modifier,
     colors = CardDefaults.elevatedCardColors(

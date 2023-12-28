@@ -53,7 +53,7 @@ class MainActivity : ComponentActivity() {
 
   private fun fetchOngoingEvents(): Task<QuerySnapshot> {
     val db = Firebase.firestore
-    return db.collection("ongoing-events").get()
+    return db.collection(getString(R.string.ongoing_events)).get()
   }
 
   private fun storeInFile(it: QuerySnapshot) {

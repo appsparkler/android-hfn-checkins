@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.material3.*
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.appsparkler.hfncheckins.codescanner.Utils
+import com.appsparkler.hfncheckins.db.getDb
 import com.appsparkler.hfncheckins.ui.components.AppWithCodeScannerAndRouterAndFirebase
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.ktx.auth
@@ -52,7 +53,7 @@ class MainActivity : ComponentActivity() {
   }
 
   private fun fetchOngoingEvents(): Task<QuerySnapshot> {
-    val db = Firebase.firestore
+    val db = getDb()
     return db.collection(getString(R.string.ongoing_events)).get()
   }
 

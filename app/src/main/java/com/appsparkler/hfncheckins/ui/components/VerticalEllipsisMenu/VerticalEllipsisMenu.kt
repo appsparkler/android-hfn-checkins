@@ -10,10 +10,59 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.appsparkler.hfncheckins.model.HFNEvent
+
+@Composable fun VerticalEllipsisMenuWithSelectDialog(
+  events: Array<HFNEvent>,
+  selectedEvent: String,
+  onSelectEvent: (HFNEvent) -> Unit
+) {
+  val showDialog = remember { mutableStateOf(false) }
+
+  VerticalEllipsisPopupMenu(
+    onClickSelectEvent = {
+      showDialog.value = true
+    },
+  )
+
+  if (showDialog.value) {
+    SelectEventDialog(
+      onDismissRequest = { showDialog.value = false },
+      events = events,
+      selectedEvent = selectedEvent,
+      onEventSelected = {
+        showDialog.value = false
+        onSelectEvent(it)
+      }
+    )
+  }
+}
+
+@Preview(
+  device = "spec:width=411dp,height=891dp,dpi=480"
+)
+@Composable
+fun VerticalEllipsisMenuWithSelectDialogPreview() {
+  VerticalEllipsisMenuWithSelectDialog(
+    events = arrayOf(
+      HFNEvent(
+        id = "event_1",
+        title = "Event 1",
+      ),
+      HFNEvent(
+        id = "event_2",
+        title = "Event 2",
+      )
+    ), selectedEvent = "",
+    onSelectEvent = {
+
+    }
+  )
+}
 
 @Composable
 fun VerticalEllipsisPopupMenu(
-  onClick: () -> Unit = {}
+  onClickSelectEvent: () -> Unit = {}
 ) {
   var showMenu by remember { mutableStateOf(false) }
 
@@ -37,7 +86,7 @@ fun VerticalEllipsisPopupMenu(
         DropdownMenuItem(
           onClick = {
             showMenu = false
-            onClick()
+            onClickSelectEvent()
           },
           text = { Text("Select Event") },
         )
@@ -46,7 +95,9 @@ fun VerticalEllipsisPopupMenu(
   }
 }
 
-@Preview
+@Preview(
+ device = "spec:width=411dp,height=891dp,dpi=480"
+)
 @Composable
 fun VerticalEllipsisPopupMenuPreview() {
   VerticalEllipsisPopupMenu()

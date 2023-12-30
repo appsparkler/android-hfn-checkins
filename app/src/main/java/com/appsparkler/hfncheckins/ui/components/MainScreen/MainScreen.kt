@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -35,7 +36,8 @@ fun MainScreen(
   onClickScan: (batch: String?) -> Unit
 ) {
   val context = LocalContext.current
-  val events = EventsManager(context).getEvents()
+  val eventsManager = EventsManager(context)
+  val events = eventsManager.getEvents()
   Log.d("MainScreen", "MainScreen: $events")
   val eventsViewModelState by eventsViewModel.uiState.collectAsState()
   val mainScreenUiState by mainScreenViewModel.uiState.collectAsState()
@@ -51,13 +53,14 @@ fun MainScreen(
       events = events,
       selectedEvent = eventsViewModelState.selectedEvent?.id,
       onSelectEvent = {
+        eventsManager.setSelectedEvent(it)
         eventsViewModel.setSelectedEvent((it))
       })
     Column(
       modifier = Modifier.weight(1f),
       verticalArrangement = Arrangement.Center
     ) {
-      if(eventsViewModelState.selectedEvent != null){
+      if (eventsViewModelState.selectedEvent != null) {
         SeekerInfoField(
           hfnEvent = hfnEvent,
           onStartCheckin = onStartCheckin,
@@ -72,7 +75,12 @@ fun MainScreen(
           }
         )
       } else {
-        Text(text = "Please select event to get started.", style = MaterialTheme.typography.titleSmall)
+        Text(
+          modifier = Modifier.fillMaxWidth(),
+          textAlign = TextAlign.Center,
+          text = "👆Please select event to get started.",
+          style = MaterialTheme.typography.titleSmall
+        )
       }
     }
     Row(

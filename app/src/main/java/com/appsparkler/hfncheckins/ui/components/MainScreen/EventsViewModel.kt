@@ -28,12 +28,12 @@ class EventsManager(context:Context) {
     }
   }
 
-  fun getSelectedEvent(): HFNEvent {
+  fun getSelectedEvent(): HFNEvent? {
     val selectedEvent = sharedPreferences.getString(selectedEventKey, null)
     if(!selectedEvent.isNullOrBlank()) {
       return Json.decodeFromString<HFNEvent>(selectedEvent)
     }
-    throw Exception("Selected event not found")
+    return null
   }
 
   fun getEvents():Array<HFNEvent> {
@@ -114,7 +114,7 @@ class EventsViewModel:ViewModel() {
     }
   }
 
-  fun setSelectedEvent(event:HFNEvent) {
+  fun setSelectedEvent(event:HFNEvent?) {
     _uiState.update {
       it.copy(
         selectedEvent = event

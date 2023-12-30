@@ -298,6 +298,9 @@ fun AppWithCodeScannerAndRouterAndFirebase(
   val eventManager = EventsManager(context)
   val events = eventManager.getEvents()
   eventsViewModel.setEvents(events)
+  eventsViewModel.setSelectedEvent(
+    eventManager.getSelectedEvent()
+  )
 
   val eventsViewModelState by eventsViewModel.uiState.collectAsState()
   val hfnEvent = eventsViewModelState.selectedEvent

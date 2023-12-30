@@ -64,7 +64,7 @@ import com.google.firebase.ktx.Firebase
 fun AppWithNav(
   modifier: Modifier = Modifier,
   eventsViewModel: EventsViewModel = viewModel(),
-  hfnEvent: HFNEvent,
+  hfnEvent: HFNEvent? = null,
   navController: NavHostController = rememberNavController(),
   onClickScan: (batch: String?) -> Unit,
   onCheckinWithAbhyasiId: (
@@ -139,7 +139,7 @@ fun AppWithNav(
             email = if (type == InputValueType.EMAIL.name) emailOrPhoneNumber else "",
             mobile = if (isMobile) emailOrPhoneNumber else "",
             startWithMobile = isMobile,
-            event = hfnEvent.title
+            event = hfnEvent?.title
           )
           EmailWithMobileOrEmailScreen(
             onClickCheckin = {
@@ -222,7 +222,7 @@ private const val SCAN_RESULT_KEY = "SCAN_RESULT_KEY"
 fun AppWithCodeScannerAndRouter(
   eventsViewModel: EventsViewModel = viewModel(),
   modifier: Modifier = Modifier,
-  hfnEvent: HFNEvent,
+  hfnEvent: HFNEvent? = null,
   onCheckinWithAbhyasiId: (abhyasiIdCheckin: AbhyasiIdCheckin) -> Unit,
   onCheckinWithEmailOrMobile: (emailOrMobileCheckin: MobileOrEmailCheckinDBModel) -> Unit,
   onCheckinWithQRCode: (qrCodeCheckin: QRCodeCheckinDBModel) -> Unit
@@ -301,7 +301,7 @@ fun AppWithCodeScannerAndRouterAndFirebase(
 
   val eventsViewModelState by eventsViewModel.uiState.collectAsState()
   val hfnEvent = eventsViewModelState.selectedEvent
-  val collection = db.collection("/events/${hfnEvent.id}/checkins")
+  val collection = db.collection("/events/${hfnEvent?.id}/checkins")
 
   AppWithCodeScannerAndRouter(
     hfnEvent = hfnEvent,

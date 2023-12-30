@@ -28,7 +28,7 @@ import com.appsparkler.hfncheckins.model.SeekerInfoFieldState
 @Composable
 fun SeekerInfoField(
   modifier: Modifier = Modifier,
-  hfnEvent: HFNEvent,
+  hfnEvent: HFNEvent? = null,
   seekerInfoUiState: SeekerInfoFieldState,
   onStartCheckin: (String, InputValueType) -> Unit,
   onChangeValue: (String) -> Unit,
@@ -49,7 +49,7 @@ fun SeekerInfoField(
     ) {
       Text(
         modifier = Modifier.fillMaxWidth(),
-        text = hfnEvent.title,
+        text = hfnEvent?.title ?: "",
         style = MaterialTheme.typography.displaySmall,
         fontWeight = FontWeight.Bold,
         textAlign = TextAlign.Center,
@@ -60,7 +60,7 @@ fun SeekerInfoField(
         } else {
           ImeAction.None
         }
-        if (hfnEvent.batches != null) {
+        if (hfnEvent?.batches != null) {
           SelectField(
             label = "Batch",
             options = hfnEvent.batches,

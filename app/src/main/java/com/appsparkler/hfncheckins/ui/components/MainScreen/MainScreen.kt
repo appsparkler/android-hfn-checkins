@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -26,7 +28,7 @@ import com.appsparkler.hfncheckins.ui.components.VerticalEllipsisMenu.VerticalEl
 @Composable
 fun MainScreen(
   modifier: Modifier = Modifier,
-  hfnEvent: HFNEvent,
+  hfnEvent: HFNEvent? = null,
   mainScreenViewModel: MainScreenViewModel = viewModel(),
   eventsViewModel: EventsViewModel = viewModel(),
   onStartCheckin: (String, InputValueType) -> Unit,
@@ -37,7 +39,7 @@ fun MainScreen(
   Log.d("MainScreen", "MainScreen: $events")
   val eventsViewModelState by eventsViewModel.uiState.collectAsState()
   val mainScreenUiState by mainScreenViewModel.uiState.collectAsState()
-  if (hfnEvent.defaultBatch != null && mainScreenUiState.batch == null) {
+  if (hfnEvent?.defaultBatch != null && mainScreenUiState.batch == null) {
     mainScreenViewModel.update(batch = hfnEvent.defaultBatch)
   }
   Column(
@@ -47,7 +49,7 @@ fun MainScreen(
   ) {
     VerticalEllipsisMenuWithSelectDialog(
       events = events,
-      selectedEvent = eventsViewModelState.selectedEvent.id,
+      selectedEvent = eventsViewModelState.selectedEvent?.id,
       onSelectEvent = {
         eventsViewModel.setSelectedEvent((it))
       })
@@ -55,19 +57,23 @@ fun MainScreen(
       modifier = Modifier.weight(1f),
       verticalArrangement = Arrangement.Center
     ) {
-      SeekerInfoField(
-        hfnEvent = hfnEvent,
-        onStartCheckin = onStartCheckin,
-        onChangeValue = {
-          mainScreenViewModel.update(
-            value = it
-          )
-        },
-        seekerInfoUiState = mainScreenUiState,
-        onChangeBatch = {
-          mainScreenViewModel.update(batch = it)
-        }
-      )
+      if(eventsViewModelState.selectedEvent != null){
+        SeekerInfoField(
+          hfnEvent = hfnEvent,
+          onStartCheckin = onStartCheckin,
+          onChangeValue = {
+            mainScreenViewModel.update(
+              value = it
+            )
+          },
+          seekerInfoUiState = mainScreenUiState,
+          onChangeBatch = {
+            mainScreenViewModel.update(batch = it)
+          }
+        )
+      } else {
+        Text(text = "Please select event to get started.", style = MaterialTheme.typography.titleSmall)
+      }
     }
     Row(
       modifier = Modifier

@@ -20,7 +20,7 @@ class EventsManager(context:Context) {
   private val selectedEventKey = "selected-event"
   private val sharedPreferences = context.getSharedPreferences(context.getString(R.string.my_shared_prefs), Context.MODE_PRIVATE)
 
-  fun setSelectedEvent(event: HFNEvent):Unit {
+  fun setSelectedEvent(event: HFNEvent) {
     val jsonString = Json.encodeToString(event)
     with(sharedPreferences.edit()) {
       putString(selectedEventKey, jsonString)
@@ -77,7 +77,7 @@ class EventsManager(context:Context) {
 
 data class EventsViewModelState(
   val ongoingEvents: Array<HFNEvent>,
-  val selectedEvent: HFNEvent
+  val selectedEvent: HFNEvent? = null
 ) {
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
@@ -102,7 +102,6 @@ class EventsViewModel:ViewModel() {
   private val _uiState = MutableStateFlow(
     EventsViewModelState(
       ongoingEvents = emptyArray<HFNEvent>(),
-      selectedEvent = HFNEvent()
     )
   )
   val uiState = _uiState.asStateFlow()

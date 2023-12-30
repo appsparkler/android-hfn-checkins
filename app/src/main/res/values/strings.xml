@@ -12,5 +12,6 @@
     <string name="pref_key_enable_barcode_size_check" translatable="false">barcode_ebsc</string>
     <string name="pref_key_minimum_barcode_width" translatable="false">barcode_mbw</string>
     <string name="pref_key_delay_loading_barcode_result" translatable="false">barcode_dlbr</string>
-  <string name="ongoing_events">ongoing-events</string>
+    <string name="ongoing_events">ongoing-events</string>
+    <string name="my_shared_prefs">my_shared_prefs</string>
 </resources>

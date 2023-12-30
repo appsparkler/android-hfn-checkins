@@ -1,5 +1,6 @@
 package com.appsparkler.hfncheckins.ui.components.MainScreen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -9,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,6 +31,9 @@ fun MainScreen(
   onStartCheckin: (String, InputValueType) -> Unit,
   onClickScan: (batch: String?) -> Unit
 ) {
+  val context = LocalContext.current
+  val events = EventsManager(context).getEvents()
+  Log.d("MainScreen", "MainScreen: $events")
   val mainScreenUiState by mainScreenViewModel.uiState.collectAsState()
   if (hfnEvent.defaultBatch != null && mainScreenUiState.batch == null) {
     mainScreenViewModel.update(batch = hfnEvent.defaultBatch)
@@ -39,14 +44,13 @@ fun MainScreen(
     verticalArrangement = Arrangement.SpaceBetween
   ) {
     VerticalEllipsisMenuWithSelectDialog(
-      events = arrayOf(),
+      events = events?.toTypedArray() ?: emptyArray(),
       selectedEvent = null,
       onSelectEvent = {})
     Column(
       modifier = Modifier.weight(1f),
       verticalArrangement = Arrangement.Center
     ) {
-
       SeekerInfoField(
         hfnEvent = hfnEvent,
         onStartCheckin = onStartCheckin,

@@ -9,6 +9,6 @@ data class HFNEvent(
     val batches: List<String>? = null,
     val defaultBatch: String? = null
 ){
-  constructor() : this("", "") {
+  constructor() : this("default_bucket", "Select an event") {
   }
 }

@@ -28,12 +28,14 @@ fun MainScreen(
   modifier: Modifier = Modifier,
   hfnEvent: HFNEvent,
   mainScreenViewModel: MainScreenViewModel = viewModel(),
+  eventsViewModel: EventsViewModel = viewModel(),
   onStartCheckin: (String, InputValueType) -> Unit,
   onClickScan: (batch: String?) -> Unit
 ) {
   val context = LocalContext.current
   val events = EventsManager(context).getEvents()
   Log.d("MainScreen", "MainScreen: $events")
+  val eventsViewModelState by eventsViewModel.uiState.collectAsState()
   val mainScreenUiState by mainScreenViewModel.uiState.collectAsState()
   if (hfnEvent.defaultBatch != null && mainScreenUiState.batch == null) {
     mainScreenViewModel.update(batch = hfnEvent.defaultBatch)
@@ -44,9 +46,11 @@ fun MainScreen(
     verticalArrangement = Arrangement.SpaceBetween
   ) {
     VerticalEllipsisMenuWithSelectDialog(
-      events = events?.toTypedArray() ?: emptyArray(),
-      selectedEvent = null,
-      onSelectEvent = {})
+      events = events,
+      selectedEvent = eventsViewModelState.selectedEvent.id,
+      onSelectEvent = {
+        eventsViewModel.setSelectedEvent((it))
+      })
     Column(
       modifier = Modifier.weight(1f),
       verticalArrangement = Arrangement.Center

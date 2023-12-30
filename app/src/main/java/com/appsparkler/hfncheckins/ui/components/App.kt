@@ -17,11 +17,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -32,6 +35,7 @@ import androidx.navigation.navArgument
 import com.appsparkler.hfncheckins.R
 import com.appsparkler.hfncheckins.codescanner.LiveBarcodeScanningActivity
 import com.appsparkler.hfncheckins.codescanner.Utils
+import com.appsparkler.hfncheckins.db.getDb
 import com.appsparkler.hfncheckins.ui.components.AbhyasiIdCheckinScreen.AbhyasiIdCheckinScreen
 import com.appsparkler.hfncheckins.ui.components.AbhyasiIdCheckinScreen.AbhyasiIdCheckinViewModel
 import com.appsparkler.hfncheckins.ui.components.CheckinSuccessScreen.CheckinSuccessScreen
@@ -48,6 +52,9 @@ import com.appsparkler.hfncheckins.model.AbhyasiIdCheckin
 import com.appsparkler.hfncheckins.model.InputValueType
 import com.appsparkler.hfncheckins.model.MobileOrEmailCheckinDBModel
 import com.appsparkler.hfncheckins.model.QRCodeCheckinDBModel
+import com.appsparkler.hfncheckins.ui.components.MainScreen.EventsManager
+import com.appsparkler.hfncheckins.ui.components.MainScreen.EventsViewModel
+import com.appsparkler.hfncheckins.ui.components.MainScreen.EventsViewModelState
 import com.appsparkler.hfncheckins.utils.getDefaultBatch
 import com.appsparkler.hfncheckins.utils.getQRCheckinsAndMore
 import com.google.firebase.firestore.ktx.firestore
@@ -56,6 +63,7 @@ import com.google.firebase.ktx.Firebase
 @Composable
 fun AppWithNav(
   modifier: Modifier = Modifier,
+  eventsViewModel: EventsViewModel = viewModel(),
   hfnEvent: HFNEvent,
   navController: NavHostController = rememberNavController(),
   onClickScan: (batch: String?) -> Unit,
@@ -93,6 +101,7 @@ fun AppWithNav(
     }
     composable(Routes.MAIN_SCREEN.name) {
       MainScreen(
+        eventsViewModel = eventsViewModel,
         hfnEvent = hfnEvent,
         onStartCheckin = { inputValue, type ->
           when (type) {
@@ -211,6 +220,7 @@ private const val SCAN_RESULT_KEY = "SCAN_RESULT_KEY"
 
 @Composable
 fun AppWithCodeScannerAndRouter(
+  eventsViewModel: EventsViewModel = viewModel(),
   modifier: Modifier = Modifier,
   hfnEvent: HFNEvent,
   onCheckinWithAbhyasiId: (abhyasiIdCheckin: AbhyasiIdCheckin) -> Unit,
@@ -257,6 +267,7 @@ fun AppWithCodeScannerAndRouter(
         contentScale = ContentScale.Crop
       )
       AppWithNav(
+        eventsViewModel = eventsViewModel,
         modifier = Modifier
           .padding(paddingValues)
           .padding(horizontal = 18.dp),
@@ -279,15 +290,22 @@ val TAG = "AppWithCodeScannerAndRouterAndFirebase"
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AppWithCodeScannerAndRouterAndFirebase() {
-  val db = Firebase.firestore
-  val hfnEvent = HFNEvent(
-    title = "Meditate with Shri Modiji and Daaji",
-    id = "202311_PM_visit",
-  )
+fun AppWithCodeScannerAndRouterAndFirebase(
+  eventsViewModel: EventsViewModel = viewModel()
+) {
+  val context = LocalContext.current
+  val db = getDb()
+  val eventManager = EventsManager(context)
+  val events = eventManager.getEvents()
+  eventsViewModel.setEvents(events)
+
+  val eventsViewModelState by eventsViewModel.uiState.collectAsState()
+  val hfnEvent = eventsViewModelState.selectedEvent
   val collection = db.collection("/events/${hfnEvent.id}/checkins")
+
   AppWithCodeScannerAndRouter(
     hfnEvent = hfnEvent,
+    eventsViewModel = eventsViewModel,
     onCheckinWithAbhyasiId = {
       collection.document("${it.abhyasiId}").set(it)
         .addOnSuccessListener {

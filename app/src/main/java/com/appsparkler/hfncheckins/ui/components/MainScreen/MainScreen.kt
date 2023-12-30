@@ -83,16 +83,18 @@ fun MainScreen(
         )
       }
     }
-    Row(
-      modifier = Modifier
-        .fillMaxWidth(),
-      horizontalArrangement = Arrangement.End
-    ) {
-      ScanButton(onClick = {
-        onClickScan(mainScreenUiState.batch)
-      })
+    if (eventsViewModelState.selectedEvent != null) {
+      Row(
+        modifier = Modifier
+          .fillMaxWidth(),
+        horizontalArrangement = Arrangement.End
+      ) {
+        ScanButton(onClick = {
+          onClickScan(mainScreenUiState.batch)
+        })
+      }
+      VerticalSpacer12Dp()
     }
-    VerticalSpacer12Dp()
   }
 }
 

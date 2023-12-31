@@ -3,18 +3,16 @@ package com.appsparkler.hfncheckins.ui.components.MainScreen
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -24,6 +22,7 @@ import com.appsparkler.hfncheckins.ui.hfnTheme.HFNTheme
 import com.appsparkler.hfncheckins.model.HFNEvent
 import com.appsparkler.hfncheckins.ui.components.common.VerticalSpacer12Dp
 import com.appsparkler.hfncheckins.model.InputValueType
+import com.appsparkler.hfncheckins.ui.components.VerticalEllipsisMenu.SelectEventCard
 import com.appsparkler.hfncheckins.ui.components.VerticalEllipsisMenu.VerticalEllipsisMenuWithSelectDialog
 
 @Composable
@@ -43,6 +42,10 @@ fun MainScreen(
   val mainScreenUiState by mainScreenViewModel.uiState.collectAsState()
   if (hfnEvent?.defaultBatch != null && mainScreenUiState.batch == null) {
     mainScreenViewModel.update(batch = hfnEvent.defaultBatch)
+  }
+  val handleSelectEvent = { it: HFNEvent ->
+    eventsManager.setSelectedEvent(it)
+    eventsViewModel.setSelectedEvent((it))
   }
   Column(
     modifier = modifier
@@ -75,11 +78,12 @@ fun MainScreen(
           }
         )
       } else {
-        Text(
-          modifier = Modifier.fillMaxWidth(),
-          textAlign = TextAlign.Center,
-          text = "👆Please select event to get started.",
-          style = MaterialTheme.typography.titleSmall
+        SelectEventCard(
+          modifier = Modifier
+            .shadow(elevation = 16.dp, shape = MaterialTheme.shapes.large),
+          events = events,
+          onEventSelected = handleSelectEvent,
+          selectedEvent = eventsViewModelState.selectedEvent?.id
         )
       }
     }
@@ -98,10 +102,7 @@ fun MainScreen(
   }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview(
-//    uiMode = UI_MODE_NIGHT_YES
-)
+@Preview
 @Composable
 fun MainScreenPreview() {
   HFNTheme() {

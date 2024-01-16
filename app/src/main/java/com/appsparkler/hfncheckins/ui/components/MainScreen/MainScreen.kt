@@ -29,7 +29,7 @@ fun MainScreen(
   modifier: Modifier = Modifier,
   hfnEvent: HFNEvent? = null,
   mainScreenViewModel: MainScreenViewModel = viewModel(),
-  eventsViewModel: EventsViewModel = viewModel(),
+  eventsViewModelV0: EventsViewModelV0 = viewModel(),
   onStartCheckin: (String, InputValueType) -> Unit,
   onClickScan: (batch: String?) -> Unit
 ) {
@@ -37,14 +37,14 @@ fun MainScreen(
   val eventsManager = EventsManager(context)
   val events = eventsManager.getEvents()
   Log.d("MainScreen", "MainScreen: $events")
-  val eventsViewModelState by eventsViewModel.uiState.collectAsState()
+  val eventsViewModelState by eventsViewModelV0.uiState.collectAsState()
   val mainScreenUiState by mainScreenViewModel.uiState.collectAsState()
   if (hfnEvent?.defaultBatch != null && mainScreenUiState.batch == null) {
     mainScreenViewModel.update(batch = hfnEvent.defaultBatch)
   }
   val handleSelectEvent = { it: HFNEvent ->
     eventsManager.setSelectedEvent(it)
-    eventsViewModel.setSelectedEvent((it))
+    eventsViewModelV0.setSelectedEvent((it))
   }
   Column(
     modifier = modifier
@@ -57,7 +57,7 @@ fun MainScreen(
       selectedEvent = eventsViewModelState.selectedEvent?.id,
       onSelectEvent = {
         eventsManager.setSelectedEvent(it)
-        eventsViewModel.setSelectedEvent((it))
+        eventsViewModelV0.setSelectedEvent((it))
       })
     Column(
       modifier = Modifier

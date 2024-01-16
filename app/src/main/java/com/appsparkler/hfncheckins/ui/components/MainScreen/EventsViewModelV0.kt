@@ -74,8 +74,7 @@ class EventsManager(context:Context) {
   }
 }
 
-
-data class EventsViewModelState(
+data class EventsViewModelStateV0(
   val ongoingEvents: Array<HFNEvent>? = null,
   val selectedEvent: HFNEvent? = null
 ) {
@@ -83,7 +82,7 @@ data class EventsViewModelState(
     if (this === other) return true
     if (javaClass != other?.javaClass) return false
 
-    other as EventsViewModelState
+    other as EventsViewModelStateV0
 
     if (!ongoingEvents.contentEquals(other.ongoingEvents)) return false
     if (selectedEvent != other.selectedEvent) return false
@@ -98,9 +97,9 @@ data class EventsViewModelState(
   }
 }
 
-class EventsViewModel:ViewModel() {
+class EventsViewModelV0:ViewModel() {
   private val _uiState = MutableStateFlow(
-    EventsViewModelState(
+    EventsViewModelStateV0(
       ongoingEvents = emptyArray<HFNEvent>(),
     )
   )

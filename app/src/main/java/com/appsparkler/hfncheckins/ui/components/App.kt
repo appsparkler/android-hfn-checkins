@@ -53,17 +53,13 @@ import com.appsparkler.hfncheckins.model.InputValueType
 import com.appsparkler.hfncheckins.model.MobileOrEmailCheckinDBModel
 import com.appsparkler.hfncheckins.model.QRCodeCheckinDBModel
 import com.appsparkler.hfncheckins.ui.components.MainScreen.EventsManager
-import com.appsparkler.hfncheckins.ui.components.MainScreen.EventsViewModel
-import com.appsparkler.hfncheckins.ui.components.MainScreen.EventsViewModelState
-import com.appsparkler.hfncheckins.utils.getDefaultBatch
+import com.appsparkler.hfncheckins.ui.components.MainScreen.EventsViewModelV0
 import com.appsparkler.hfncheckins.utils.getQRCheckinsAndMore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 @Composable
 fun AppWithNav(
   modifier: Modifier = Modifier,
-  eventsViewModel: EventsViewModel = viewModel(),
+  eventsViewModelV0: EventsViewModelV0 = viewModel(),
   hfnEvent: HFNEvent? = null,
   navController: NavHostController = rememberNavController(),
   onClickScan: (batch: String?) -> Unit,
@@ -101,7 +97,7 @@ fun AppWithNav(
     }
     composable(Routes.MAIN_SCREEN.name) {
       MainScreen(
-        eventsViewModel = eventsViewModel,
+        eventsViewModelV0 = eventsViewModelV0,
         hfnEvent = hfnEvent,
         onStartCheckin = { inputValue, type ->
           when (type) {
@@ -220,7 +216,7 @@ private const val SCAN_RESULT_KEY = "SCAN_RESULT_KEY"
 
 @Composable
 fun AppWithCodeScannerAndRouter(
-  eventsViewModel: EventsViewModel = viewModel(),
+  eventsViewModelV0: EventsViewModelV0 = viewModel(),
   modifier: Modifier = Modifier,
   hfnEvent: HFNEvent? = null,
   onCheckinWithAbhyasiId: (abhyasiIdCheckin: AbhyasiIdCheckin) -> Unit,
@@ -267,7 +263,7 @@ fun AppWithCodeScannerAndRouter(
         contentScale = ContentScale.Crop
       )
       AppWithNav(
-        eventsViewModel = eventsViewModel,
+        eventsViewModelV0 = eventsViewModelV0,
         modifier = Modifier
           .padding(paddingValues)
           .padding(horizontal = 18.dp),
@@ -291,7 +287,7 @@ val TAG = "AppWithCodeScannerAndRouterAndFirebase"
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppWithCodeScannerAndRouterAndFirebase(
-  eventsViewModel: EventsViewModel = viewModel()
+  eventsViewModelV0: EventsViewModelV0 = viewModel()
 ) {
 
   val context = LocalContext.current
@@ -302,18 +298,18 @@ fun AppWithCodeScannerAndRouterAndFirebase(
   val db = getDb()
   val eventManager = EventsManager(context)
   val events = eventManager.getEvents()
-  eventsViewModel.setEvents(events)
-  eventsViewModel.setSelectedEvent(
+  eventsViewModelV0.setEvents(events)
+  eventsViewModelV0.setSelectedEvent(
     eventManager.getSelectedEvent()
   )
 
-  val eventsViewModelState by eventsViewModel.uiState.collectAsState()
+  val eventsViewModelState by eventsViewModelV0.uiState.collectAsState()
   val hfnEvent = eventsViewModelState.selectedEvent
   val collection = db.collection("/events/${hfnEvent?.id}/checkins")
 
   AppWithCodeScannerAndRouter(
     hfnEvent = hfnEvent,
-    eventsViewModel = eventsViewModel,
+    eventsViewModelV0 = eventsViewModelV0,
     onCheckinWithAbhyasiId = {
       collection.document("${it.abhyasiId}").set(it)
         .addOnSuccessListener {

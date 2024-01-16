@@ -54,12 +54,14 @@ fun MainScreen(
       .fillMaxWidth(),
     verticalArrangement = Arrangement.SpaceBetween
   ) {
-    VerticalEllipsisMenuWithSelectDialog(
-      events = events,
-      selectedEvent = eventsViewModelState.selectedEvent?.id,
-      onSelectEvent = {
-        eventsViewModel.setSelectedEvent((it))
-      })
+    if(selectedEvent != null){
+      VerticalEllipsisMenuWithSelectDialog(
+        events = events,
+        selectedEvent = eventsViewModelState.selectedEvent?.id,
+        onSelectEvent = {
+          eventsViewModel.setSelectedEvent((it))
+        })
+    }
     Column(
       modifier = Modifier
         .weight(1f)
@@ -164,7 +166,6 @@ fun MainScreenPreview_WithOngoingEvents() {
   }
 }
 
-
 @Preview
 @Composable
 fun MainScreenPreview_WithOngoingEvents_WithSelectedEvent() {
@@ -186,6 +187,25 @@ fun MainScreenPreview_WithOngoingEvents_WithSelectedEvent() {
       id = "event_1",
       title = "Event 1"
     ))
+    Scaffold {
+      MainScreen(
+        modifier = Modifier
+          .padding(it)
+          .padding(12.dp),
+        eventsViewModel = eventsViewModel,
+        onStartCheckin = { inputValue, type -> },
+        onClickScan = {}
+      )
+    }
+  }
+}
+
+@Preview
+@Composable
+fun MainScreenPreview_WithLiveData() {
+  HFNTheme() {
+    val eventsViewModel = EventsViewModel()
+    eventsViewModel.setupEventListener()
     Scaffold {
       MainScreen(
         modifier = Modifier

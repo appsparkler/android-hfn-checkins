@@ -59,7 +59,6 @@ import com.appsparkler.hfncheckins.utils.getQRCheckinsAndMore
 @Composable
 fun AppWithNav(
   modifier: Modifier = Modifier,
-  eventsViewModelV0: EventsViewModelV0 = viewModel(),
   hfnEvent: HFNEvent? = null,
   navController: NavHostController = rememberNavController(),
   onClickScan: (batch: String?) -> Unit,
@@ -97,8 +96,8 @@ fun AppWithNav(
     }
     composable(Routes.MAIN_SCREEN.name) {
       MainScreen(
-        eventsViewModelV0 = eventsViewModelV0,
-        hfnEvent = hfnEvent,
+//        eventsViewModelV0 = eventsViewModelV0,
+//        hfnEvent = hfnEvent,
         onStartCheckin = { inputValue, type ->
           when (type) {
             InputValueType.ABHYASI_ID -> {
@@ -216,7 +215,6 @@ private const val SCAN_RESULT_KEY = "SCAN_RESULT_KEY"
 
 @Composable
 fun AppWithCodeScannerAndRouter(
-  eventsViewModelV0: EventsViewModelV0 = viewModel(),
   modifier: Modifier = Modifier,
   hfnEvent: HFNEvent? = null,
   onCheckinWithAbhyasiId: (abhyasiIdCheckin: AbhyasiIdCheckin) -> Unit,
@@ -263,7 +261,6 @@ fun AppWithCodeScannerAndRouter(
         contentScale = ContentScale.Crop
       )
       AppWithNav(
-        eventsViewModelV0 = eventsViewModelV0,
         modifier = Modifier
           .padding(paddingValues)
           .padding(horizontal = 18.dp),
@@ -309,7 +306,6 @@ fun AppWithCodeScannerAndRouterAndFirebase(
 
   AppWithCodeScannerAndRouter(
     hfnEvent = hfnEvent,
-    eventsViewModelV0 = eventsViewModelV0,
     onCheckinWithAbhyasiId = {
       collection.document("${it.abhyasiId}").set(it)
         .addOnSuccessListener {

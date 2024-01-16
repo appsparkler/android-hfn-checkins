@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.appsparkler.hfncheckins.model.HFNEvent
 
 @Composable fun VerticalEllipsisMenuWithSelectDialog(
-  events: Array<HFNEvent>,
+  events: Array<HFNEvent>? = null,
   selectedEvent: String? = null,
   onSelectEvent: (HFNEvent) -> Unit
 ) {
@@ -23,7 +23,7 @@ import com.appsparkler.hfncheckins.model.HFNEvent
   val context = LocalContext.current
   VerticalEllipsisPopupMenu(
     onClickSelectEvent = {
-      if(events.isNotEmpty()) {
+      if(!events.isNullOrEmpty()) {
         showDialog.value = true
       } else {
         Toast.makeText(context, "no events to select", Toast.LENGTH_SHORT).show()
@@ -31,7 +31,7 @@ import com.appsparkler.hfncheckins.model.HFNEvent
     },
   )
 
-  if (showDialog.value) {
+  if (showDialog.value && !events.isNullOrEmpty()) {
     SelectEventDialog(
       onDismissRequest = { showDialog.value = false },
       events = events,

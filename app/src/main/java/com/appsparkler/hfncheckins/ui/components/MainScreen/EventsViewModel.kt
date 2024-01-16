@@ -36,12 +36,12 @@ class EventsManager(context:Context) {
     return null
   }
 
-  fun getEvents():Array<HFNEvent> {
+  fun getEvents():Array<HFNEvent>? {
     val events  = retrieveEventsFromSharedPreferences(sharedPreferences, eventsKey)
     if(events != null) {
       return events.toTypedArray()
     } else {
-      return emptyArray()
+      return null
     }
   }
 
@@ -76,7 +76,7 @@ class EventsManager(context:Context) {
 
 
 data class EventsViewModelState(
-  val ongoingEvents: Array<HFNEvent>,
+  val ongoingEvents: Array<HFNEvent>? = null,
   val selectedEvent: HFNEvent? = null
 ) {
   override fun equals(other: Any?): Boolean {
@@ -106,7 +106,7 @@ class EventsViewModel:ViewModel() {
   )
   val uiState = _uiState.asStateFlow()
 
-  fun setEvents(events: Array<HFNEvent>) {
+  fun setEvents(events: Array<HFNEvent>?) {
     _uiState.update {
       it.copy(
         ongoingEvents = events

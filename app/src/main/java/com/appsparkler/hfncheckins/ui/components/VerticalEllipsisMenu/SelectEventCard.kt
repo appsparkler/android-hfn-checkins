@@ -17,10 +17,13 @@ import com.appsparkler.hfncheckins.model.HFNEvent
 @Composable
 fun SelectEventCard(
   modifier: Modifier = Modifier,
-  events: Array<HFNEvent>,
+  events: Array<HFNEvent>? = null,
   onEventSelected: (HFNEvent) -> Unit,
   selectedEvent: String?
 ) {
+  if(events.isNullOrEmpty()) {
+    return
+  }
   Card(
     modifier = modifier.fillMaxWidth()
   ) {

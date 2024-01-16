@@ -30,8 +30,6 @@ class MainActivity : ComponentActivity() {
     if (auth.currentUser == null) {
       auth.signInAnonymously()
     }
-    val eventsManager = EventsManager(this)
-    eventsManager.setEvents()
     setContent {
       AppWithCodeScannerAndRouterAndFirebase()
     }

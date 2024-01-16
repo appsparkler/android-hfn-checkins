@@ -293,7 +293,12 @@ val TAG = "AppWithCodeScannerAndRouterAndFirebase"
 fun AppWithCodeScannerAndRouterAndFirebase(
   eventsViewModel: EventsViewModel = viewModel()
 ) {
+
   val context = LocalContext.current
+
+  val eventsManager = EventsManager(context)
+  eventsManager.setEvents()
+
   val db = getDb()
   val eventManager = EventsManager(context)
   val events = eventManager.getEvents()

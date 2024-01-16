@@ -96,8 +96,6 @@ fun AppWithNav(
     }
     composable(Routes.MAIN_SCREEN.name) {
       MainScreen(
-//        eventsViewModelV0 = eventsViewModelV0,
-//        hfnEvent = hfnEvent,
         onStartCheckin = { inputValue, type ->
           when (type) {
             InputValueType.ABHYASI_ID -> {

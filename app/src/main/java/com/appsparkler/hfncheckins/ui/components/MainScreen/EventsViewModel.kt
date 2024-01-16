@@ -7,17 +7,26 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 data class EventsViewModelState(
-  val ongoingEvents: List<HFNEvent>? = null
+  val ongoingEvents: List<HFNEvent>? = null,
+  val selectedEvent: HFNEvent? = null
 )
 
 class EventsViewModel : ViewModel() {
-  var _uiState = MutableStateFlow(EventsViewModelState())
-  val uiState = _uiState.value
+  private var _uiState = MutableStateFlow(EventsViewModelState())
+  val uiState = _uiState.asStateFlow()
 
   fun setOngoingEvents(hfnEvent: List<HFNEvent>) {
     _uiState.update {
-      uiState.copy(
+      uiState.value.copy(
         ongoingEvents = hfnEvent
+      )
+    }
+  }
+
+  fun setSelectedEvent(hfnEvent: HFNEvent) {
+    _uiState.update {
+      uiState.value.copy(
+        selectedEvent = hfnEvent
       )
     }
   }

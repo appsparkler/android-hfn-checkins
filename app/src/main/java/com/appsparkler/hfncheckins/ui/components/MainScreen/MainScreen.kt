@@ -27,24 +27,26 @@ import com.appsparkler.hfncheckins.ui.components.VerticalEllipsisMenu.VerticalEl
 @Composable
 fun MainScreen(
   modifier: Modifier = Modifier,
-  hfnEvent: HFNEvent? = null,
   mainScreenViewModel: MainScreenViewModel = viewModel(),
-  eventsViewModelV0: EventsViewModelV0 = viewModel(),
+  eventsViewModel: EventsViewModel = viewModel(),
   onStartCheckin: (String, InputValueType) -> Unit,
   onClickScan: (batch: String?) -> Unit
 ) {
   val context = LocalContext.current
+
   val eventsManager = EventsManager(context)
   val events = eventsManager.getEvents()
   Log.d("MainScreen", "MainScreen: $events")
-  val eventsViewModelState by eventsViewModelV0.uiState.collectAsState()
+//  val eventsViewModelStateV0 by eventsViewModelV0.uiState.collectAsState()
+  val eventsViewModelState by eventsViewModel.uiState.collectAsState()
   val mainScreenUiState by mainScreenViewModel.uiState.collectAsState()
-  if (hfnEvent?.defaultBatch != null && mainScreenUiState.batch == null) {
-    mainScreenViewModel.update(batch = hfnEvent.defaultBatch)
+  val selectedEvent = eventsViewModelState.selectedEvent
+  if (selectedEvent?.defaultBatch != null && mainScreenUiState.batch == null) {
+    mainScreenViewModel.update(batch = selectedEvent.defaultBatch)
   }
   val handleSelectEvent = { it: HFNEvent ->
     eventsManager.setSelectedEvent(it)
-    eventsViewModelV0.setSelectedEvent((it))
+    eventsViewModel.setSelectedEvent((it))
   }
   Column(
     modifier = modifier
@@ -56,8 +58,7 @@ fun MainScreen(
       events = events,
       selectedEvent = eventsViewModelState.selectedEvent?.id,
       onSelectEvent = {
-        eventsManager.setSelectedEvent(it)
-        eventsViewModelV0.setSelectedEvent((it))
+        eventsViewModel.setSelectedEvent((it))
       })
     Column(
       modifier = Modifier
@@ -65,12 +66,12 @@ fun MainScreen(
         .fillMaxWidth(),
       verticalArrangement = Arrangement.Center
     ) {
-      if(eventsViewModelState.ongoingEvents.isNullOrEmpty()) {
+      if (eventsViewModelState.ongoingEvents.isNullOrEmpty()) {
         FetchingEvents()
       } else {
         if (eventsViewModelState.selectedEvent != null) {
           SeekerInfoField(
-            hfnEvent = hfnEvent,
+            hfnEvent = selectedEvent,
             onStartCheckin = onStartCheckin,
             onChangeValue = {
               mainScreenViewModel.update(
@@ -86,7 +87,7 @@ fun MainScreen(
           SelectEventCard(
             modifier = Modifier
               .shadow(elevation = 16.dp, shape = MaterialTheme.shapes.large),
-            events = events,
+            events = eventsViewModelState.ongoingEvents?.toTypedArray(),
             onEventSelected = handleSelectEvent,
             selectedEvent = eventsViewModelState.selectedEvent?.id
           )
@@ -110,7 +111,7 @@ fun MainScreen(
 
 @Preview
 @Composable
-fun MainScreenPreview() {
+fun MainScreenPreview_WithoutOngoingEvents() {
   HFNTheme() {
     val backgroundImage =
       painterResource(id = R.drawable.bg_light) // Replace with your image resource
@@ -126,9 +127,73 @@ fun MainScreenPreview() {
         modifier = Modifier
           .padding(it)
           .padding(12.dp),
-        hfnEvent = null,
         onStartCheckin = { inputValue, type -> },
         onClickScan = {},
+      )
+    }
+  }
+}
+
+@Preview
+@Composable
+fun MainScreenPreview_WithOngoingEvents() {
+  HFNTheme() {
+    val eventsViewModel = EventsViewModel()
+    eventsViewModel.setOngoingEvents(
+      listOf(
+        HFNEvent(
+          id = "event_1",
+          title = "Event 1"
+        ),
+        HFNEvent(
+          id = "event_2",
+          title = "Event 2"
+        )
+      )
+    )
+    Scaffold {
+      MainScreen(
+        modifier = Modifier
+          .padding(it)
+          .padding(12.dp),
+        eventsViewModel = eventsViewModel,
+        onStartCheckin = { inputValue, type -> },
+        onClickScan = {}
+      )
+    }
+  }
+}
+
+
+@Preview
+@Composable
+fun MainScreenPreview_WithOngoingEvents_WithSelectedEvent() {
+  HFNTheme() {
+    val eventsViewModel = EventsViewModel()
+    eventsViewModel.setOngoingEvents(
+      listOf(
+        HFNEvent(
+          id = "event_1",
+          title = "Event 1"
+        ),
+        HFNEvent(
+          id = "event_2",
+          title = "Event 2"
+        )
+      )
+    )
+    eventsViewModel.setSelectedEvent(HFNEvent(
+      id = "event_1",
+      title = "Event 1"
+    ))
+    Scaffold {
+      MainScreen(
+        modifier = Modifier
+          .padding(it)
+          .padding(12.dp),
+        eventsViewModel = eventsViewModel,
+        onStartCheckin = { inputValue, type -> },
+        onClickScan = {}
       )
     }
   }

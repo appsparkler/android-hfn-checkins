@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -63,28 +64,37 @@ fun MainScreen(
       modifier = Modifier.weight(1f),
       verticalArrangement = Arrangement.Center
     ) {
-      if (eventsViewModelState.selectedEvent != null) {
-        SeekerInfoField(
-          hfnEvent = hfnEvent,
-          onStartCheckin = onStartCheckin,
-          onChangeValue = {
-            mainScreenViewModel.update(
-              value = it
-            )
-          },
-          seekerInfoUiState = mainScreenUiState,
-          onChangeBatch = {
-            mainScreenViewModel.update(batch = it)
-          }
-        )
+      if(eventsViewModelState.ongoingEvents.isNullOrEmpty()) {
+        Row(
+          modifier = Modifier.fillMaxWidth(),
+          horizontalArrangement = Arrangement.Center
+        ) {
+          Text(text = ("Fetching Events..."))
+        }
       } else {
-        SelectEventCard(
-          modifier = Modifier
-            .shadow(elevation = 16.dp, shape = MaterialTheme.shapes.large),
-          events = events,
-          onEventSelected = handleSelectEvent,
-          selectedEvent = eventsViewModelState.selectedEvent?.id
-        )
+        if (eventsViewModelState.selectedEvent != null) {
+          SeekerInfoField(
+            hfnEvent = hfnEvent,
+            onStartCheckin = onStartCheckin,
+            onChangeValue = {
+              mainScreenViewModel.update(
+                value = it
+              )
+            },
+            seekerInfoUiState = mainScreenUiState,
+            onChangeBatch = {
+              mainScreenViewModel.update(batch = it)
+            }
+          )
+        } else {
+          SelectEventCard(
+            modifier = Modifier
+              .shadow(elevation = 16.dp, shape = MaterialTheme.shapes.large),
+            events = events,
+            onEventSelected = handleSelectEvent,
+            selectedEvent = eventsViewModelState.selectedEvent?.id
+          )
+        }
       }
     }
     if (eventsViewModelState.selectedEvent != null) {
@@ -120,7 +130,7 @@ fun MainScreenPreview() {
         modifier = Modifier
           .padding(it)
           .padding(12.dp),
-        hfnEvent = getSampleEvent(),
+        hfnEvent = null,
         onStartCheckin = { inputValue, type -> },
         onClickScan = {},
       )

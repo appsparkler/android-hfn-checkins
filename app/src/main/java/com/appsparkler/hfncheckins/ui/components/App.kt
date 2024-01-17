@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -300,7 +301,6 @@ fun AppWithCodeScannerAndRouterAndFirebase(
   eventsViewModel: EventsViewModel = viewModel()
 ) {
   val eventsViewModelState by eventsViewModel.uiState.collectAsState()
-  eventsViewModel.setupEventListener()
   val context = LocalContext.current
 
   val eventsManager = EventsManager(context)
@@ -309,6 +309,10 @@ fun AppWithCodeScannerAndRouterAndFirebase(
   val db = getDb()
 
   val collection = db.collection("/events/${eventsViewModelState.selectedEvent?.id}/checkins")
+
+  LaunchedEffect(Unit) {
+    eventsViewModel.setupEventListener()
+  }
 
   AppWithCodeScannerAndRouter(
     eventsViewModel = eventsViewModel,

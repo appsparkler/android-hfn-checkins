@@ -57,9 +57,8 @@ fun MainScreen(
       VerticalEllipsisMenuWithSelectDialog(
         events = events,
         selectedEvent = eventsViewModelState.selectedEvent?.id,
-        onSelectEvent = {
-          eventsViewModel.setSelectedEvent(it)
-        })
+        onSelectEvent = handleSelectEvent
+      )
     }
     Column(
       modifier = Modifier

@@ -45,8 +45,7 @@ fun MainScreen(
     mainScreenViewModel.update(batch = selectedEvent.defaultBatch)
   }
   val handleSelectEvent = { it: HFNEvent ->
-    eventsManager.setSelectedEvent(it)
-    eventsViewModel.setSelectedEvent((it))
+    eventsViewModel.setSelectedEvent(it)
   }
   Column(
     modifier = modifier
@@ -59,7 +58,7 @@ fun MainScreen(
         events = events,
         selectedEvent = eventsViewModelState.selectedEvent?.id,
         onSelectEvent = {
-          eventsViewModel.setSelectedEvent((it))
+          eventsViewModel.setSelectedEvent(it)
         })
     }
     Column(

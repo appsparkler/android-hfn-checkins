@@ -53,13 +53,16 @@ import com.appsparkler.hfncheckins.model.InputValueType
 import com.appsparkler.hfncheckins.model.MobileOrEmailCheckinDBModel
 import com.appsparkler.hfncheckins.model.QRCodeCheckinDBModel
 import com.appsparkler.hfncheckins.ui.components.MainScreen.EventsManager
+import com.appsparkler.hfncheckins.ui.components.MainScreen.EventsViewModel
 import com.appsparkler.hfncheckins.ui.components.MainScreen.EventsViewModelV0
+import com.appsparkler.hfncheckins.ui.components.MainScreen.MainScreenViewModel
 import com.appsparkler.hfncheckins.utils.getQRCheckinsAndMore
 
 @Composable
 fun AppWithNav(
   modifier: Modifier = Modifier,
-  hfnEvent: HFNEvent? = null,
+  mainScreenViewModel: MainScreenViewModel = viewModel(),
+  eventsViewModel: EventsViewModel = viewModel(),
   navController: NavHostController = rememberNavController(),
   onClickScan: (batch: String?) -> Unit,
   onCheckinWithAbhyasiId: (
@@ -72,6 +75,8 @@ fun AppWithNav(
     qrCodeCheckin: QRCodeCheckinDBModel,
   ) -> Unit
 ) {
+  val eventsViewModelState by eventsViewModel.uiState.collectAsState()
+  val mainScreenViewModelState by mainScreenViewModel.uiState.collectAsState()
   NavHost(
     modifier = modifier,
     navController = navController,
@@ -90,26 +95,30 @@ fun AppWithNav(
         Routes.MAIN_SCREEN.name
       )
     }
-    val handleCancel:() -> Unit = {
+    val handleCancel: () -> Unit = {
       navController.popBackStack(Routes.MAIN_SCREEN.name, true)
       navigateToMainScreen()
     }
     composable(Routes.MAIN_SCREEN.name) {
       MainScreen(
+        eventsViewModel = eventsViewModel,
         onStartCheckin = { inputValue, type ->
           when (type) {
             InputValueType.ABHYASI_ID -> {
               navController.navigate("${Routes.ABHYASI_CHECKIN_DETAIL_SCREEN.name}/$inputValue")
             }
+
             InputValueType.PHONE_NUMBER -> {
               navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type")
             }
+
             InputValueType.EMAIL -> {
               navController.navigate("${Routes.MOBILE_OR_EMAIL_CHECKIN_DETAIL_SCREEN.name}/$inputValue/$type")
             }
           }
         },
-        onClickScan = onClickScan
+        onClickScan = onClickScan,
+        mainScreenViewModel = mainScreenViewModel
       )
     }
     composable(
@@ -129,10 +138,11 @@ fun AppWithNav(
             CheckinWithMobileOrEmailViewModel()
           val isMobile = type == InputValueType.PHONE_NUMBER.name
           checkWithEmailOrMobileCheckinViewModel.update(
+            batch = mainScreenViewModelState.batch,
             email = if (type == InputValueType.EMAIL.name) emailOrPhoneNumber else "",
             mobile = if (isMobile) emailOrPhoneNumber else "",
             startWithMobile = isMobile,
-            event = hfnEvent?.title
+            event = eventsViewModelState.selectedEvent?.title
           )
           EmailWithMobileOrEmailScreen(
             onClickCheckin = {
@@ -162,9 +172,11 @@ fun AppWithNav(
           AbhyasiIdCheckinScreen(
             abhyasiIdCheckinViewModel = abhyasiIdCheckinViewModel,
             onClickCheckin = {
-              onCheckinWithAbhyasiId(it.copy(
-                timestamp = System.currentTimeMillis()
-              ))
+              onCheckinWithAbhyasiId(
+                it.copy(
+                  timestamp = System.currentTimeMillis()
+                )
+              )
               navigateToSuccessScreen()
             },
             onClickCancel = handleCancel,
@@ -214,7 +226,8 @@ private const val SCAN_RESULT_KEY = "SCAN_RESULT_KEY"
 @Composable
 fun AppWithCodeScannerAndRouter(
   modifier: Modifier = Modifier,
-  hfnEvent: HFNEvent? = null,
+  mainScreenViewModel: MainScreenViewModel = viewModel(),
+  eventsViewModel: EventsViewModel = viewModel(),
   onCheckinWithAbhyasiId: (abhyasiIdCheckin: AbhyasiIdCheckin) -> Unit,
   onCheckinWithEmailOrMobile: (emailOrMobileCheckin: MobileOrEmailCheckinDBModel) -> Unit,
   onCheckinWithQRCode: (qrCodeCheckin: QRCodeCheckinDBModel) -> Unit
@@ -249,7 +262,7 @@ fun AppWithCodeScannerAndRouter(
       modifier = modifier,
       containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
-      val backgroundImage = if(isSystemInDarkTheme()) painterResource(id = R.drawable.bg_dark) else
+      val backgroundImage = if (isSystemInDarkTheme()) painterResource(id = R.drawable.bg_dark) else
         painterResource(id = R.drawable.bg_light) // Replace with your image resource
       Image(
         modifier = Modifier
@@ -262,6 +275,8 @@ fun AppWithCodeScannerAndRouter(
         modifier = Modifier
           .padding(paddingValues)
           .padding(horizontal = 18.dp),
+        mainScreenViewModel = mainScreenViewModel,
+        eventsViewModel = eventsViewModel,
         navController = navController,
         onClickScan = {
           launcher.launch(
@@ -271,7 +286,6 @@ fun AppWithCodeScannerAndRouter(
         onCheckinWithAbhyasiId = onCheckinWithAbhyasiId,
         onCheckinWithEmailOrMobile = onCheckinWithEmailOrMobile,
         onCheckinWithQRCode = onCheckinWithQRCode,
-        hfnEvent = hfnEvent
       )
     }
   }
@@ -282,29 +296,24 @@ val TAG = "AppWithCodeScannerAndRouterAndFirebase"
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppWithCodeScannerAndRouterAndFirebase(
-  eventsViewModelV0: EventsViewModelV0 = viewModel()
+  mainScreenViewModel: MainScreenViewModel = viewModel(),
+  eventsViewModel: EventsViewModel = viewModel()
 ) {
-
+  val eventsViewModelState by eventsViewModel.uiState.collectAsState()
+  eventsViewModel.setupEventListener()
   val context = LocalContext.current
 
   val eventsManager = EventsManager(context)
   eventsManager.setEvents()
 
   val db = getDb()
-  val eventManager = EventsManager(context)
-  val events = eventManager.getEvents()
-  eventsViewModelV0.setEvents(events)
-  eventsViewModelV0.setSelectedEvent(
-    eventManager.getSelectedEvent()
-  )
 
-  val eventsViewModelState by eventsViewModelV0.uiState.collectAsState()
-  val hfnEvent = eventsViewModelState.selectedEvent
-  val collection = db.collection("/events/${hfnEvent?.id}/checkins")
+  val collection = db.collection("/events/${eventsViewModelState.selectedEvent?.id}/checkins")
 
   AppWithCodeScannerAndRouter(
-    hfnEvent = hfnEvent,
-    onCheckinWithAbhyasiId = {
+    eventsViewModel = eventsViewModel,
+    mainScreenViewModel = mainScreenViewModel,
+  onCheckinWithAbhyasiId = {
       collection.document("${it.abhyasiId}").set(it)
         .addOnSuccessListener {
           Log.d(TAG, "DocumentSnapshot successfully written!")
@@ -314,7 +323,8 @@ fun AppWithCodeScannerAndRouterAndFirebase(
         }
     },
     onCheckinWithEmailOrMobile = {
-      collection.document("em-${it.email}-${it.mobile}-${it.fullName}").set(it)
+      val collection_ = db.collection("/events/${eventsViewModelState.selectedEvent?.id}/checkins")
+      collection_.document("em-${it.email}-${it.mobile}-${it.fullName}").set(it)
         .addOnSuccessListener {
           Log.d(TAG, "DocumentSnapshot successfully written!")
         }
@@ -323,7 +333,8 @@ fun AppWithCodeScannerAndRouterAndFirebase(
         }
     },
     onCheckinWithQRCode = {
-      collection.document("${it.regId}").set(it)
+      val collection_ = db.collection("/events/${eventsViewModelState.selectedEvent?.id}/checkins")
+      collection_.document("${it.regId}").set(it)
         .addOnSuccessListener {
           Log.d(TAG, "DocumentSnapshot successfully written!")
         }

@@ -6,6 +6,8 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -14,7 +16,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.appsparkler.hfncheckins.data.sample.getSampleEvent
 import com.appsparkler.hfncheckins.data.strings
 import com.appsparkler.hfncheckins.ui.hfnTheme.HFNTheme
 import com.appsparkler.hfncheckins.model.HFNEvent
@@ -117,27 +118,42 @@ private fun isValidInput(inputValue: String) = isValidPhoneNumber(inputValue) ||
 )
 @Composable
 fun SeekerInfoFieldPreview() {
+  val eventsViewModel = EventsViewModel()
+  val mainScreenViewModel = MainScreenViewModel()
+  eventsViewModel.setSelectedEvent(HFNEvent(
+    title = "Test Event",
+    defaultBatch = "batch 1",
+    batches = listOf(
+      "batch 1",
+      "batch 2"
+    ),
+    id = "test_event"
+  ))
+  mainScreenViewModel.update(
+    batch = "batch 1"
+  )
+  val eventsViewModelState by eventsViewModel.uiState.collectAsState()
+  val mainScreenViewModelState by mainScreenViewModel.uiState.collectAsState()
   HFNTheme() {
     Scaffold {
       SeekerInfoField(
         modifier = Modifier
           .padding(it)
           .padding(12.dp),
-        hfnEvent = getSampleEvent(),
-        seekerInfoUiState = SeekerInfoFieldState(
-          batch = null,
-          isValid = false,
-          type = null,
-          value = "",
-        ),
+        hfnEvent = eventsViewModelState.selectedEvent,
+        seekerInfoUiState = mainScreenViewModelState,
         onStartCheckin = { inputValue, type->
 
         },
         onChangeValue = {
-
+          mainScreenViewModel.update(
+            value = it
+          )
         },
         onChangeBatch = {
-
+          mainScreenViewModel.update(
+            batch = it
+          )
         }
       )
     }

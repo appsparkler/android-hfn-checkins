@@ -26,6 +26,9 @@ class EventsViewModel : ViewModel() {
       val ongoingEvents = snapshot?.toObjects(HFNEvent::class.java)
       if (ongoingEvents != null) {
         setOngoingEvents(ongoingEvents)
+        if(ongoingEvents.size == 1) {
+          setSelectedEvent(ongoingEvents[0])
+        }
       }
     }
   }

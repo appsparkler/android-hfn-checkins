@@ -67,10 +67,6 @@ fun QRCheckinItem(
                 fieldName = "Order ID: ",
                 fieldValue = checkinInfo.orderId
             )
-//            FieldData(
-//                fieldName = "Batch: ",
-////                fieldValue = checkinInfo.batch
-//            )
             FieldData(fieldName = "PNR: ", fieldValue = checkinInfo.pnr)
             FieldData(
                 fieldName = "Registration ID: ",
@@ -79,6 +75,10 @@ fun QRCheckinItem(
             FieldData(
                 fieldName = "Abhyasi ID: ",
                 fieldValue = checkinInfo.abhyasiId
+            )
+            FieldData(
+                fieldName = "Batch: ",
+                fieldValue = checkinInfo.batch
             )
             FieldData(
                 fieldName = "Dorm Preference: ",
@@ -137,7 +137,7 @@ fun QRCheckinItemPreview() {
                     pnr = "AE-IDDK-IWQ",
                     eventName = "2023 Birth Anniversary Celebrations of Pujya Daaji",
                     checkin = true,
-//                    batch = "batch1",
+                    batch = "batch1",
                     type = CheckinType.QR.name
                 )
             )

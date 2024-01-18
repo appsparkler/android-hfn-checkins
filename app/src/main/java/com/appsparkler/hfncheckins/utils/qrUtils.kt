@@ -22,7 +22,7 @@ fun getQRCheckinsAndMore(rawValue: String): QRCheckinsAndMore {
     ""
   }
   val refinedValue = refineQR(rawValue)
-  val refinedValueWithoutMore = refinedValue.replace(moreRegex, "");
+  val refinedValueWithoutMore = refinedValue.replace(moreRegex, "")
   val checkins = getQRCheckins(refinedValueWithoutMore)
   return QRCheckinsAndMore(checkins = checkins, more = more)
 }
@@ -53,24 +53,43 @@ fun getQRCheckins(value: String): List<QRCodeCheckin> {
     }
     .map {
       val columns = it.split("|")
-      QRCodeCheckin(
+      val hasBatchAndIsPaid = columns.size == 6
+      if(hasBatchAndIsPaid) {
+        QRCodeCheckin(
+          regId = columns[0].trim(),
+          abhyasiId = columns[1].trim(),
+          fullName = columns[2].trim(),
+          dormPreference = columns[3].trim(),
+          batch = columns[4].trim(),
+          berthPreference = columns[5].trim(),
+          dormAndBerthAllocation = "",
+          checkin = false,
+          timestamp = 0,
+          pnr = generalDetails.pnr,
+          eventName = generalDetails.eventTitle,
+          orderId = generalDetails.orderId,
+          type = CheckinType.QR.name
+          )
+      } else {
+        QRCodeCheckin(
 //    each checkin detail
-        regId = columns[0],
-//        batch = columns[1],
-        abhyasiId = columns[1].trim(),
-        fullName = columns[2].trim(),
-        dormPreference = columns.getOrNull(4)?.trim() ?: "",
-        berthPreference = columns.getOrNull(5)?.trim() ?: "",
+          regId = columns[0].trim(),
+          batch = columns[1].trim(),
+          abhyasiId = columns[2].trim(),
+          fullName = columns.getOrNull(3)?.trim() ?: "",
+          dormPreference = columns.getOrNull(4)?.trim() ?: "",
+          berthPreference = columns.getOrNull(5)?.trim() ?: "",
 //    default value
-        checkin = false,
-        timestamp = 0,
-        dormAndBerthAllocation = "",
+          checkin = false,
+          timestamp = 0,
+          dormAndBerthAllocation = "",
 //    general details
-        pnr = generalDetails.pnr,
-        eventName = generalDetails.eventTitle,
-        orderId = generalDetails.orderId,
-        type = CheckinType.QR.name
-      )
+          pnr = generalDetails.pnr,
+          eventName = generalDetails.eventTitle,
+          orderId = generalDetails.orderId,
+          type = CheckinType.QR.name
+        )
+      }
     }
   return checkins
 }

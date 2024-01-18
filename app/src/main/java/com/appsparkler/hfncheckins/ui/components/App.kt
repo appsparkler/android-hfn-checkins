@@ -171,6 +171,7 @@ fun AppWithNav(
           val abhyasiIdCheckinViewModel = AbhyasiIdCheckinViewModel()
           abhyasiIdCheckinViewModel.update(
             abhyasiId = code.uppercase(),
+            batch = mainScreenViewModelState.batch
           )
           AbhyasiIdCheckinScreen(
             abhyasiIdCheckinViewModel = abhyasiIdCheckinViewModel,

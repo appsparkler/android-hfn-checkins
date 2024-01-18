@@ -62,21 +62,23 @@ fun QRCheckinItem(
                 fieldName = "Event Name: ",
                 fieldValue = checkinInfo.eventName
             )
+
+            FieldData(
+                fieldName = "Order ID: ",
+                fieldValue = checkinInfo.orderId
+            )
 //            FieldData(
 //                fieldName = "Batch: ",
 ////                fieldValue = checkinInfo.batch
 //            )
-            FieldData(
-                fieldName = "Abhyasi ID: ",
-                fieldValue = checkinInfo.abhyasiId
-            )
+            FieldData(fieldName = "PNR: ", fieldValue = checkinInfo.pnr)
             FieldData(
                 fieldName = "Registration ID: ",
                 fieldValue = checkinInfo.regId
             )
             FieldData(
-                fieldName = "Order ID: ",
-                fieldValue = checkinInfo.orderId
+                fieldName = "Abhyasi ID: ",
+                fieldValue = checkinInfo.abhyasiId
             )
             FieldData(
                 fieldName = "Dorm Preference: ",
@@ -86,7 +88,6 @@ fun QRCheckinItem(
                 fieldName = "Berth Preference: ",
                 fieldValue = checkinInfo.berthPreference
             )
-            FieldData(fieldName = "PNR: ", fieldValue = checkinInfo.pnr)
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = checkinInfo.dormAndBerthAllocation,

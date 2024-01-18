@@ -180,6 +180,7 @@ fun AppWithNav(
                   timestamp = System.currentTimeMillis()
                 )
               )
+              mainScreenViewModel.reset()
               navigateToSuccessScreen()
             },
             onClickCancel = handleCancel,

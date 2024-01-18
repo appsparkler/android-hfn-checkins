@@ -34,6 +34,7 @@ fun QRCheckinScreen(
         item {
             Heading(
                 heading = "Checkin with \n QR",
+                color = MaterialTheme.colorScheme.primary
             )
         }
         items(qrCheckins.size) {

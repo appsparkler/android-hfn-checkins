@@ -99,6 +99,7 @@ fun AppWithNav(
     val handleCancel: () -> Unit = {
       navController.popBackStack(Routes.MAIN_SCREEN.name, true)
       navigateToMainScreen()
+      mainScreenViewModel.reset()
     }
     composable(Routes.MAIN_SCREEN.name) {
       MainScreen(
@@ -149,6 +150,7 @@ fun AppWithNav(
             onClickCheckin = {
               onCheckinWithEmailOrMobile(it)
               navigateToSuccessScreen()
+              mainScreenViewModel.reset()
             },
             checkinWithMobileOrEmailViewModel = checkWithEmailOrMobileCheckinViewModel,
             onClickCancel = handleCancel

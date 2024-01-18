@@ -14,6 +14,14 @@ class MainScreenViewModel : ViewModel() {
   private val _uiState = MutableStateFlow(SeekerInfoFieldState())
   val uiState = _uiState.asStateFlow()
 
+  fun reset() {
+    _uiState.update {
+      SeekerInfoFieldState(
+        batch = uiState.value.batch
+      )
+    }
+  }
+
   fun update(
     batch: String? = null,
     value: String? = null

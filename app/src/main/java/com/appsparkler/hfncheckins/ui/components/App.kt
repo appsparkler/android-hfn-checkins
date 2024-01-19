@@ -321,7 +321,7 @@ fun AppWithCodeScannerAndRouterAndFirebase(
   AppWithCodeScannerAndRouter(
     eventsViewModel = eventsViewModel,
     mainScreenViewModel = mainScreenViewModel,
-  onCheckinWithAbhyasiId = {
+    onCheckinWithAbhyasiId = {
       collection.document("${it.abhyasiId}").set(it)
         .addOnSuccessListener {
           Log.d(TAG, "DocumentSnapshot successfully written!")
@@ -331,8 +331,7 @@ fun AppWithCodeScannerAndRouterAndFirebase(
         }
     },
     onCheckinWithEmailOrMobile = {
-      val collection_ = db.collection("/events/${eventsViewModelState.selectedEvent?.id}/checkins")
-      collection_.document("em-${it.email}-${it.mobile}-${it.fullName}").set(it)
+      collection.document("em-${it.email}-${it.mobile}-${it.fullName}").set(it)
         .addOnSuccessListener {
           Log.d(TAG, "DocumentSnapshot successfully written!")
         }
@@ -341,8 +340,7 @@ fun AppWithCodeScannerAndRouterAndFirebase(
         }
     },
     onCheckinWithQRCode = {
-      val collection_ = db.collection("/events/${eventsViewModelState.selectedEvent?.id}/checkins")
-      collection_.document("${it.regId}").set(it)
+      collection.document("${it.regId}").set(it)
         .addOnSuccessListener {
           Log.d(TAG, "DocumentSnapshot successfully written!")
         }

@@ -30,7 +30,7 @@ class QRCheckinScreenViewModel : ViewModel() {
       .map {
         QRCodeCheckinDBModel(
           fullName = it.fullName,
-//          batch = it.batch,
+          batch = it.batch,
           type = it.type,
           timestamp = System.currentTimeMillis(),
           dormAndBerthAllocation = it.dormAndBerthAllocation,

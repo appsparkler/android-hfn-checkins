@@ -17,11 +17,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -32,11 +30,10 @@ import com.appsparkler.hfncheckins.ui.hfnTheme.HFNTheme
 import com.appsparkler.hfncheckins.model.AbhyasiIdCheckin
 import com.appsparkler.hfncheckins.ui.components.common.Heading
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AbhyasiIdCheckinScreen(
-  abhyasiIdCheckinViewModel: AbhyasiIdCheckinViewModel = viewModel(),
   modifier: Modifier = Modifier,
+  abhyasiIdCheckinViewModel: AbhyasiIdCheckinViewModel = viewModel(),
   onClickCheckin: (
     abhyasiIdCheckin: AbhyasiIdCheckin
   ) -> Unit,
@@ -58,12 +55,6 @@ fun AbhyasiIdCheckinScreen(
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
     VerticalSpacer12Dp()
-//    Text(
-//      modifier = Modifier,
-//      text = "Checkin With \n Abhyasi ID",
-//      style = MaterialTheme.typography.headlineLarge,
-//      textAlign = TextAlign.Center
-//    )
     Heading(heading = "Checkin With \n Abhyasi ID" )
     ElevatedCard(
       modifier = Modifier
@@ -123,7 +114,7 @@ fun AbhyasiIdCheckinScreenPreview() {
     abhyasiId = "INUEQS228",
     batch = "Batch 1"
   )
-  HFNTheme() {
+  HFNTheme {
     Scaffold {
       AbhyasiIdCheckinScreen(
         modifier = Modifier.padding(it),

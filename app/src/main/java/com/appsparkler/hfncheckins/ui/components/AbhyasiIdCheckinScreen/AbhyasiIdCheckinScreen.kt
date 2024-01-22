@@ -12,10 +12,14 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -55,7 +59,7 @@ fun AbhyasiIdCheckinScreen(
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
     VerticalSpacer12Dp()
-    Heading(heading = "Checkin With \n Abhyasi ID" )
+    Heading(heading = "Checkin With \n Abhyasi ID")
     ElevatedCard(
       modifier = Modifier
         .fillMaxWidth(),
@@ -109,23 +113,30 @@ fun AbhyasiIdCheckinScreen(
 @Preview
 @Composable
 fun AbhyasiIdCheckinScreenPreview() {
+  var darkTheme by remember {
+    mutableStateOf(false)
+  }
   val abhyasiIdCheckinViewModel = AbhyasiIdCheckinViewModel()
   abhyasiIdCheckinViewModel.update(
     abhyasiId = "INUEQS228",
     batch = "Batch 1"
   )
-  HFNTheme {
+  HFNTheme(
+    darkTheme
+  ) {
     Scaffold {
-      AbhyasiIdCheckinScreen(
+      Column(
         modifier = Modifier
           .padding(it)
-          .padding(12.dp),
-        onClickCheckin = {
-
-        },
-        onClickCancel = {},
-        abhyasiIdCheckinViewModel = abhyasiIdCheckinViewModel
-      )
+          .padding(12.dp)
+      ) {
+        Switch(checked = darkTheme, onCheckedChange = { darkTheme = it })
+        AbhyasiIdCheckinScreen(
+          onClickCheckin = {},
+          onClickCancel = {},
+          abhyasiIdCheckinViewModel = abhyasiIdCheckinViewModel
+        )
+      }
     }
   }
 }

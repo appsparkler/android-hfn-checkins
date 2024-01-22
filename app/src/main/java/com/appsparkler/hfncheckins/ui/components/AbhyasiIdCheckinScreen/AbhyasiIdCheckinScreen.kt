@@ -117,7 +117,9 @@ fun AbhyasiIdCheckinScreenPreview() {
   HFNTheme {
     Scaffold {
       AbhyasiIdCheckinScreen(
-        modifier = Modifier.padding(it),
+        modifier = Modifier
+          .padding(it)
+          .padding(12.dp),
         onClickCheckin = {
 
         },

@@ -2,6 +2,9 @@ package com.appsparkler.hfncheckins.ui.components.AbhyasiIdCheckinScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,6 +36,92 @@ import com.appsparkler.hfncheckins.ui.components.common.VerticalSpacer12Dp
 import com.appsparkler.hfncheckins.ui.hfnTheme.HFNTheme
 import com.appsparkler.hfncheckins.model.AbhyasiIdCheckin
 import com.appsparkler.hfncheckins.ui.components.common.Heading
+
+@Composable
+fun AbhyasiIdCheckinScreenView(
+  modifier: Modifier = Modifier,
+  abhyasiId: String,
+  batch: String? = null,
+  dormAndBerthAllocation: String = "",
+  onChange: (String) -> Unit,
+  onCheckin: () -> Unit,
+  onClickCancel: () -> Unit,
+) {
+  Column(
+    modifier = modifier
+      .fillMaxSize()
+      .padding(top = 100.dp),
+    verticalArrangement = Arrangement.spacedBy(
+      12.dp,
+    ),
+    horizontalAlignment = Alignment.CenterHorizontally
+  ) {
+    VerticalSpacer12Dp()
+    Heading(heading = "Checkin With \n Abhyasi ID")
+    ElevatedCard(
+      modifier = Modifier
+        .fillMaxWidth(),
+      colors = CardDefaults.elevatedCardColors(
+        containerColor = MaterialTheme.colorScheme.primaryContainer
+      )
+    ) {
+      Column(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(
+          4.dp,
+        )
+      ) {
+        FieldData(
+          fieldName = "Abhyasi Id: ",
+          fieldValue = abhyasiId
+        )
+        FieldData(
+          fieldName = "Batch: ",
+          fieldValue = batch
+        )
+        OutlinedTextField(
+          modifier = Modifier.fillMaxWidth(),
+          value = dormAndBerthAllocation,
+          keyboardOptions = KeyboardOptions.Default.copy(
+            imeAction = ImeAction.Done
+          ),
+          onValueChange = onChange,
+          label = {
+            Text(text = "Dorm and Berth Allocation:")
+          },
+          keyboardActions = KeyboardActions(
+            onDone = {
+//              handleCheckin()
+              onCheckin
+            }
+          )
+        )
+      }
+    }
+
+    CheckinAndCancelButtons(
+      isCheckinValid = true,
+      onClickCancel = onClickCancel,
+      onClickCheckin = onCheckin
+    )
+  }
+}
+
+@Preview
+@Composable
+fun AbhyasiIdCheckinScreenViewPreview() {
+  PreviewLayout {
+    AbhyasiIdCheckinScreenView(
+      abhyasiId = "INUEQS228",
+      batch = "Batch 1",
+      onChange = {},
+      onCheckin = {},
+      onClickCancel = {}
+    )
+  }
+}
 
 @Composable
 fun AbhyasiIdCheckinScreen(
@@ -110,33 +199,44 @@ fun AbhyasiIdCheckinScreen(
   }
 }
 
-@Preview
 @Composable
-fun AbhyasiIdCheckinScreenPreview() {
+fun PreviewLayout(
+  content: @Composable ColumnScope.() -> Unit
+) {
   var darkTheme by remember {
     mutableStateOf(false)
   }
+  HFNTheme(
+    darkTheme
+  ) {
+    Scaffold {
+      Column() {
+      }
+      Column(
+        modifier = Modifier
+          .padding(it)
+          .padding(12.dp),
+      ) {
+        Switch(checked = darkTheme, onCheckedChange = { darkTheme = it })
+        content()
+      }
+    }
+  }
+}
+
+@Preview
+@Composable
+fun AbhyasiIdCheckinScreenPreview() {
   val abhyasiIdCheckinViewModel = AbhyasiIdCheckinViewModel()
   abhyasiIdCheckinViewModel.update(
     abhyasiId = "INUEQS228",
     batch = "Batch 1"
   )
-  HFNTheme(
-    darkTheme
-  ) {
-    Scaffold {
-      Column(
-        modifier = Modifier
-          .padding(it)
-          .padding(12.dp)
-      ) {
-        Switch(checked = darkTheme, onCheckedChange = { darkTheme = it })
-        AbhyasiIdCheckinScreen(
-          onClickCheckin = {},
-          onClickCancel = {},
-          abhyasiIdCheckinViewModel = abhyasiIdCheckinViewModel
-        )
-      }
-    }
+  PreviewLayout {
+    AbhyasiIdCheckinScreen(
+      onClickCheckin = {},
+      onClickCancel = {},
+      abhyasiIdCheckinViewModel = abhyasiIdCheckinViewModel
+    )
   }
 }

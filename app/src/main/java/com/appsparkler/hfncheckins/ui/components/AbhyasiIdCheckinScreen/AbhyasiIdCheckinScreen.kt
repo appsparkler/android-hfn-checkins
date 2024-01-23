@@ -2,7 +2,6 @@ package com.appsparkler.hfncheckins.ui.components.AbhyasiIdCheckinScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,15 +11,10 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -31,7 +25,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.appsparkler.hfncheckins.ui.components.common.CheckinAndCancelButtons
 import com.appsparkler.hfncheckins.ui.components.common.FieldData
 import com.appsparkler.hfncheckins.ui.components.common.VerticalSpacer12Dp
-import com.appsparkler.hfncheckins.ui.hfnTheme.HFNTheme
 import com.appsparkler.hfncheckins.model.AbhyasiIdCheckin
 import com.appsparkler.hfncheckins.ui.components.common.Heading
 
@@ -129,96 +122,25 @@ fun AbhyasiIdCheckinScreen(
   ) -> Unit,
   onClickCancel: () -> Unit,
 ) {
-  val abhyasiIdCheckin by abhyasiIdCheckinViewModel.uiState.collectAsState()
+  val abhyasiIdCheckinState by abhyasiIdCheckinViewModel.uiState.collectAsState()
   val localSoftwareKeyboardController = LocalSoftwareKeyboardController.current
   val handleCheckin = {
     localSoftwareKeyboardController?.hide()
-    onClickCheckin(abhyasiIdCheckin)
+    onClickCheckin(abhyasiIdCheckinState)
   }
-  Column(
-    modifier = modifier
-      .fillMaxSize()
-      .padding(top = 100.dp),
-    verticalArrangement = Arrangement.spacedBy(
-      12.dp,
-    ),
-    horizontalAlignment = Alignment.CenterHorizontally
-  ) {
-    VerticalSpacer12Dp()
-    Heading(heading = "Checkin With \n Abhyasi ID")
-    ElevatedCard(
-      modifier = Modifier
-        .fillMaxWidth(),
-      colors = CardDefaults.elevatedCardColors(
-        containerColor = MaterialTheme.colorScheme.primaryContainer
+  AbhyasiIdCheckinScreenView(
+    modifier = modifier,
+    abhyasiId = abhyasiIdCheckinState.abhyasiId,
+    batch = abhyasiIdCheckinState.batch,
+    onChange = {
+      abhyasiIdCheckinViewModel.update(
+        dormAndBerthAllocation = it
       )
-    ) {
-      Column(
-        modifier = Modifier
-          .fillMaxWidth()
-          .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(
-          4.dp,
-        )
-      ) {
-        FieldData(fieldName = "Abhyasi Id: ", fieldValue = abhyasiIdCheckin.abhyasiId)
-        FieldData(fieldName = "Batch: ", fieldValue = abhyasiIdCheckin.batch)
-        OutlinedTextField(
-          modifier = Modifier.fillMaxWidth(),
-          value = abhyasiIdCheckin.dormAndBerthAllocation,
-          keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Done
-          ),
-          onValueChange = {
-            abhyasiIdCheckinViewModel.update(
-              dormAndBerthAllocation = it
-            )
-          },
-          label = {
-            Text(text = "Dorm and Berth Allocation:")
-          },
-          keyboardActions = KeyboardActions(
-            onDone = {
-              handleCheckin()
-            }
-          )
-        )
-      }
-    }
-
-    CheckinAndCancelButtons(
-      isCheckinValid = true,
-      onClickCancel = onClickCancel,
-      onClickCheckin = {
-        handleCheckin()
-      }
-    )
-  }
-}
-
-@Composable
-fun PreviewLayout(
-  content: @Composable ColumnScope.() -> Unit
-) {
-  var darkTheme by remember {
-    mutableStateOf(false)
-  }
-  HFNTheme(
-    darkTheme
-  ) {
-    Scaffold {
-      Column() {
-      }
-      Column(
-        modifier = Modifier
-          .padding(it)
-          .padding(12.dp),
-      ) {
-        Switch(checked = darkTheme, onCheckedChange = { darkTheme = it })
-        content()
-      }
-    }
-  }
+    },
+    dormAndBerthAllocation = abhyasiIdCheckinState.dormAndBerthAllocation,
+    onCheckin = { handleCheckin() },
+    onClickCancel = onClickCancel
+  )
 }
 
 @Preview

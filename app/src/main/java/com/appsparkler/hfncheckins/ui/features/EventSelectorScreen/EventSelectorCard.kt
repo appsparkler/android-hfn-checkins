@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,40 +26,41 @@ fun EventSelectorCard(
   selectedEvent: String? = null
 ) {
   if (events.isNullOrEmpty()) {
-    return
-  }
-  ElevatedCard(
-    modifier = modifier.fillMaxWidth()
-  ) {
-    Text(
-      modifier = Modifier
-        .background(
-          MaterialTheme.colorScheme.primaryContainer
-        )
-        .padding(16.dp)
-        .fillMaxWidth(),
-      color = MaterialTheme.colorScheme.primary,
-      text = "Select Event",
-      style = MaterialTheme.typography.titleMedium
-    )
-    LazyColumn {
-      items(events) {
-        ListItem(
-          modifier = Modifier.clickable() {
-            onEventSelected(it)
-          },
-          headlineContent = {
-            Text(text = "${it.title} ${if (it.id == selectedEvent) "✅" else ""}")
-          },
-          supportingContent = {
-            Text(
-              text = it.id,
-              color = MaterialTheme.colorScheme.secondary,
-              style = MaterialTheme.typography.bodySmall,
-              fontStyle = FontStyle.Italic
-            )
-          }
-        )
+    Text(text = "No events to select from...")
+  } else {
+    ElevatedCard(
+      modifier = modifier.fillMaxWidth()
+    ) {
+      Text(
+        modifier = Modifier
+          .background(
+            MaterialTheme.colorScheme.primaryContainer
+          )
+          .padding(16.dp)
+          .fillMaxWidth(),
+        color = MaterialTheme.colorScheme.primary,
+        text = "Select Event",
+        style = MaterialTheme.typography.titleMedium
+      )
+      LazyColumn {
+        items(events) {
+          ListItem(
+            modifier = Modifier.clickable() {
+              onEventSelected(it)
+            },
+            headlineContent = {
+              Text(text = "${it.title} ${if (it.id == selectedEvent) "✅" else ""}")
+            },
+            supportingContent = {
+              Text(
+                text = it.id,
+                color = MaterialTheme.colorScheme.secondary,
+                style = MaterialTheme.typography.bodySmall,
+                fontStyle = FontStyle.Italic
+              )
+            }
+          )
+        }
       }
     }
   }
@@ -68,13 +68,16 @@ fun EventSelectorCard(
 
 @Composable
 @Preview
-fun EventSelectorCardPreview() {
-  Scaffold {
-    EventSelectorCard(
-      modifier = Modifier
-        .padding(it)
-        .padding(10.dp),
-      events = eventsMockData.data
-    )
-  }
+fun EventSelectorCardPreview_has_events() {
+  EventSelectorCard(
+    events = eventsMockData.data
+  )
+}
+
+@Composable
+@Preview
+fun EventSelectorCardPreview_no_events() {
+  EventSelectorCard(
+    events = emptyArray()
+  )
 }

@@ -1,5 +1,10 @@
 package com.appsparkler.hfncheckins.ui.features.EventSelectorScreen
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,38 +33,47 @@ fun EventSelectorCard(
   if (events.isNullOrEmpty()) {
     Text(text = "No events to select from...")
   } else {
-    ElevatedCard(
-      modifier = modifier.fillMaxWidth()
+    AnimatedVisibility(
+      visible = true,
+      enter = scaleIn(animationSpec = spring(
+        dampingRatio = Spring.DampingRatioLowBouncy,
+        stiffness = Spring.StiffnessLow
+      )),
+      exit = scaleOut(),
     ) {
-      Text(
-        modifier = Modifier
-          .background(
-            MaterialTheme.colorScheme.primaryContainer
-          )
-          .padding(16.dp)
-          .fillMaxWidth(),
-        color = MaterialTheme.colorScheme.primary,
-        text = "Select Event",
-        style = MaterialTheme.typography.titleMedium
-      )
-      LazyColumn {
-        items(events) {
-          ListItem(
-            modifier = Modifier.clickable() {
-              onEventSelected(it)
-            },
-            headlineContent = {
-              Text(text = "${it.title} ${if (it.id == selectedEvent) "✅" else ""}")
-            },
-            supportingContent = {
-              Text(
-                text = it.id,
-                color = MaterialTheme.colorScheme.secondary,
-                style = MaterialTheme.typography.bodySmall,
-                fontStyle = FontStyle.Italic
-              )
-            }
-          )
+      ElevatedCard(
+        modifier = modifier.fillMaxWidth()
+      ) {
+        Text(
+          modifier = Modifier
+            .background(
+              MaterialTheme.colorScheme.primaryContainer
+            )
+            .padding(16.dp)
+            .fillMaxWidth(),
+          color = MaterialTheme.colorScheme.primary,
+          text = "Select Event",
+          style = MaterialTheme.typography.titleMedium
+        )
+        LazyColumn {
+          items(events) {
+            ListItem(
+              modifier = Modifier.clickable() {
+                onEventSelected(it)
+              },
+              headlineContent = {
+                Text(text = "${it.title} ${if (it.id == selectedEvent) "✅" else ""}")
+              },
+              supportingContent = {
+                Text(
+                  text = it.id,
+                  color = MaterialTheme.colorScheme.secondary,
+                  style = MaterialTheme.typography.bodySmall,
+                  fontStyle = FontStyle.Italic
+                )
+              }
+            )
+          }
         }
       }
     }

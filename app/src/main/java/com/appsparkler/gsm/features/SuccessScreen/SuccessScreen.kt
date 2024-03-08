@@ -27,6 +27,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.appsparkler.gsm.features.GSMLogo
 import com.appsparkler.gsm.features.TextTitleLarge
+import com.appsparkler.gsm.model.ManualEntryUser
+import com.appsparkler.gsm.model.QRUser
 import com.appsparkler.hfncheckins.R
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
@@ -137,21 +139,6 @@ fun QRUserDetails(
     }
   }
 }
-
-data class ManualEntryUser(
-  val name: String = "",
-  val mobileNo: String = "",
-  val email: String = "",
-  val organization: String = ""
-)
-
-data class QRUser(
-  val name: String = "",
-  val eventName: String = "",
-  val sessionName: String = "",
-  val registrationId: String = "",
-  val pnr: String = "",
-)
 
 @Composable
 fun CheckinDetailsTitle() {

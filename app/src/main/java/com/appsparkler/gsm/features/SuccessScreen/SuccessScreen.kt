@@ -37,7 +37,9 @@ import java.util.concurrent.TimeUnit
 @Composable
 fun SuccessScreen(
   modifier: Modifier = Modifier,
-  onClickReturnToMain: () -> Unit = {}
+  qrUser: QRUser? = null,
+  manualEntryUser: ManualEntryUser? = null,
+  onClickReturnToMain: () -> Unit = {},
 ) {
   val colors = if (isSystemInDarkTheme()) {
     listOf(
@@ -77,7 +79,14 @@ fun SuccessScreen(
       tint = MaterialTheme.colorScheme.inversePrimary
     )
     ScreenshotInstruction()
-    UserDetails()
+    if(qrUser != null) {
+      QRUserDetails(
+        qrUser = qrUser
+      )
+    }
+    if(manualEntryUser != null) {
+      UserDetails()
+    }
     Button(
       onClick = onClickReturnToMain
     ) {
@@ -89,6 +98,71 @@ fun SuccessScreen(
   KonfettiView(
     modifier = Modifier.fillMaxSize(),
     parties = listOf(party),
+  )
+}
+
+@Composable
+fun QRUserDetails(
+  modifier: Modifier = Modifier,
+  qrUser: QRUser = QRUser()
+) {
+  ElevatedCard(
+    modifier = modifier
+      .padding(16.dp)
+  ) {
+    CheckinDetailsTitle()
+    Column(
+      modifier = Modifier.padding(16.dp)
+    ) {
+      LabelledText(
+        label = "Name:",
+        value = qrUser.name
+      )
+      LabelledText(
+        label = "Event Name:",
+        value = qrUser.eventName
+      )
+      LabelledText(
+        label = "Session Name:",
+        value = qrUser.sessionName
+      )
+      LabelledText(
+        label = "PNR:",
+        value = qrUser.pnr
+      )
+      LabelledText(
+        label = "Registration ID:",
+        value = qrUser.registrationId
+      )
+    }
+  }
+}
+
+data class ManualEntryUser(
+  val name: String = "",
+  val mobileNo: String = "",
+  val email: String = "",
+  val organization: String = ""
+)
+
+data class QRUser(
+  val name: String = "",
+  val eventName: String = "",
+  val sessionName: String = "",
+  val registrationId: String = "",
+  val pnr: String = "",
+)
+
+@Composable
+fun CheckinDetailsTitle() {
+  TextTitleLarge(
+    modifier = Modifier
+      .background(
+        MaterialTheme.colorScheme.primaryContainer
+      )
+      .padding(8.dp),
+    text = "Checkin Details",
+    color = MaterialTheme.colorScheme.primary
   )
 }
 
@@ -120,38 +194,34 @@ fun UserDetails(
     modifier = modifier
       .padding(16.dp)
   ) {
-    Column(
+    TextTitleLarge(
       modifier = Modifier
+        .background(
+          MaterialTheme.colorScheme.primaryContainer
+        )
+        .padding(8.dp),
+      text = "Checkin Details",
+      color = MaterialTheme.colorScheme.primary
+    )
+    Column(
+      modifier = Modifier.padding(16.dp)
     ) {
-      TextTitleLarge(
-        modifier = Modifier
-          .background(
-            MaterialTheme.colorScheme.primaryContainer
-          )
-          .padding(8.dp),
-        text = "Checkin Details",
-        color = MaterialTheme.colorScheme.primary
+      LabelledText(
+        label = "Name:",
+        value = "Janice Dsouza"
       )
-      Column(
-        modifier = Modifier.padding(16.dp)
-      ) {
-        LabelledText(
-          label = "Name:",
-          value = "Janice Dsouza"
-        )
-        LabelledText(
-          label = "Mobile No:",
-          value = "1234567890"
-        )
-        LabelledText(
-          label = "Email:",
-          value = "janice@yahoo.com"
-        )
-        LabelledText(
-          label = "Organization:",
-          value = "Shakti Path"
-        )
-      }
+      LabelledText(
+        label = "Mobile No:",
+        value = "1234567890"
+      )
+      LabelledText(
+        label = "Email:",
+        value = "janice@yahoo.com"
+      )
+      LabelledText(
+        label = "Organization:",
+        value = "Shakti Path"
+      )
     }
   }
 }
@@ -164,7 +234,8 @@ fun LabelledText(
   if (value.isNotEmpty()) {
     Row(
       modifier = modifier,
-      horizontalArrangement = Arrangement.spacedBy(8.dp)
+      horizontalArrangement = Arrangement.spacedBy(8.dp),
+      verticalAlignment = Alignment.CenterVertically
     ) {
       Text(
         text = label,

@@ -74,12 +74,12 @@ fun SuccessScreen(
       tint = MaterialTheme.colorScheme.inversePrimary
     )
     ScreenshotInstruction()
-    if(qrUser != null) {
+    if (qrUser != null) {
       QRUserDetails(
         qrUser = qrUser
       )
     }
-    if(manualEntryUser != null) {
+    if (manualEntryUser != null) {
       ManualEntryUserDetails()
     }
     Button(
@@ -106,6 +106,19 @@ fun SuccessScreenPreview_QRUser() {
       sessionName = "Session Name",
       pnr = "EEE-22-2292",
       registrationId = "1211-1212-1213-1214",
+    )
+  )
+}
+
+@Preview
+@Composable
+fun SuccessScreenPreview_ManualEntryUser() {
+  SuccessScreen(
+    manualEntryUser = ManualEntryUser(
+      name = "Janice Dsouza",
+      mobileNo = "1234567890",
+      email = "abhishek@me.com",
+      organization = "Shaktii Path"
     )
   )
 }

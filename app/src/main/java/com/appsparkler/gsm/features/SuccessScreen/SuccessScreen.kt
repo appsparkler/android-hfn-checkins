@@ -7,7 +7,13 @@ import androidx.navigation.compose.composable
 import com.appsparkler.gsm.features.nav.AppRoutes
 
 fun NavHostController.navigateToSuccess() {
-  navigate(AppRoutes.SUCCESS_SCREEN.name)
+  navigate(
+    AppRoutes.SUCCESS_SCREEN.name,
+  ) {
+    popUpTo(AppRoutes.HOME.name) {
+      inclusive = true
+    }
+  }
 }
 
 fun NavGraphBuilder.successScreen(

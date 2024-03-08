@@ -7,7 +7,11 @@ import androidx.navigation.compose.composable
 import com.appsparkler.gsm.features.nav.AppRoutes
 
 fun NavHostController.navigateToHome() {
-  navigate(AppRoutes.HOME.name)
+  navigate(AppRoutes.HOME.name) {
+    popUpTo(AppRoutes.HOME.name) {
+      inclusive = false
+    }
+  }
 }
 
 fun NavGraphBuilder.homeScreen(

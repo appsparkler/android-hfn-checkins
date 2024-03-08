@@ -86,10 +86,6 @@ class HomeScreenViewModel: ViewModel() {
     )
   }
 
-  fun onClickScan() {
-    TODO("Not yet implemented")
-  }
-
   fun resetState() {
     _state.value = HomeScreenState()
   }

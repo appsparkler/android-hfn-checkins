@@ -16,13 +16,14 @@ import com.appsparkler.gsm.features.ScanButton.ScanButton
 fun HomeScreenView(
   modifier: Modifier = Modifier,
   vm: HomeScreenViewModel = viewModel(),
-  onClickCheckin: () -> Unit = {}
+  onClickCheckin: () -> Unit = {},
+  onClickScan: () -> Unit = {}
 ) {
   Scaffold(
     modifier = modifier,
     floatingActionButton = {
       ScanButton(
-        onClick = vm::onClickScan
+        onClick = onClickScan
       )
     }
   ) {

@@ -9,42 +9,36 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.appsparkler.gsm.features.TextTitleLarge
+import com.appsparkler.gsm.model.ManualEntryUser
 
 @Composable
 fun ManualEntryUserDetails(
-  modifier: Modifier = Modifier
+  modifier: Modifier = Modifier,
+  user: ManualEntryUser
 ) {
   ElevatedCard(
     modifier = modifier
       .padding(16.dp)
   ) {
-    TextTitleLarge(
-      modifier = Modifier
-        .background(
-          MaterialTheme.colorScheme.primaryContainer
-        )
-        .padding(8.dp),
-      text = "Checkin Details",
-      color = MaterialTheme.colorScheme.primary
-    )
+    CheckinDetailsTitle()
     Column(
       modifier = Modifier.padding(16.dp)
     ) {
       LabelledText(
         label = "Name:",
-        value = "Janice Dsouza"
+        value = user.name
       )
       LabelledText(
         label = "Mobile No:",
-        value = "1234567890"
+        value = user.mobileNo
       )
       LabelledText(
         label = "Email:",
-        value = "janice@yahoo.com"
+        value = user.email
       )
       LabelledText(
         label = "Organization:",
-        value = "Shakti Path"
+        value = user.organization
       )
     }
   }

@@ -73,15 +73,18 @@ fun SuccessScreenView(
       contentDescription = "Checkin success",
       tint = MaterialTheme.colorScheme.inversePrimary
     )
-    ScreenshotInstruction()
     if (qrUser != null) {
       QRUserDetails(
         qrUser = qrUser
       )
     }
     if (manualEntryUser != null) {
-      ManualEntryUserDetails()
+      ManualEntryUserDetails(
+        user = manualEntryUser
+      )
     }
+    ScreenshotInstruction()
+
     Button(
       onClick = onClickReturnToMain
     ) {

@@ -24,10 +24,10 @@ class HomeScreenViewModel : ViewModel() {
   }
 
   private fun validateForm() {
-    if(
+    if (
       mobileOrEmailExistsAndAreValid() &&
       nameIsNotEmpty()
-      ) enableCheckinButton()
+    ) enableCheckinButton()
     else disableCheckinButton()
   }
 
@@ -37,7 +37,20 @@ class HomeScreenViewModel : ViewModel() {
 
   private fun mobileOrEmailExistsAndAreValid(): Boolean {
     val mobileOrEmailExists = state.value.mobileNo.isNotEmpty() || state.value.email.isNotEmpty()
-    return mobileOrEmailExists
+    return mobileOrEmailExists && mobileIsValid() && emailIsValid()
+  }
+
+  private fun mobileIsValid(): Boolean {
+    if (state.value.mobileNo.isEmpty()) return true
+    val mobileNo = state.value.mobileNo
+    val regex = Regex("^\\+[1-9]\\d{5,14}\$")
+    return regex.matches(mobileNo)
+  }
+
+  private fun emailIsValid(): Boolean {
+    if (state.value.email.isEmpty()) return true
+    val emailRegex = Regex("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")
+    return emailRegex.matches(state.value.email)
   }
 
   fun updateMobileNo(mobileNo: String) {

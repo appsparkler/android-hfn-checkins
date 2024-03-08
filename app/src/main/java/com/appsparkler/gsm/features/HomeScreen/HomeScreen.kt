@@ -1,6 +1,6 @@
 package com.appsparkler.gsm.features.HomeScreen
 
-import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -10,9 +10,17 @@ fun NavHostController.navigateToHome() {
   navigate(AppRoutes.HOME.name)
 }
 
-fun NavGraphBuilder.homeScreen() {
+fun NavGraphBuilder.homeScreen(
+  modifier: Modifier = Modifier,
+  vm: HomeScreenViewModel,
+  onClickCheckin: () -> Unit = {}
+) {
   composable(route = AppRoutes.HOME.name) {
-    HomeScreenView()
+    HomeScreenView(
+      modifier = modifier,
+      vm = vm,
+      onClickCheckin = onClickCheckin
+    )
   }
 }
 

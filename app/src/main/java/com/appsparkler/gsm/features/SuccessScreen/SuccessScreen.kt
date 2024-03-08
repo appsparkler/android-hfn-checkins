@@ -1,5 +1,6 @@
 package com.appsparkler.gsm.features.SuccessScreen
 
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -9,8 +10,14 @@ fun NavHostController.navigateToSuccess() {
   navigate(AppRoutes.SUCCESS_SCREEN.name)
 }
 
-fun NavGraphBuilder.successScreen() {
+fun NavGraphBuilder.successScreen(
+  modifier: Modifier = Modifier,
+  onClickReturnToMain: () -> Unit = {}
+) {
   composable(route = AppRoutes.SUCCESS_SCREEN.name) {
-    SuccessScreenView()
+    SuccessScreenView(
+      modifier = modifier,
+      onClickReturnToMain = onClickReturnToMain
+    )
   }
 }

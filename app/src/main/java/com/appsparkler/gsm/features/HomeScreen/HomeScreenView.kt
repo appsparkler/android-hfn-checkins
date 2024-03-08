@@ -15,7 +15,8 @@ import com.appsparkler.gsm.features.ScanButton.ScanButton
 @Composable
 fun HomeScreenView(
   modifier: Modifier = Modifier,
-  vm: HomeScreenViewModel = viewModel()
+  vm: HomeScreenViewModel = viewModel(),
+  onClickCheckin: () -> Unit = {}
 ) {
   Scaffold(
     modifier = modifier,
@@ -34,7 +35,8 @@ fun HomeScreenView(
     ) {
       item {
         HomeScreenContentWithViewModel(
-          vm = vm
+          vm = vm,
+          onCheckin = {}
         )
       }
     }

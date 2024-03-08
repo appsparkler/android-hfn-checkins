@@ -10,7 +10,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun HomeScreenContentWithViewModel(
   modifier: Modifier = Modifier,
-  vm: HomeScreenViewModel = viewModel()
+  vm: HomeScreenViewModel = viewModel(),
+  onCheckin: () -> Unit = {}
 ) {
   val state by vm.state.collectAsState()
 
@@ -25,7 +26,7 @@ fun HomeScreenContentWithViewModel(
     organization = state.organization,
     onChangeOrganization = vm::updateOrganization,
     checkinButtonEnabled = state.checkinButtonEnabled,
-    onCheckin = vm::handleCheckin
+    onCheckin = onCheckin
   )
 }
 

@@ -16,6 +16,7 @@ fun NavGraphBuilder.homeScreen(
   onClickCheckin: () -> Unit = {}
 ) {
   composable(route = AppRoutes.HOME.name) {
+    vm.resetState()
     HomeScreenView(
       modifier = modifier,
       vm = vm,

@@ -36,7 +36,7 @@ fun HomeScreenView(
       item {
         HomeScreenContentWithViewModel(
           vm = vm,
-          onCheckin = {}
+          onCheckin = onClickCheckin
         )
       }
     }

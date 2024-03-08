@@ -1,5 +1,6 @@
 package com.appsparkler.gsm.features.nav
 
 enum class AppRoutes {
-  SUCCESS_SCREEN
+  SUCCESS_SCREEN,
+  HOME
 }

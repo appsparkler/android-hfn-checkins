@@ -41,13 +41,13 @@ fun HomeScreen(
       horizontalAlignment = Alignment.CenterHorizontally,
       verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-      Text(
-        text = "Global Spirituality Mahotsav",
-        style = MaterialTheme.typography.titleLarge,
-      )
       Image(
         painter = painterResource(id = R.drawable.image),
         contentDescription = null
+      )
+      Text(
+        text = "Global Spirituality Mahotsav",
+        style = MaterialTheme.typography.titleLarge,
       )
       TextField(
         value = name,

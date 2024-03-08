@@ -18,7 +18,6 @@ fun ManualEntryUserDetails(
 ) {
   ElevatedCard(
     modifier = modifier
-      .padding(16.dp)
   ) {
     CheckinDetailsTitle()
     Column(

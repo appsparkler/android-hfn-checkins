@@ -6,4 +6,5 @@ data class QRUser(
   val sessionName: String = "",
   val registrationId: String = "",
   val pnr: String = "",
+  val checkinTime: Long = System.currentTimeMillis()
 )

@@ -16,8 +16,7 @@ fun GSMLogo(
 ) {
   Image(
     modifier = modifier
-      .fillMaxWidth()
-      .padding(12.dp),
+      .fillMaxWidth(),
     painter = painterResource(id = R.drawable.image),
     contentDescription = null,
     contentScale = ContentScale.Crop

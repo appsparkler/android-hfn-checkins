@@ -1,7 +1,9 @@
 package com.appsparkler.gsm.features.SuccessScreen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.rememberScrollableState
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -61,10 +63,12 @@ fun SuccessScreenView(
     modifier = modifier
       .fillMaxSize()
       .background(MaterialTheme.colorScheme.surface)
+      .padding(16.dp)
       .verticalScroll(rememberScrollState()),
-    horizontalAlignment = Alignment.CenterHorizontally
+    horizontalAlignment = Alignment.CenterHorizontally,
+    verticalArrangement = Arrangement.spacedBy(16.dp)
   ) {
-    GSMLogo(modifier = Modifier.padding(16.dp))
+    GSMLogo(modifier = Modifier)
     Icon(
       painter = painterResource(
         id = R.drawable.baseline_check_circle_24
@@ -84,7 +88,6 @@ fun SuccessScreenView(
       )
     }
     ScreenshotInstruction()
-
     Button(
       onClick = onClickReturnToMain
     ) {

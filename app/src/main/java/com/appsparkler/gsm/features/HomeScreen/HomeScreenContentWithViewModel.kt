@@ -8,13 +8,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun HomeScreenWithViewModel(
+fun HomeScreenContentWithViewModel(
   modifier: Modifier = Modifier,
   vm: HomeScreenViewModel = viewModel()
 ) {
   val state by vm.state.collectAsState()
 
-  HomeScreen(
+  HomeScreenContent(
     modifier = modifier,
     name = state.name,
     onChangeName = vm::updateName,
@@ -32,6 +32,6 @@ fun HomeScreenWithViewModel(
 @Preview
 @Composable
 fun HomeScreenWithViewModelPreview() {
-  HomeScreenWithViewModel()
+  HomeScreenContentWithViewModel()
 }
 

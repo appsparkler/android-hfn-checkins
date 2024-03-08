@@ -90,5 +90,9 @@ class HomeScreenViewModel : ViewModel() {
     TODO("Not yet implemented")
   }
 
+  fun onClickScan() {
+    TODO("Not yet implemented")
+  }
+
 
 }

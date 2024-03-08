@@ -1,7 +1,6 @@
 package com.appsparkler.gsm.features.SuccessScreen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.rememberScrollableState
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,10 +33,12 @@ import java.util.concurrent.TimeUnit
 @Composable
 fun SuccessScreenView(
   modifier: Modifier = Modifier,
-  qrUser: QRUser? = null,
-  manualEntryUser: ManualEntryUser? = null,
   onClickReturnToMain: () -> Unit = {},
+  dataModel: SuccessScreenModel = SuccessScreenModel(),
 ) {
+  val qrUser = dataModel.qrUser
+  val manualEntryUser = dataModel.manualEntryUser
+
   val colors = if (isSystemInDarkTheme()) {
     listOf(
       MaterialTheme.colorScheme.inversePrimary.toArgb(),
@@ -105,8 +106,9 @@ fun SuccessScreenView(
 @Preview
 @Composable
 fun SuccessScreenPreview_QRUser() {
-  SuccessScreenView(
-    qrUser = QRUser(
+  val successScreenModel = SuccessScreenModel()
+  successScreenModel.setQRUser(
+    QRUser(
       name = "Janice Dsouza",
       eventName = "Event Name",
       sessionName = "Session Name",
@@ -114,17 +116,22 @@ fun SuccessScreenPreview_QRUser() {
       registrationId = "1211-1212-1213-1214",
     )
   )
+  SuccessScreenView(dataModel = successScreenModel)
 }
 
 @Preview
 @Composable
 fun SuccessScreenPreview_ManualEntryUser() {
-  SuccessScreenView(
-    manualEntryUser = ManualEntryUser(
+  val successScreenModel = SuccessScreenModel()
+  successScreenModel.setAManualEntryUser(
+    ManualEntryUser(
       name = "Janice Dsouza",
       mobileNo = "1234567890",
       email = "abhishek@me.com",
       organization = "Shaktii Path"
     )
+  )
+  SuccessScreenView(
+    dataModel = successScreenModel
   )
 }

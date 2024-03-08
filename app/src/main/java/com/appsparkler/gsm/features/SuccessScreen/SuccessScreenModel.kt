@@ -4,19 +4,19 @@ import com.appsparkler.gsm.model.ManualEntryUser
 import com.appsparkler.gsm.model.QRUser
 
 class SuccessScreenModel {
-  var qrUser: QRUser = QRUser()
-  var manualEntryUser: ManualEntryUser = ManualEntryUser()
+  var qrUser: QRUser? = null
+  var manualEntryUser: ManualEntryUser? = null
 
-  fun setQRUser(user: QRUser) {
+  fun setQRUser(user: QRUser?) {
     qrUser = user
   }
 
-  fun setManualEntryUser(user: ManualEntryUser) {
+  fun setAManualEntryUser(user: ManualEntryUser?) {
     manualEntryUser = user
   }
 
   fun reset() {
-    qrUser = QRUser()
-    manualEntryUser = ManualEntryUser()
+    qrUser = null
+    manualEntryUser = null
   }
 }

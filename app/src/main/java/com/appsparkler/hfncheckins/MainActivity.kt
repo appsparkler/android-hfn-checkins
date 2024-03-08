@@ -6,7 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.appsparkler.gsm.features.nav.AppNavHost
+import com.appsparkler.gsm.features.nav.App
 import com.appsparkler.hfncheckins.codescanner.Utils
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
       auth.signInAnonymously()
     }
     setContent {
-      AppNavHost()
+      App()
     }
   }
 }

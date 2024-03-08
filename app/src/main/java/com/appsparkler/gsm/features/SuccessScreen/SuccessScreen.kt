@@ -12,11 +12,13 @@ fun NavHostController.navigateToSuccess() {
 
 fun NavGraphBuilder.successScreen(
   modifier: Modifier = Modifier,
+  successScreenModel: SuccessScreenModel = SuccessScreenModel(),
   onClickReturnToMain: () -> Unit = {}
 ) {
   composable(route = AppRoutes.SUCCESS_SCREEN.name) {
     SuccessScreenView(
       modifier = modifier,
+      dataModel = successScreenModel,
       onClickReturnToMain = onClickReturnToMain
     )
   }

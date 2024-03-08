@@ -12,7 +12,7 @@ data class HomeScreenState(
   val checkinButtonEnabled: Boolean = false
 )
 
-class HomeScreenViewModel : ViewModel() {
+class HomeScreenViewModel: ViewModel() {
   private val _state = MutableStateFlow(HomeScreenState())
   val state = _state.asStateFlow()
 
@@ -93,5 +93,4 @@ class HomeScreenViewModel : ViewModel() {
   fun resetState() {
     _state.value = HomeScreenState()
   }
-
 }

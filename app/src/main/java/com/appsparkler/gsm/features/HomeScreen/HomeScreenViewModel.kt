@@ -24,7 +24,20 @@ class HomeScreenViewModel : ViewModel() {
   }
 
   private fun validateForm() {
+    if(
+      mobileOrEmailExistsAndAreValid() &&
+      nameIsNotEmpty()
+      ) enableCheckinButton()
+    else disableCheckinButton()
+  }
 
+  private fun nameIsNotEmpty(): Boolean {
+    return state.value.name.isNotEmpty()
+  }
+
+  private fun mobileOrEmailExistsAndAreValid(): Boolean {
+    val mobileOrEmailExists = state.value.mobileNo.isNotEmpty() || state.value.email.isNotEmpty()
+    return mobileOrEmailExists
   }
 
   fun updateMobileNo(mobileNo: String) {

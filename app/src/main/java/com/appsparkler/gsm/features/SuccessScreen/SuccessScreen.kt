@@ -6,10 +6,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,6 +25,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.appsparkler.gsm.features.GSMLogo
+import com.appsparkler.gsm.features.TextTitleLarge
 import com.appsparkler.hfncheckins.R
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
@@ -55,13 +63,11 @@ fun SuccessScreen(
   Column(
     modifier = modifier
       .fillMaxSize()
-      .background(MaterialTheme.colorScheme.surface),
+      .background(MaterialTheme.colorScheme.surface)
+      .verticalScroll(rememberScrollState()),
     horizontalAlignment = Alignment.CenterHorizontally
-//    verticalArrangement = Arrangement.spacedBy(
-//      12.dp,
-//      Alignment.CenterVertically
-//    )
   ) {
+    GSMLogo(modifier = Modifier.padding(16.dp))
     Icon(
       painter = painterResource(
         id = R.drawable.baseline_check_circle_24
@@ -70,12 +76,15 @@ fun SuccessScreen(
       contentDescription = "Checkin success",
       tint = MaterialTheme.colorScheme.inversePrimary
     )
-    Button(onClick = onClickReturnToMain) {
+    ScreenshotInstruction()
+    UserDetails()
+    Button(
+      onClick = onClickReturnToMain
+    ) {
       Text(
         text = "RETURN TO MAIN SCREEN",
       )
     }
-    UserDetails()
   }
   KonfettiView(
     modifier = Modifier.fillMaxSize(),
@@ -84,16 +93,66 @@ fun SuccessScreen(
 }
 
 @Composable
-fun UserDetails() {
-  Column {
-    LabelledText(
-      label = "Name:",
-      value = "Janice Dsouza"
+fun ScreenshotInstruction(
+  modifier: Modifier = Modifier
+) {
+  Surface(
+    modifier = modifier
+      .width(200.dp),
+    color = MaterialTheme.colorScheme.errorContainer,
+    tonalElevation = 8.dp
+  ) {
+    Text(
+      modifier = Modifier
+        .padding(8.dp)
+        .background(MaterialTheme.colorScheme.errorContainer),
+      color = MaterialTheme.colorScheme.error,
+      text = "Please take a screenshot of this screen and show it at the desk along with a valid ID to collect your wrist band."
     )
-    LabelledText(
-      label = "Mobile No:",
-      value = "1234567890"
-    )
+  }
+}
+
+@Composable
+fun UserDetails(
+  modifier: Modifier = Modifier
+) {
+  ElevatedCard(
+    modifier = modifier
+      .padding(16.dp)
+  ) {
+    Column(
+      modifier = Modifier
+    ) {
+      TextTitleLarge(
+        modifier = Modifier
+          .background(
+            MaterialTheme.colorScheme.primaryContainer
+          )
+          .padding(8.dp),
+        text = "Checkin Details",
+        color = MaterialTheme.colorScheme.primary
+      )
+      Column(
+        modifier = Modifier.padding(16.dp)
+      ) {
+        LabelledText(
+          label = "Name:",
+          value = "Janice Dsouza"
+        )
+        LabelledText(
+          label = "Mobile No:",
+          value = "1234567890"
+        )
+        LabelledText(
+          label = "Email:",
+          value = "janice@yahoo.com"
+        )
+        LabelledText(
+          label = "Organization:",
+          value = "Shakti Path"
+        )
+      }
+    }
   }
 }
 
@@ -109,10 +168,12 @@ fun LabelledText(
     ) {
       Text(
         text = label,
-        fontWeight = FontWeight.Bold
+        fontWeight = FontWeight.Bold,
+        style = MaterialTheme.typography.bodyLarge
       )
       Text(
-        text = value
+        text = value,
+        style = MaterialTheme.typography.bodyLarge
       )
     }
   }

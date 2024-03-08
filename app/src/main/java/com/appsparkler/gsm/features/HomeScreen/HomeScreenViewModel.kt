@@ -60,5 +60,9 @@ class HomeScreenViewModel : ViewModel() {
     )
   }
 
+  fun handleCheckin() {
+    TODO("Not yet implemented")
+  }
+
 
 }

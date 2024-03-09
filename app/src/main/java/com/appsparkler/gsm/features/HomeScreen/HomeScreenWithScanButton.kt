@@ -13,7 +13,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.appsparkler.gsm.features.ScanButton.ScanButton
 
 @Composable
-fun HomeScreenView(
+fun HomeScreenWithScanButton(
   modifier: Modifier = Modifier,
   vm: HomeScreenViewModel = viewModel(),
   onClickCheckin: () -> Unit = {},
@@ -47,5 +47,5 @@ fun HomeScreenView(
 @Preview
 @Composable
 fun HomeScreenViewPreview() {
-  HomeScreenView()
+  HomeScreenWithScanButton()
 }

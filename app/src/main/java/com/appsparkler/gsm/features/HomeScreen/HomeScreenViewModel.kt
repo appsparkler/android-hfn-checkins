@@ -1,6 +1,7 @@
 package com.appsparkler.gsm.features.HomeScreen
 
 import androidx.lifecycle.ViewModel
+import com.appsparkler.gsm.model.QRUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -88,5 +89,13 @@ class HomeScreenViewModel: ViewModel() {
 
   fun resetState() {
     _state.value = HomeScreenState()
+  }
+
+  fun isValidQR(it: String): Boolean {
+    TODO("Not yet implemented")
+  }
+
+  fun addQRRecord():QRUser {
+    TODO("Not yet implemented")
   }
 }

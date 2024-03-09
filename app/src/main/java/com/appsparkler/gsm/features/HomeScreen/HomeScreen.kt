@@ -7,6 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.appsparkler.gsm.features.nav.AppRoutes
+import com.appsparkler.gsm.model.QRUser
 
 fun NavHostController.navigateToHome() {
   navigate(AppRoutes.HOME.name) {
@@ -19,7 +20,8 @@ fun NavHostController.navigateToHome() {
 fun NavGraphBuilder.homeScreen(
   modifier: Modifier = Modifier,
   vm: HomeScreenViewModel,
-  onClickCheckin: () -> Unit = {}
+  onClickCheckin: () -> Unit = {},
+  onCheckin: (QRUser) -> Unit = {}
 ) {
 
   composable(route = AppRoutes.HOME.name) {
@@ -31,7 +33,12 @@ fun NavGraphBuilder.homeScreen(
       vm = vm,
       onClickCheckin = onClickCheckin,
       onScan = {
-        Toast.makeText(context, "Scanned: $it", Toast.LENGTH_SHORT).show()
+        if (vm.isValidQR(it)) {
+          val qrUser: QRUser = vm.addQRRecord()
+          onCheckin(qrUser)
+        } else {
+          Toast.makeText(context, "Scanned: $it", Toast.LENGTH_SHORT).show()
+        }
       }
     )
   }

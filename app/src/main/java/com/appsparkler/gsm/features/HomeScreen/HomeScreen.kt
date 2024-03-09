@@ -28,6 +28,7 @@ fun NavGraphBuilder.homeScreen(
 ) {
   composable(route = AppRoutes.HOME.name) {
     vm.resetState()
+    successScreenModel.reset()
     val homeScreenViewModelState by vm.state.collectAsState()
     HomeScreenWithScanner(
       modifier = modifier,

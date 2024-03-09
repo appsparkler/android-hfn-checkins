@@ -90,18 +90,11 @@ class HomeScreenViewModel : ViewModel() {
   fun resetState() {
     _state.value = HomeScreenState()
   }
-
-  fun isValidQR(scanResult: String): Boolean {
-    TODO("Not yet implemented")
-  }
-
   fun addQRRecord(scanResult: String): QRUser? {
-    val isValid = isValidQR(scanResult)
-    return if (isValid) getQRUser(scanResult)
-    else null
-  }
-
-  private fun getQRUser(scanResult: String): QRUser {
-    TODO("Not yet implemented")
+    val qrUtils = QRUtils()
+    if(qrUtils.isQRValid(scanResult)) {
+      return qrUtils.getQRUser(scanResult)
+    }
+    return null
   }
 }

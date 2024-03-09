@@ -1,8 +1,8 @@
 package com.appsparkler.gsm.features.SuccessScreen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -16,7 +16,7 @@ fun ScreenshotInstruction(
 ) {
   Surface(
     modifier = modifier
-      .width(200.dp),
+      .fillMaxWidth(),
     color = MaterialTheme.colorScheme.errorContainer,
     tonalElevation = 8.dp
   ) {

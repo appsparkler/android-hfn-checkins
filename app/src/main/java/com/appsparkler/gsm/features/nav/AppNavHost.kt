@@ -11,7 +11,6 @@ import com.appsparkler.gsm.features.HomeScreen.navigateToHome
 import com.appsparkler.gsm.features.SuccessScreen.SuccessScreenModel
 import com.appsparkler.gsm.features.SuccessScreen.navigateToSuccess
 import com.appsparkler.gsm.features.SuccessScreen.successScreen
-import com.appsparkler.gsm.model.ManualEntryUser
 import com.appsparkler.hfncheckins.ui.hfnTheme.HFNTheme
 
 @Composable
@@ -34,22 +33,17 @@ fun AppNavHost(
   homeScreenViewModel: HomeScreenViewModel = viewModel(),
   successScreenModel: SuccessScreenModel = SuccessScreenModel()
 ) {
-  val homeScreenViewModelState = homeScreenViewModel.state
   NavHost(
     navController = navController,
     startDestination = AppRoutes.HOME.name
   ) {
     homeScreen(
       vm = homeScreenViewModel,
+      successScreenModel = successScreenModel,
       onClickCheckin = {
-        successScreenModel.setAManualEntryUser(
-          ManualEntryUser(
-            name = homeScreenViewModelState.value.name,
-            mobileNo = homeScreenViewModelState.value.mobileNo,
-            email = homeScreenViewModelState.value.email,
-            organization = homeScreenViewModelState.value.organization
-          )
-        )
+        navController.navigateToSuccess()
+      },
+      onCheckinScan = {
         navController.navigateToSuccess()
       }
     )

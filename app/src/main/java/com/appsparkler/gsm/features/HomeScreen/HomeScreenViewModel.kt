@@ -1,7 +1,9 @@
 package com.appsparkler.gsm.features.HomeScreen
 
 import androidx.lifecycle.ViewModel
+import com.appsparkler.gsm.model.ManualEntryUser
 import com.appsparkler.gsm.model.QRUser
+import com.appsparkler.gsm.model.apiService.GSMApiService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -13,7 +15,9 @@ data class HomeScreenState(
   val checkinButtonEnabled: Boolean = false
 )
 
-class HomeScreenViewModel : ViewModel() {
+class HomeScreenViewModel(
+  private val apiService: GSMApiService = GSMApiService()
+) : ViewModel() {
   private val _state = MutableStateFlow(HomeScreenState())
   val state = _state.asStateFlow()
 
@@ -90,11 +94,28 @@ class HomeScreenViewModel : ViewModel() {
   fun resetState() {
     _state.value = HomeScreenState()
   }
+
   fun addQRRecord(scanResult: String): QRUser? {
     val qrUtils = QRUtils()
     if(qrUtils.isQRValid(scanResult)) {
-      return qrUtils.getQRUser(scanResult)
+      val qrUser = qrUtils.getQRUser(scanResult)
+      apiService.checkinQRUser(qrUser)
+      return qrUser
     }
     return null
   }
+
+  fun addManualEntryRecord(manualEntryUser: ManualEntryUser) {
+    apiService.checkinManualEntryUser(manualEntryUser)
+  }
+
+  fun getManualEntryUser():ManualEntryUser {
+    return ManualEntryUser(
+      name = state.value.name,
+      mobileNo = state.value.mobileNo,
+      email = state.value.email,
+      organization = state.value.organization
+    )
+  }
+
 }

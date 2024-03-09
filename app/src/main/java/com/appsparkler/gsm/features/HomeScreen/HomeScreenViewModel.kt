@@ -13,7 +13,7 @@ data class HomeScreenState(
   val checkinButtonEnabled: Boolean = false
 )
 
-class HomeScreenViewModel: ViewModel() {
+class HomeScreenViewModel : ViewModel() {
   private val _state = MutableStateFlow(HomeScreenState())
   val state = _state.asStateFlow()
 
@@ -91,11 +91,17 @@ class HomeScreenViewModel: ViewModel() {
     _state.value = HomeScreenState()
   }
 
-  fun isValidQR(it: String): Boolean {
+  fun isValidQR(scanResult: String): Boolean {
     TODO("Not yet implemented")
   }
 
-  fun addQRRecord():QRUser {
+  fun addQRRecord(scanResult: String): QRUser? {
+    val isValid = isValidQR(scanResult)
+    return if (isValid) getQRUser(scanResult)
+    else null
+  }
+
+  private fun getQRUser(scanResult: String): QRUser {
     TODO("Not yet implemented")
   }
 }

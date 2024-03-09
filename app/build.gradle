@@ -14,8 +14,8 @@ android {
         applicationId "com.appsparkler.hfncheckins"
         minSdk 24
         targetSdk 34
-        versionCode 4
-        versionName "1.1"
+        versionCode 7
+        versionName "1.7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -28,6 +28,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable false
         }
     }
     compileOptions {

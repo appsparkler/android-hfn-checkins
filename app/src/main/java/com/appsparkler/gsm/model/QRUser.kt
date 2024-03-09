@@ -7,5 +7,6 @@ data class QRUser(
   val registrationId: String = "",
   val pnr: String = "",
   val checkinTime: Long = System.currentTimeMillis(),
-  val uid: String? = null
+  val uid: String? = null,
+  val platform: String = "ANDROID"
 )

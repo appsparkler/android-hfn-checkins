@@ -6,5 +6,6 @@ data class ManualEntryUser(
   val email: String = "",
   val organization: String = "",
   val checkinTime: Long = System.currentTimeMillis(),
-  val uid: String? = null
+  val uid: String? = null,
+  val platform: String = "ANDROID"
 )

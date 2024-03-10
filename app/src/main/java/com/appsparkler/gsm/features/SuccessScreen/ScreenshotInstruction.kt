@@ -25,7 +25,7 @@ fun ScreenshotInstruction(
         .padding(8.dp)
         .background(MaterialTheme.colorScheme.errorContainer),
       color = MaterialTheme.colorScheme.error,
-      text = "Please take a screenshot of this screen and show it at the desk along with a valid ID to collect your wrist band."
+      text = "Please take a screenshot of this screen and show it at the registration desk along with a valid ID to collect your wrist band."
     )
   }
 }

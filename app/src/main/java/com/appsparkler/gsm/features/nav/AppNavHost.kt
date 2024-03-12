@@ -48,7 +48,7 @@ fun AppNavHost(
       }
     )
     successScreen(
-      onClickReturnToMain = { navController.navigateToHome() },
+      onClickReturnToMain = { navController.navigateToHome(AppRoutes.SUCCESS_SCREEN.name) },
       successScreenModel = successScreenModel
 
     )

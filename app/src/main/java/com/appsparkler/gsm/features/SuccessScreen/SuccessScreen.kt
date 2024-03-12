@@ -21,11 +21,15 @@ fun NavGraphBuilder.successScreen(
   successScreenModel: SuccessScreenModel = SuccessScreenModel(),
   onClickReturnToMain: () -> Unit = {}
 ) {
+  val handleClickReturnToMain = {
+    successScreenModel.reset()
+    onClickReturnToMain()
+  }
   composable(route = AppRoutes.SUCCESS_SCREEN.name) {
     SuccessScreenView(
       modifier = modifier,
       dataModel = successScreenModel,
-      onClickReturnToMain = onClickReturnToMain
+      onClickReturnToMain = handleClickReturnToMain
     )
   }
 }

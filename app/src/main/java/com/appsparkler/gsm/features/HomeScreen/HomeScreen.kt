@@ -9,10 +9,12 @@ import com.appsparkler.gsm.features.SuccessScreen.SuccessScreenModel
 import com.appsparkler.gsm.features.nav.AppRoutes
 import com.appsparkler.gsm.model.QRUser
 
-fun NavHostController.navigateToHome() {
+fun NavHostController.navigateToHome(popUpToRoute: String? = null) {
   navigate(AppRoutes.HOME.name) {
-    popUpTo(AppRoutes.HOME.name) {
-      inclusive = false
+    if(popUpToRoute != null) {
+      popUpTo(popUpToRoute) {
+        inclusive = true
+      }
     }
   }
 }
@@ -25,7 +27,6 @@ fun NavGraphBuilder.homeScreen(
   onCheckinScan: (QRUser) -> Unit = {}
 ) {
   composable(route = AppRoutes.HOME.name) {
-    vm.resetState()
     LaunchedEffect(key1 = Unit) {
       successScreenModel.reset()
       vm.resetState()

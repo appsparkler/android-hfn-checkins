@@ -68,7 +68,7 @@ fun SuccessScreenView(
       .verticalScroll(rememberScrollState()),
     horizontalAlignment = Alignment.CenterHorizontally,
     verticalArrangement = Arrangement.spacedBy(16.dp)
-  ) {
+  ){
     GSMLogo(modifier = Modifier)
     Icon(
       painter = painterResource(

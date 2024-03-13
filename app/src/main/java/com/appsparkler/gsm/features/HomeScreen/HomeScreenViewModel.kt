@@ -20,6 +20,8 @@ class HomeScreenViewModel(
 ) : ViewModel() {
   private val _state = MutableStateFlow(HomeScreenState())
   val state = _state.asStateFlow()
+  private val _isDirtyMobileNubmer = MutableStateFlow(false)
+  val isDirtyMobileNubmer = _isDirtyMobileNubmer.asStateFlow()
 
   fun updateName(name: String) {
     _state.value = state.value.copy(
@@ -59,6 +61,7 @@ class HomeScreenViewModel(
   }
 
   fun updateMobileNo(mobileNo: String) {
+    _isDirtyMobileNubmer.value = true
     _state.value = state.value.copy(
       mobileNo = mobileNo
     )
@@ -93,6 +96,7 @@ class HomeScreenViewModel(
 
   fun resetState() {
     _state.value = HomeScreenState()
+    _isDirtyMobileNubmer.value = false
   }
 
   fun addQRRecord(scanResult: String): QRUser? {

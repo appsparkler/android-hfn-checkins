@@ -7,13 +7,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.appsparkler.gsm.model.QRUser
 import com.appsparkler.hfncheckins.codescanner.LiveBarcodeScanningActivity
 
 @Composable
 fun HomeScreenWithScanner(
   modifier: Modifier = Modifier,
-  vm: HomeScreenViewModel,
+  vm: HomeScreenViewModel = viewModel(),
   onClickCheckin: () -> Unit = {},
   onCheckinScan: (QRUser) -> Unit = {}
 ) {

@@ -3,7 +3,6 @@ package com.appsparkler.gsm.features.HomeScreen
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -15,6 +14,7 @@ fun HomeScreenContentWithViewModel(
   onCheckin: () -> Unit = {}
 ) {
   val state by vm.state.collectAsState()
+  val isDirtyMobileNo by vm.isDirtyMobileNubmer.collectAsState()
 
   HomeScreenContent(
     modifier = modifier,
@@ -27,7 +27,8 @@ fun HomeScreenContentWithViewModel(
     organization = state.organization,
     onChangeOrganization = vm::updateOrganization,
     checkinButtonEnabled = state.checkinButtonEnabled,
-    onCheckin = onCheckin
+    onCheckin = onCheckin,
+    isDirtyMobileNo = isDirtyMobileNo
   )
 }
 

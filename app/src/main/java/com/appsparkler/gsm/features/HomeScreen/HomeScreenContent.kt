@@ -10,6 +10,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +29,7 @@ fun HomeScreenContent(
   email: String = "",
   organization: String = "",
   checkinButtonEnabled: Boolean = false,
+  isDirtyMobileNo: Boolean = false,
   onCheckin: () -> Unit = {},
   onChangeName: (String) -> Unit = {},
   onChangeMobileNo: (String) -> Unit = {},
@@ -55,7 +60,7 @@ fun HomeScreenContent(
         onValueChange = onChangeName
       )
       TextField(
-        value = mobileNo,
+        value = if(mobileNo.isEmpty() && !isDirtyMobileNo) "+91" else mobileNo,
         onValueChange = onChangeMobileNo,
         label = {
           Text(text = "Mobile #")
@@ -92,12 +97,23 @@ fun HomeScreenContent(
 @Preview
 @Composable
 fun HomeScreenContentPreview() {
+  var isDirtyMobileNo by remember {
+    mutableStateOf(false)
+  }
+  var mobileNo by remember{
+    mutableStateOf("")
+  }
   HomeScreenContent(
     modifier = Modifier.padding(12.dp),
     name = "Abhishek",
-    mobileNo = "1234567890",
+    mobileNo = mobileNo,
     email = "abhishek@me.com",
     organization = "Global",
-    checkinButtonEnabled = true
+    checkinButtonEnabled = true,
+    isDirtyMobileNo = isDirtyMobileNo,
+    onChangeMobileNo = {
+      mobileNo = it
+      isDirtyMobileNo = true
+    }
   )
 }

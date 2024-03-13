@@ -37,7 +37,7 @@ class QRUtils {
       val eventName = firstRowColumns[0].trim()
       val sessionName = firstRowColumns[1].trim()
       val pnr = firstRow.split("|")[2].trim()
-      val pnrMatchesPattern = Regex("[A-Z]{2}-[A-Z]{4}-[A-Z]{4}").matches(pnr)
+      val pnrMatchesPattern = Regex("[A-Z0-9]{2}-[A-Z0-9]{4}-[A-Z0-9]{4}").matches(pnr)
 
       //  Second Row Validations
       val secondRowColumns = rows[1].split("|")
